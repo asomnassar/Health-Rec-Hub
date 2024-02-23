@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const customError_util_1 = __importDefault(require("../utils/customError.util"));
-const errorHandler = (error, _, res) => {
+const errorHandler = (error, _, res, next) => {
     let statusCode = 500;
     let message = "Internal Server Error";
     if (error instanceof customError_util_1.default) {

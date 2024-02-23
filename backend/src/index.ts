@@ -8,10 +8,12 @@ dbConnection()
 
 config()
 
-const port :number = +(process.env.PORT || 8000)
-
 const app :Express = express()
 
+app.use(express.json())
+
+
+//Root Route
 app.get("/",(_,res:Response)=>{
   res.json({message:"Health Record Hub"})
 })
@@ -21,8 +23,11 @@ app.all("*",(req:Request,_:any,next:NextFunction)=>{
   next(err)
 })
 
-app.use(errorHandler)
+//Error Handle
+app.use(errorHandler);
 
+//Running The Server
+const port :number = +(process.env.PORT || 8000)
 app.listen(port,():void=>{
   console.log(`Server is Running on ${port}`);
 })

@@ -1,7 +1,7 @@
-import { Response } from "express";
+import { NextFunction, Response } from "express";
 import CustomError from "../utils/customError.util";
 
-const errorHandler = (error: Error, _: any, res: Response) => {
+const errorHandler = (error: Error, _: any, res: Response,next:NextFunction) => {
   let statusCode = 500;
   let message = "Internal Server Error";
 
