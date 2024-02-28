@@ -4,14 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const customError_util_1 = __importDefault(require("../utils/customError.util"));
-const errorHandler = (error, _, res, next) => {
+const errorHandler = (error, req, res, next) => {
     let statusCode = 500;
     let message = "Internal Server Error";
     if (error instanceof customError_util_1.default) {
         statusCode = error.statusCode;
         message = error.message;
     }
-    res.status(statusCode).json({ message });
+    res.status(statusCode);
+    res.json({ message });
 };
 exports.default = errorHandler;
 //# sourceMappingURL=errorHandler.util.js.map
