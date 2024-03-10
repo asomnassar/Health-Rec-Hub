@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isTechnicalAdministrator = exports.isSystemManager = exports.isNotPatient = exports.isDoctor = void 0;
+exports.isTechnicalAdministrator = exports.isSystemManager = exports.isNotPatient = exports.isDoctorOrSystemManager = exports.isDoctor = void 0;
 const user_model_1 = __importDefault(require("../models/user.model"));
 const customError_util_1 = __importDefault(require("../utils/customError.util"));
 //Check if Role is Right or not
@@ -84,6 +84,23 @@ const isSystemManager = (req, _, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.isSystemManager = isSystemManager;
+const isDoctorOrSystemManager = (req, _, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userData } = req;
+        if (userData) {
+            checkRole(next, userData, "doctor", "systemManager");
+        }
+        else {
+            const err = new customError_util_1.default("صلاحية تسجيل الدخول انتهت", 401);
+            next(err);
+        }
+    }
+    catch (error) {
+        const err = new customError_util_1.default(error.message, 500);
+        next(err);
+    }
+});
+exports.isDoctorOrSystemManager = isDoctorOrSystemManager;
 const isTechnicalAdministrator = (req, _, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userData } = req;

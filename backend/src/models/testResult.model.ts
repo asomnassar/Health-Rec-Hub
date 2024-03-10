@@ -3,13 +3,18 @@ import { TestResultTypes } from "../types/models.types";
 
 const TestResultSchema: Schema<TestResultTypes> = new Schema<TestResultTypes>(
   {
-    testType: {
+    patient: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: [true, "Patient is required"],
+    },
+    type: {
       type: String,
       required: [true, "test type is required"],
     },
-    resultDetails: {
+    pdf: {
       type: String,
-      required: [true, "result details is required"],
+      required: [true, "result pdf is required"],
     },
     doctor: {
       type: mongoose.Schema.ObjectId,
@@ -20,4 +25,4 @@ const TestResultSchema: Schema<TestResultTypes> = new Schema<TestResultTypes>(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("TestResult", TestResultSchema);
+export default mongoose.model("TestResult", TestResultSchema);

@@ -58,6 +58,7 @@ const UserSchema = new mongoose_1.Schema({
     email: {
         type: String,
         required: [true, "email is required"],
+        unique: true,
     },
     dateOfBirth: {
         type: Date,
@@ -114,6 +115,10 @@ const UserSchema = new mongoose_1.Schema({
     avatar: {
         type: String,
         default: "https://cdn-icons-png.flaticon.com/128/3177/3177440.png",
+    },
+    createdBy: {
+        type: mongoose_1.default.Schema.ObjectId,
+        ref: "User",
     },
 }, { timestamps: true });
 exports.default = mongoose_1.default.model("User", UserSchema);

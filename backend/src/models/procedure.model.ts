@@ -3,6 +3,11 @@ import { ProcedureTypes } from "../types/models.types";
 
 const ProcedureSchema: Schema<ProcedureTypes> = new Schema<ProcedureTypes>(
   {
+    patient: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      reXquired: [true, "Patient is required"],
+    },
     details: {
       type: String,
       required: [true, "procedure details is required"],
@@ -16,4 +21,4 @@ const ProcedureSchema: Schema<ProcedureTypes> = new Schema<ProcedureTypes>(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Procedure", ProcedureSchema);
+export default mongoose.model("Procedure", ProcedureSchema);

@@ -9,40 +9,47 @@ interface UserTypes extends Document {
   email?: string;
   phone?: string;
   age: String;
-  status: "pending" | "active" | "blocked";
+  status?: "pending" | "active" | "blocked";
   gender: "male" | "female";
   specialization?: string;
   type: "patient" | "doctor" | "systemManager" | "technicalAdministrator";
   password: string;
   avatar?: string;
+  createdBy?: object;
 }
 
 interface TestResultTypes extends Document {
-  testType: string;
-  resultDetails: string;
+  patient: object;
+  type: string;
+  pdf: string;
   doctor: object;
 }
 
 interface AppointmentTypes extends Document {
-  status: string;
-  notes: string[];
-  doctor: object;
+  patient: object;
+  status: "waiting" | "ended";
+  notes?: string;
+  date: String;
+  time: string;
+  createdBy: object;
 }
 
 interface ProcedureTypes extends Document {
+  patient: object;
   details: string;
   doctor: object;
 }
 
 interface PrescriptionTypes extends Document {
-  medicalName: string;
-  dosage: string;
+  patient: object;
+  medication: object[];
+  dosage: string[];
   doctor: object;
 }
 
 interface MedicalRecordTypes extends Document {
   patient: object;
-  currentHealthIssuses: string;
+  currentHealthIssuses: string[];
   allergies: string[];
   age: string;
   bloodPressure: string;
@@ -54,24 +61,18 @@ interface MedicalRecordTypes extends Document {
   height: string;
   bloodType: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   medicines: string[];
+  doctor: object;
 }
 
 interface MedicationTypes extends Document {
-  medicalName: string;
-  dosage: string;
-  notes: string;
-}
-
-interface PatientRegistrationTypes extends Document {
-  patient: object;
-  creator: object;
+  name: string;
+  notes?: string;
 }
 
 export {
   AppointmentTypes,
   MedicalRecordTypes,
   MedicationTypes,
-  PatientRegistrationTypes,
   PrescriptionTypes,
   ProcedureTypes,
   TestResultTypes,

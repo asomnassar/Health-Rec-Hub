@@ -28,15 +28,11 @@ const MedicalRecordSchema = new mongoose_1.Schema({
     patient: {
         type: mongoose_1.default.Schema.ObjectId,
         ref: "User",
-        reXquired: [true, "Patient is required"],
+        required: [true, "Patient is required"],
     },
     currentHealthIssuses: {
-        type: String,
-        required: [true, "current health issues is required"],
-    },
-    allergies: {
         type: [String],
-        required: [true, "allergies is required"],
+        required: [true, "current health issues is required"],
     },
     age: {
         type: String,
@@ -69,16 +65,21 @@ const MedicalRecordSchema = new mongoose_1.Schema({
     },
     surgeries: {
         type: [String],
-        required: [true, "surgeries is required"],
     },
     medicines: {
         type: [String],
-        required: [true, "medicines is required"],
     },
     diseases: {
         type: [String],
-        required: [true, "diseases is required"],
+    },
+    allergies: {
+        type: [String],
+    },
+    doctor: {
+        type: mongoose_1.default.Schema.ObjectId,
+        ref: "Doctor",
+        required: [true, "Doctor is required"],
     },
 }, { timestamps: true });
-module.exports = mongoose_1.default.model("MedicalRecord", MedicalRecordSchema);
+exports.default = mongoose_1.default.model("MedicalRecord", MedicalRecordSchema);
 //# sourceMappingURL=medicalRecord.model.js.map

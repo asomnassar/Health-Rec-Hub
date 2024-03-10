@@ -12,17 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllPendingPatient = exports.getAllBlockedPatient = exports.getAllActivePatient = exports.blockPatient = exports.addPatient = exports.activatePatient = void 0;
+exports.getAllPatients = exports.blockPatient = exports.addPatient = exports.activatePatient = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const customError_util_1 = __importDefault(require("../utils/customError.util"));
+const upload_util_1 = require("../utils/upload.util");
 const addPatient = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, password } = req.body;
         const user = yield user_model_1.default.findOne({ username });
         if (!user) {
             const hashedPassword = yield bcryptjs_1.default.hash(password, 10);
-            const newUser = yield user_model_1.default.create(Object.assign(Object.assign({}, req.body), { password: hashedPassword, status: "pending" }));
+            if (req.file) {
+                const image = yield (0, upload_util_1.uploadImage)(req.file);
+                req.body.avatar = image;
+            }
+            const newUser = yield user_model_1.default.create(Object.assign(Object.assign({}, req.body), { password: hashedPassword, status: "pending", createdBy: req.userData }));
             if (newUser) {
                 return res.status(201).json({
                     message: "تم انشاء مريض جديد بنجاح",
@@ -38,23 +43,6 @@ const addPatient = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.addPatient = addPatient;
-const getAllActivePatient = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const allActivePatient = yield user_model_1.default.find({
-            status: "active",
-            type: "patient",
-        });
-        console.log(allActivePatient);
-        res.status(200).json({
-            data: allActivePatient,
-        });
-    }
-    catch (error) {
-        const err = new customError_util_1.default(error.message, 500);
-        return next(err);
-    }
-});
-exports.getAllActivePatient = getAllActivePatient;
 const activatePatient = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
@@ -69,40 +57,6 @@ const activatePatient = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.activatePatient = activatePatient;
-const getAllPendingPatient = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const allPendingPatient = yield user_model_1.default.find({
-            status: "pending",
-            type: "patient",
-        });
-        console.log(allPendingPatient);
-        res.status(200).json({
-            data: allPendingPatient,
-        });
-    }
-    catch (error) {
-        const err = new customError_util_1.default(error.message, 500);
-        return next(err);
-    }
-});
-exports.getAllPendingPatient = getAllPendingPatient;
-const getAllBlockedPatient = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const allBlockedPatient = yield user_model_1.default.find({
-            status: "blocked",
-            type: "patient",
-        });
-        console.log(allBlockedPatient);
-        res.status(200).json({
-            data: allBlockedPatient,
-        });
-    }
-    catch (error) {
-        const err = new customError_util_1.default(error.message, 500);
-        return next(err);
-    }
-});
-exports.getAllBlockedPatient = getAllBlockedPatient;
 const blockPatient = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
@@ -117,4 +71,34 @@ const blockPatient = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.blockPatient = blockPatient;
+const getAllPatients = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { status, search, page } = req.query;
+        let allPatients;
+        let queries = { type: "patient" };
+        if (search && search !== "") {
+            queries.username = { $regex: new RegExp(search, "i") };
+        }
+        if (status && status !== "") {
+            queries.status = status;
+        }
+        let skipped = 0;
+        if (page) {
+            skipped =
+                parseInt(`${process.env.PAGINATION_NUMBER}`) *
+                    (parseInt(`${page}`) - 1);
+        }
+        allPatients = yield user_model_1.default.find(queries)
+            .skip(skipped)
+            .limit(parseInt(`${process.env.PAGINATION_NUMBER}`));
+        res.status(200).json({
+            data: allPatients,
+        });
+    }
+    catch (error) {
+        const err = new customError_util_1.default(error.message, 500);
+        return next(err);
+    }
+});
+exports.getAllPatients = getAllPatients;
 //# sourceMappingURL=patient.controller.js.map

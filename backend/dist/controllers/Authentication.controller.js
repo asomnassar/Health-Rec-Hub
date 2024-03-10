@@ -70,7 +70,9 @@ const forgotPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     try {
         const { email } = req.body;
         const user = yield user_model_1.default.findOne({ email });
-        if (user && user.status === "active") {
+        if (user &&
+            (user.type !== "patient" ||
+                (user.type === "patient" && user.status === "active"))) {
             //Expired in an hour
             const token = jsonwebtoken_1.default.sign({ userData: email }, `${process.env.SECRET_KEY}`, {
                 expiresIn: `${process.env.TOKEN_EXPIRED_FOR_FORGOT_PASSWORD}`,
@@ -78,7 +80,7 @@ const forgotPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             yield sendMail_util_1.transporter.sendMail({
                 from: `${process.env.OFFICIAL_EMAIL}`,
                 to: email,
-                subject: "Reset Your Password 🔒",
+                subject: "قم بتغير رمزك السرى 🔒",
                 html: (0, forgotPassword_template_1.forgotPasswordTemp)(`${process.env.CLIENT_URL}/resetPassword`),
             });
             return res.status(200).json({
@@ -101,9 +103,10 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     try {
         const { password } = req.body;
         const { userData } = req;
-        console.log(userData);
         const user = yield user_model_1.default.findOne({ email: userData });
-        if (user && user.status === "active") {
+        if (user &&
+            (user.type !== "patient" ||
+                (user.type === "patient" && user.status === "active"))) {
             const hashedPassword = yield bcryptjs_1.default.hash(password, 10);
             yield user_model_1.default.updateOne({ _id: user._id }, { password: hashedPassword });
             return res.status(206).json({

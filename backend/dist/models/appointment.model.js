@@ -25,19 +25,34 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const AppointmentSchema = new mongoose_1.Schema({
+    patient: {
+        type: mongoose_1.default.Schema.ObjectId,
+        ref: "User",
+        required: [true, "Patient is required"],
+    },
     status: {
         type: String,
         required: [true, "status is required"],
+        default: "waiting",
+        enum: ["waiting", "ended"],
     },
     notes: {
-        type: [String],
-        required: [true, "notes is required"],
+        type: String,
+        default: "",
     },
-    doctor: {
+    date: {
+        type: String,
+        required: [true, "appointment date is required"],
+    },
+    time: {
+        type: String,
+        required: [true, "appointment time is required"],
+    },
+    createdBy: {
         type: mongoose_1.default.Schema.ObjectId,
         ref: "User",
-        required: [true, "Doctor is required"],
+        required: [true, "Creator is required"],
     },
 }, { timestamps: true });
-module.exports = mongoose_1.default.model("Appointment", AppointmentSchema);
+exports.default = mongoose_1.default.model("Appointment", AppointmentSchema);
 //# sourceMappingURL=appointment.model.js.map

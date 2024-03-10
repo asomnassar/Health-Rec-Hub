@@ -68,7 +68,11 @@ const forgotPassword = async (
     const { email } = req.body;
     const user = await User.findOne({ email });
 
-    if (user && user.status === "active") {
+    if (
+      user &&
+      (user.type !== "patient" ||
+        (user.type === "patient" && user.status === "active"))
+    ) {
       //Expired in an hour
       const token = jwt.sign({ userData: email }, `${process.env.SECRET_KEY}`, {
         expiresIn: `${process.env.TOKEN_EXPIRED_FOR_FORGOT_PASSWORD}`,
@@ -77,7 +81,7 @@ const forgotPassword = async (
       await transporter.sendMail({
         from: `${process.env.OFFICIAL_EMAIL}`,
         to: email,
-        subject: "Reset Your Password 🔒",
+        subject: "قم بتغير رمزك السرى 🔒",
         html: forgotPasswordTemp(`${process.env.CLIENT_URL}/resetPassword`),
       });
 
@@ -103,9 +107,12 @@ const resetPassword = async (
   try {
     const { password } = req.body;
     const { userData } = req;
-    console.log(userData);
     const user = await User.findOne({ email: userData });
-    if (user && user.status === "active") {
+    if (
+      user &&
+      (user.type !== "patient" ||
+        (user.type === "patient" && user.status === "active"))
+    ) {
       const hashedPassword = await bcrypt.hash(password, 10);
       await User.updateOne({ _id: user._id }, { password: hashedPassword });
       return res.status(206).json({

@@ -36,6 +36,7 @@ const UserSchema: Schema<UserTypes> = new Schema<UserTypes>(
     email: {
       type: String,
       required: [true, "email is required"],
+      unique: true,
     },
     dateOfBirth: {
       type: Date,
@@ -92,6 +93,10 @@ const UserSchema: Schema<UserTypes> = new Schema<UserTypes>(
     avatar: {
       type: String,
       default: "https://cdn-icons-png.flaticon.com/128/3177/3177440.png",
+    },
+    createdBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true }

@@ -25,13 +25,18 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const TestResultSchema = new mongoose_1.Schema({
-    testType: {
+    patient: {
+        type: mongoose_1.default.Schema.ObjectId,
+        ref: "User",
+        required: [true, "Patient is required"],
+    },
+    type: {
         type: String,
         required: [true, "test type is required"],
     },
-    resultDetails: {
+    pdf: {
         type: String,
-        required: [true, "result details is required"],
+        required: [true, "result pdf is required"],
     },
     doctor: {
         type: mongoose_1.default.Schema.ObjectId,
@@ -39,5 +44,5 @@ const TestResultSchema = new mongoose_1.Schema({
         required: [true, "Doctor is required"],
     },
 }, { timestamps: true });
-module.exports = mongoose_1.default.model("TestResult", TestResultSchema);
+exports.default = mongoose_1.default.model("TestResult", TestResultSchema);
 //# sourceMappingURL=testResult.model.js.map

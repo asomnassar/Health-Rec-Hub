@@ -4,12 +4,17 @@ import { PrescriptionTypes } from "../types/models.types";
 const PrescriptionSchema: Schema<PrescriptionTypes> =
   new Schema<PrescriptionTypes>(
     {
-      medicalName: {
-        type: String,
-        required: [true, "medical name is required"],
+      patient: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required: [true, "Patient is required"],
+      },
+      medication: {
+        type: [String],
+        required: [true, "Medication is required"],
       },
       dosage: {
-        type: String,
+        type: [String],
         required: [true, "dosage is required"],
       },
       doctor: {
@@ -21,4 +26,4 @@ const PrescriptionSchema: Schema<PrescriptionTypes> =
     { timestamps: true }
   );
 
-module.exports = mongoose.model("Prescription", PrescriptionSchema);
+export default mongoose.model("Prescription", PrescriptionSchema);

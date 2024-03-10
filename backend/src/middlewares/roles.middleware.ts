@@ -88,6 +88,25 @@ const isSystemManager = async (
   }
 };
 
+const isDoctorOrSystemManager = async (
+  req: AuthorizationRequestTypes,
+  _: any,
+  next: NextFunction
+) => {
+  try {
+    const { userData } = req;
+    if (userData) {
+      checkRole(next, userData, "doctor", "systemManager");
+    } else {
+      const err = new CustomError("صلاحية تسجيل الدخول انتهت", 401);
+      next(err);
+    }
+  } catch (error: any) {
+    const err = new CustomError(error.message, 500);
+    next(err);
+  }
+};
+
 const isTechnicalAdministrator = async (
   req: AuthorizationRequestTypes,
   _: any,
@@ -102,4 +121,10 @@ const isTechnicalAdministrator = async (
   }
 };
 
-export { isDoctor, isNotPatient, isSystemManager, isTechnicalAdministrator };
+export {
+  isDoctor,
+  isDoctorOrSystemManager,
+  isNotPatient,
+  isSystemManager,
+  isTechnicalAdministrator,
+};

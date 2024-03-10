@@ -25,12 +25,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const PrescriptionSchema = new mongoose_1.Schema({
-    medicalName: {
-        type: String,
-        required: [true, "medical name is required"],
+    patient: {
+        type: mongoose_1.default.Schema.ObjectId,
+        ref: "User",
+        required: [true, "Patient is required"],
+    },
+    medication: {
+        type: [String],
+        required: [true, "Medication is required"],
     },
     dosage: {
-        type: String,
+        type: [String],
         required: [true, "dosage is required"],
     },
     doctor: {
@@ -39,5 +44,5 @@ const PrescriptionSchema = new mongoose_1.Schema({
         required: [true, "Doctor is required"],
     },
 }, { timestamps: true });
-module.exports = mongoose_1.default.model("Prescription", PrescriptionSchema);
+exports.default = mongoose_1.default.model("Prescription", PrescriptionSchema);
 //# sourceMappingURL=prescription.model.js.map

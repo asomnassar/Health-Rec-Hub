@@ -25,18 +25,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const MedicationSchema = new mongoose_1.Schema({
-    medicalName: {
+    name: {
         type: String,
-        required: [true, "medication name is required"]
-    },
-    dosage: {
-        type: String,
-        required: [true, "medication dosage is required"]
+        required: [true, "medication name is required"],
+        unique: true,
     },
     notes: {
         type: String,
-        required: [true, "medication notes is required"]
-    }
+        default: "",
+    },
 }, { timestamps: true });
-module.exports = mongoose_1.default.model("MedicalRecord", MedicationSchema);
+exports.default = mongoose_1.default.model("Medication", MedicationSchema);
 //# sourceMappingURL=medication.model.js.map
