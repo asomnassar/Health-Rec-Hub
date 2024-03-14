@@ -3,9 +3,19 @@ interface patientsArgsTypes {
   search?: string;
 }
 
-interface activeValuesTypes {
+interface activePatientsValuesTypes {
   isLoading: boolean;
   activePatients: [];
+}
+
+interface pendingPatientsValuesTypes {
+  isLoading: boolean;
+  pendingPatients: [];
+}
+
+interface blockedPatientsValuesTypes {
+  isLoading: boolean;
+  blockedPatients: [];
 }
 
 interface AuthStateTypes {
@@ -35,6 +45,8 @@ interface ProfileTypes {
 export type {
   AuthStateTypes,
   ProfileTypes,
-  activeValuesTypes,
+  activePatientsValuesTypes,
+  blockedPatientsValuesTypes,
   patientsArgsTypes,
+  pendingPatientsValuesTypes,
 };
