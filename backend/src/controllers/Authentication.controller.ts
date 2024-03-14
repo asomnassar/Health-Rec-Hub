@@ -20,9 +20,11 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
           `${process.env.SECRET_KEY}`,
           { expiresIn: `${process.env.TOKEN_EXPIRED}` }
         );
+
         return res.status(200).json({
           token,
           userId: user._id,
+          type: user.type,
           message: "تم تسجيل الدخول بنجاح",
         });
       }
@@ -82,12 +84,13 @@ const forgotPassword = async (
         from: `${process.env.OFFICIAL_EMAIL}`,
         to: email,
         subject: "قم بتغير رمزك السرى 🔒",
-        html: forgotPasswordTemp(`${process.env.CLIENT_URL}/resetPassword`),
+        html: forgotPasswordTemp(
+          `${process.env.CLIENT_URL}/resetPassword/${token}`
+        ),
       });
 
       return res.status(200).json({
         message: "تاكد من البريد الالكترونى",
-        token,
       });
     } else {
       const err = new CustomError("المستخدم غير موجود او غير مفعل", 404);

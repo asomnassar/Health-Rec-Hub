@@ -7,4 +7,24 @@ interface SubmitButtonTypes {
   children: ReactNode;
 }
 
-export type { SubmitButtonTypes };
+interface propsTypes {
+  avatar: string;
+  username: string;
+}
+
+interface DataBoxOfProfileTypes {
+  title: string;
+  value: string;
+}
+
+interface NavLinkTypes {
+  title: string;
+  link: string;
+}
+
+export type {
+  DataBoxOfProfileTypes,
+  NavLinkTypes,
+  SubmitButtonTypes,
+  propsTypes,
+};

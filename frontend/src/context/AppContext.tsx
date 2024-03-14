@@ -1,31 +1,10 @@
-import { ReactNode, createContext, useState } from "react";
-import { AppContextTypes } from "../types/modals.types";
+import { ReactNode, createContext } from "react";
 
-export const AppContext = createContext<AppContextTypes>({
-  openForgotPasswordModal: false,
-  handleOpenForgotPasswordModal: function (): void {
-    throw new Error("Function not implemented.");
-  },
-  handleCloseForgotPasswordModal: function (): void {
-    throw new Error("Function not implemented.");
-  }
-})
+export const AppContext = createContext({})
 
 const AppProvider = ({children}:{children:ReactNode}) => {
 
-  const [openForgotPasswordModal,setOpenForgotPasswordModal] = useState(false)
-
-  const handleOpenForgotPasswordModal=()=>{
-    setOpenForgotPasswordModal(true)
-  }
-
-  const handleCloseForgotPasswordModal=()=>{
-    setOpenForgotPasswordModal(false)
-  }
-
   const values={
-    openForgotPasswordModal,
-    handleOpenForgotPasswordModal,handleCloseForgotPasswordModal
   }
 
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;

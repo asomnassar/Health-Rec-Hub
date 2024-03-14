@@ -11,6 +11,7 @@ const isPatientExist = async (
   try {
     const user = await User.findOne({ _id: req.params.id });
     if (user && user.type === "patient") {
+      req.patientStatus = user.status;
       return next();
     }
     return res.status(404).json({

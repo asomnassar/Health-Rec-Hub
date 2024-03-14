@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
+import Counters from "../models/counters.model";
 import User from "../models/user.model";
 import GetAllPatientsQueryParams from "../types/controllers.types";
 import AuthorizationRequestTypes from "../types/middlewares.types";
@@ -27,6 +28,13 @@ const addPatient = async (
         createdBy: req.userData,
       });
       if (newUser) {
+        const counters = await Counters.findOne({ status: "original" });
+        if (counters) {
+          Counters.updateOne(
+            { status: "original" },
+            { pendingPatients: +counters.pendingPatients + 1 }
+          );
+        }
         return res.status(201).json({
           message: "تم انشاء مريض جديد بنجاح",
         });
@@ -41,13 +49,23 @@ const addPatient = async (
 };
 
 const activatePatient = async (
-  req: Request,
+  req: AuthorizationRequestTypes,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { id } = req.params;
     await User.updateOne({ _id: id }, { status: "active" });
+    const counters = await Counters.findOne({ status: "original" });
+    if (counters) {
+      let updates: any = { activePatients: +counters.activePatients + 1 };
+      if (req.patientStatus === "pending") {
+        updates.pendingPatients = +counters.pendingPatients - 1;
+      } else if (req.patientStatus === "blocked") {
+        updates.blockedPatients = +counters.blockedPatients - 1;
+      }
+      Counters.updateOne({ status: "original" }, updates);
+    }
     res.status(206).json({
       message: "تم تفعيل المريض بنجاح",
     });
@@ -58,13 +76,23 @@ const activatePatient = async (
 };
 
 const blockPatient = async (
-  req: Request,
+  req: AuthorizationRequestTypes,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { id } = req.params;
     await User.updateOne({ _id: id }, { status: "blocked" });
+    const counters = await Counters.findOne({ status: "original" });
+    if (counters) {
+      let updates: any = { blockedPatients: +counters.blockedPatients + 1 };
+      if (req.patientStatus === "pending") {
+        updates.pendingPatients = +counters.pendingPatients - 1;
+      } else if (req.patientStatus === "active") {
+        updates.activePatients = +counters.activePatients - 1;
+      }
+      Counters.updateOne({ status: "original" }, updates);
+    }
     res.status(206).json({
       message: "تم اغلاق حساب المريض بنجاح",
     });

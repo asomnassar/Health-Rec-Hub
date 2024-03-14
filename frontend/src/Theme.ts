@@ -33,6 +33,13 @@ const Theme = (): Theme => {
       },
       success: {
         main: "#55C42E",
+        dark: "#00c16e",
+      },
+      warning: {
+        main: "#ffdd00",
+      },
+      error: {
+        main: "#f85a40",
       },
       divider: "#ff00001a",
     },

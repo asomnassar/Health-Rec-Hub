@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -15,11 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updatePrescription = exports.getAllPrescriptions = exports.deletePrescription = exports.addPrescription = void 0;
 const prescription_model_1 = __importDefault(require("../models/prescription.model"));
 const customError_util_1 = __importDefault(require("../utils/customError.util"));
-const addPrescription = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const addPrescription = async (req, res, next) => {
     try {
         req.body.patient = req.params.id;
         req.body.doctor = req.userData;
-        yield prescription_model_1.default.create(req.body);
+        await prescription_model_1.default.create(req.body);
         res.status(202).json({
             message: "تم انشاء الروشتة بنجاح",
         });
@@ -28,12 +19,12 @@ const addPrescription = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         const err = new customError_util_1.default(error.message, 500);
         return next(err);
     }
-});
+};
 exports.addPrescription = addPrescription;
-const updatePrescription = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const updatePrescription = async (req, res, next) => {
     try {
         const { medication, dosage } = req.body;
-        yield prescription_model_1.default.updateOne({ _id: req.params.id }, { medication, dosage });
+        await prescription_model_1.default.updateOne({ _id: req.params.id }, { medication, dosage });
         res.status(202).json({
             message: "تم تعديل الروشتة بنجاح",
         });
@@ -42,11 +33,11 @@ const updatePrescription = (req, res, next) => __awaiter(void 0, void 0, void 0,
         const err = new customError_util_1.default(error.message, 500);
         return next(err);
     }
-});
+};
 exports.updatePrescription = updatePrescription;
-const deletePrescription = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const deletePrescription = async (req, res, next) => {
     try {
-        yield prescription_model_1.default.deleteOne({ _id: req.params.id });
+        await prescription_model_1.default.deleteOne({ _id: req.params.id });
         res.status(202).json({
             message: "تم حذف الروشتة بنجاح",
         });
@@ -55,11 +46,11 @@ const deletePrescription = (req, res, next) => __awaiter(void 0, void 0, void 0,
         const err = new customError_util_1.default(error.message, 500);
         return next(err);
     }
-});
+};
 exports.deletePrescription = deletePrescription;
-const getAllPrescriptions = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllPrescriptions = async (req, res, next) => {
     try {
-        const prescriptions = yield prescription_model_1.default.find({
+        const prescriptions = await prescription_model_1.default.find({
             patient: req.params.id,
             doctor: req.userData,
         });
@@ -71,6 +62,6 @@ const getAllPrescriptions = (req, res, next) => __awaiter(void 0, void 0, void 0
         const err = new customError_util_1.default(error.message, 500);
         return next(err);
     }
-});
+};
 exports.getAllPrescriptions = getAllPrescriptions;
 //# sourceMappingURL=prescription.controller.js.map

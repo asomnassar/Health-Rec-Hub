@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = require("dotenv");
 const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("./db/db"));
@@ -24,6 +25,8 @@ const errorHandler_util_1 = __importDefault(require("./utils/errorHandler.util")
 //Create Express App
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+//Allow All CORS Request
+app.use((0, cors_1.default)());
 //Routes
 app.use("/api/auth", authentication_route_1.default);
 app.use("/api/user", user_route_1.default);
@@ -57,7 +60,4 @@ const port = +(process.env.PORT || 8000);
 app.listen(port, () => {
     console.log(`Server is Running on ${port}`);
 });
-//Notes
-// 1- what is difference between dosage of medication and dosage of prescription
-// 2-
 //# sourceMappingURL=index.js.map

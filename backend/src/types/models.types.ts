@@ -8,7 +8,7 @@ interface UserTypes extends Document {
   address?: string;
   email?: string;
   phone?: string;
-  age: String;
+  age: string;
   status?: "pending" | "active" | "blocked";
   gender: "male" | "female";
   specialization?: string;
@@ -69,8 +69,16 @@ interface MedicationTypes extends Document {
   notes?: string;
 }
 
+interface CountersTypes extends Document {
+  status: string;
+  activePatients: number;
+  pendingPatients: number;
+  blockedPatients: number;
+}
+
 export {
   AppointmentTypes,
+  CountersTypes,
   MedicalRecordTypes,
   MedicationTypes,
   PrescriptionTypes,

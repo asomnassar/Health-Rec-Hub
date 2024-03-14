@@ -1,3 +1,4 @@
+import cors from "cors";
 import { config } from "dotenv";
 import express, { Express, NextFunction, Request, Response } from "express";
 import dbConnection from "./db/db";
@@ -23,6 +24,9 @@ config();
 const app: Express = express();
 
 app.use(express.json());
+
+//Allow All CORS Request
+app.use(cors());
 
 //Routes
 app.use("/api/auth", authRouter);
@@ -61,7 +65,3 @@ const port: number = +(process.env.PORT || 8000);
 app.listen(port, (): void => {
   console.log(`Server is Running on ${port}`);
 });
-
-//Notes
-// 1- what is difference between dosage of medication and dosage of prescription
-// 2-

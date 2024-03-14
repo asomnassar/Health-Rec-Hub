@@ -1,6 +1,7 @@
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { Tab, Tabs, Typography } from "@mui/material";
 import { ReactNode, SyntheticEvent, useState } from "react";
 import { PrimaryContainer } from "../../mui/PrimaryContiner";
+import Profile from "../../pages/Profile";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -19,11 +20,7 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && children}
     </div>
   );
 }
@@ -62,7 +59,7 @@ const TechAdminTabs = () => {
         <Tab label={<TabLabel>المرضى المحظورين</TabLabel>} {...a11yProps(3)} />
       </Tabs>
       <CustomTabPanel value={value} index={0}>
-        Item One
+        <Profile/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         Item Two

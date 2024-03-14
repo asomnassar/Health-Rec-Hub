@@ -27,18 +27,8 @@ router
   .route("/blockPatient/:id")
   .patch(authorization, isTechnicalAdministrator, blockPatient);
 
-router.route("/Patients").get(authorization, isNotPatient, getAllPatients);
-
 router
-  .route("/activePatients")
-  .get(authorization, isNotPatient, getAllPatients);
-
-router
-  .route("/pendingPatients")
-  .get(authorization, isNotPatient, getAllPatients);
-
-router
-  .route("/blockedPatients")
+  .route("/getAllPatients")
   .get(authorization, isNotPatient, getAllPatients);
 
 export default router;

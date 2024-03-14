@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -16,15 +7,15 @@ exports.updateTestResult = exports.getAllTestResults = exports.deleteTestResult 
 const testResult_model_1 = __importDefault(require("../models/testResult.model"));
 const customError_util_1 = __importDefault(require("../utils/customError.util"));
 const upload_util_1 = require("../utils/upload.util");
-const addTestResult = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const addTestResult = async (req, res, next) => {
     try {
         req.body.doctor = req.userData;
         req.body.patient = req.params.id;
         if (req.file && typeof req.file === "object") {
-            const result = yield (0, upload_util_1.uploadPDF)(req.file);
+            const result = await (0, upload_util_1.uploadPDF)(req.file);
             req.body.pdf = result;
         }
-        yield testResult_model_1.default.create(req.body);
+        await testResult_model_1.default.create(req.body);
         res.status(200).json({
             message: "تم انشاء الاختبار بنجاح",
         });
@@ -33,16 +24,16 @@ const addTestResult = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         const err = new customError_util_1.default(error.message, 500);
         return next(err);
     }
-});
+};
 exports.addTestResult = addTestResult;
-const updateTestResult = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const updateTestResult = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (req.file && typeof req.file === "object") {
-            const result = yield (0, upload_util_1.uploadPDF)(req.file);
+            const result = await (0, upload_util_1.uploadPDF)(req.file);
             req.body.pdf = result;
         }
-        yield testResult_model_1.default.updateOne({ _id: id }, req.body);
+        await testResult_model_1.default.updateOne({ _id: id }, req.body);
         res.status(200).json({
             message: "تم تعديل الاختبار بنجاح",
         });
@@ -51,12 +42,12 @@ const updateTestResult = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         const err = new customError_util_1.default(error.message, 500);
         return next(err);
     }
-});
+};
 exports.updateTestResult = updateTestResult;
-const deleteTestResult = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteTestResult = async (req, res, next) => {
     try {
         const { id } = req.params;
-        yield testResult_model_1.default.deleteOne({ _id: id });
+        await testResult_model_1.default.deleteOne({ _id: id });
         res.status(200).json({
             message: "تم حذف الاختبار بنجاح",
         });
@@ -65,20 +56,20 @@ const deleteTestResult = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         const err = new customError_util_1.default(error.message, 500);
         return next(err);
     }
-});
+};
 exports.deleteTestResult = deleteTestResult;
-const getAllTestResults = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllTestResults = async (req, res, next) => {
     try {
         const { id } = req.params;
         let testResults;
         if (id) {
-            testResults = yield testResult_model_1.default.find({
+            testResults = await testResult_model_1.default.find({
                 doctor: req.userData,
                 patient: id,
             });
         }
         else {
-            testResults = yield testResult_model_1.default.find({
+            testResults = await testResult_model_1.default.find({
                 patient: req.userData,
             });
         }
@@ -90,6 +81,6 @@ const getAllTestResults = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         const err = new customError_util_1.default(error.message, 500);
         return next(err);
     }
-});
+};
 exports.getAllTestResults = getAllTestResults;
 //# sourceMappingURL=testResult.controller.js.map

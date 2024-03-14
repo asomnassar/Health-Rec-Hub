@@ -150,8 +150,7 @@ export const forgotPasswordTemp = (link: string) => {
                                   <td class="pad">
                                     <div
                                       style="color:#506bec;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:38px;line-height:120%;text-align:left;mso-line-height-alt:45.6px;">
-                                      <p style="margin: 0; word-break: break-word;"><strong><span>Forgot your
-                                            password?</span></strong></p>
+                                      <p style="margin: 0; word-break: break-word;"><strong><span>نسيت كلمة السر ؟</span></strong></p>
                                     </div>
                                   </td>
                                 </tr>
@@ -163,8 +162,7 @@ export const forgotPasswordTemp = (link: string) => {
                                   <td class="pad">
                                     <div
                                       style="color:#40507a;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
-                                      <p style="margin: 0; word-break: break-word;"><span>Hey, we received a request to
-                                          reset your password.</span></p>
+                                      <p style="margin: 0; word-break: break-word;"><span>اهلا , نقدم لك طلب لتغير كلمة السر الخاص بك</span></p>
                                     </div>
                                   </td>
                                 </tr>
@@ -176,7 +174,7 @@ export const forgotPasswordTemp = (link: string) => {
                                   <td class="pad">
                                     <div
                                       style="color:#40507a;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
-                                      <p style="margin: 0; word-break: break-word;"><span>Let’s get you a new one!</span>
+                                      <p style="margin: 0; word-break: break-word;"><span>هيا لنحصل على كلمة سر جديدة.</span>
                                       </p>
                                     </div>
                                   </td>
@@ -196,8 +194,7 @@ export const forgotPasswordTemp = (link: string) => {
                                         style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#506bec;border-radius:16px;width:auto;border-top:0px solid TRANSPARENT;font-weight:undefined;border-right:0px solid TRANSPARENT;border-bottom:0px solid TRANSPARENT;border-left:0px solid TRANSPARENT;padding-top:8px;padding-bottom:8px;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:15px;text-align:center;mso-border-alt:none;word-break:keep-all;"><span
                                           style="padding-left:25px;padding-right:20px;font-size:15px;display:inline-block;letter-spacing:normal;"><span
                                             style="word-break:break-word;"><span style="line-height: 30px;"
-                                              data-mce-style><strong>RESET MY
-                                                PASSWORD</strong></span></span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+                                              data-mce-style><strong>تغير كلمة السر</strong></span></span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
                                     </div>
                                   </td>
                                 </tr>

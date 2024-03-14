@@ -15,7 +15,10 @@ export default {
         'black':"#333",
         'gray':"#eee",
         'dark-gray':"#ddd",
-        'primary-bg':"#f3f6f8"
+        'primary-bg':"#f3f6f8",
+        "pending":"#ffdd00",
+        "blocked":"#f85a40",
+        "active":"#00c16e"
       },
       screens: {
         "xs":{'max':"560px"},

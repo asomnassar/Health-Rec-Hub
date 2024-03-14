@@ -18,15 +18,8 @@ router
 router
     .route("/blockPatient/:id")
     .patch(authorization_middleware_1.authorization, roles_middleware_1.isTechnicalAdministrator, patient_controller_1.blockPatient);
-router.route("/Patients").get(authorization_middleware_1.authorization, roles_middleware_1.isNotPatient, patient_controller_1.getAllPatients);
 router
-    .route("/activePatients")
-    .get(authorization_middleware_1.authorization, roles_middleware_1.isNotPatient, patient_controller_1.getAllPatients);
-router
-    .route("/pendingPatients")
-    .get(authorization_middleware_1.authorization, roles_middleware_1.isNotPatient, patient_controller_1.getAllPatients);
-router
-    .route("/blockedPatients")
+    .route("/getAllPatients")
     .get(authorization_middleware_1.authorization, roles_middleware_1.isNotPatient, patient_controller_1.getAllPatients);
 exports.default = router;
 //# sourceMappingURL=patient.route.js.map
