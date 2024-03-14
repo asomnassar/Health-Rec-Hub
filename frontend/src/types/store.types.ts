@@ -3,6 +3,11 @@ interface patientsArgsTypes {
   search?: string;
 }
 
+interface activeValuesTypes {
+  isLoading: boolean;
+  activePatients: [];
+}
+
 interface AuthStateTypes {
   token: string | undefined;
   userId: string | undefined;
@@ -27,4 +32,9 @@ interface ProfileTypes {
   createdBy?: object;
 }
 
-export type { AuthStateTypes, ProfileTypes, patientsArgsTypes };
+export type {
+  AuthStateTypes,
+  ProfileTypes,
+  activeValuesTypes,
+  patientsArgsTypes,
+};

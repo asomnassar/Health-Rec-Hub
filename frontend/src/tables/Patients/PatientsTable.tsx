@@ -2,7 +2,7 @@ import PrimaryTable from "../PrimaryTable"
 import PatientsTableBody from "./PatientsTableBody"
 import TableHeader from "./TableHeader"
 
-const PatientsTable = ({data}) => {
+const PatientsTable = ({data}:{data:[] | null}) => {
   return (
     <PrimaryTable>
       <TableHeader/>

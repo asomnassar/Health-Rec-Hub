@@ -2,7 +2,6 @@ import axios from "axios";
 import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { AppContext } from "../context/AppContext";
 import { FormsContext } from "../context/FormsContext";
 import { handleAlert } from "../functions/handleAlert";
 import { setAuth } from "../store/authSlice";
@@ -19,7 +18,7 @@ const server = axios.create({
 });
 
 const useSubmit = (type: string) => {
-  const { setLoading, handleCloseForgotPasswordModal } = useContext(AppContext);
+  const { setLoading, handleCloseForgotPasswordModal } = useContext(FormsContext);
   const { uploadImage } = useContext(FormsContext);
   const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
