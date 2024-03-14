@@ -18,9 +18,6 @@ function App() {
   const navigate = useNavigate()
   const dispatch = useDispatch<AppDispatch>()
 
-  // const userTabs = (userType === "patient" ? 
-  // <PatientTabs/> : userType === "doctor" ? <DoctorTabs/> : userType === "technicalAdministrator" ? <TechAdminTabs/> : <SystemManagerTabs/>)
-
   const authPaths = [`${import.meta.env.VITE_LOGIN_ROUTE}`,`${import.meta.env.VITE_RESET_PASSWORD_ROUTE}/${id}`]
 
   useEffect(()=>{
