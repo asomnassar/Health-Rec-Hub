@@ -13,8 +13,10 @@ const addPatient = async (
   next: NextFunction
 ) => {
   try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
+    const { username, email, phone, password } = req.body;
+    const user = await User.findOne({
+      $or: [{ username }, { email }, { phone }],
+    });
     if (!user) {
       const hashedPassword = await bcrypt.hash(password, 10);
       if (req.file) {

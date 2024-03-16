@@ -11,10 +11,10 @@ export const PrimaryButton = styled(LoadingButton)(({ theme }) => ({
   gap: "10px",
   padding: "8px 28px",
   border: "2px solid transparent",
-  boxShadow: theme.shadows["18"],
+  boxShadow: theme.shadows[18],
   "& > span > span": {
-    height: "38px !important",
-    width: "38px !important",
+    height: "36px !important",
+    width: "36px !important",
   },
   "& svg": {
     fontSize: "26px",

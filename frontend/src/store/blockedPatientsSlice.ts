@@ -16,7 +16,9 @@ export const getBlockedPatients = createAsyncThunk(
     const res = await axios.get(
       `${
         import.meta.env.VITE_SERVER_URL
-      }/patient/getAllPatients?status=blocked&page=${page}&search=${search}`,
+      }/patient/getAllPatients?status=blocked&page=${page || 1}&search=${
+        search || ""
+      }`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

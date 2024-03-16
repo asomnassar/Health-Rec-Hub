@@ -1,8 +1,16 @@
-import { BlockRounded, CheckRounded, PendingRounded } from "@mui/icons-material";
-import { Box, TableRow, Tooltip, Typography, styled, useMediaQuery } from "@mui/material";
+import { BlockRounded, CheckRounded } from "@mui/icons-material";
+import { Box, CircularProgress, TableRow, Tooltip, Typography, styled, useMediaQuery } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { handleAlert } from "../../functions/handleAlert";
 import { ActiveIconButton } from "../../mui/ActiveIconButton";
 import { BlockedIconButton } from "../../mui/BlockedIconButton";
-import { PendingIconButton } from "../../mui/PendingIconButton";
+import { getActivePatients } from "../../store/activePatientsSlice";
+import { getBlockedPatients } from "../../store/blockedPatientsSlice";
+import { getPendingPatients } from "../../store/pendingPatientsSlice";
+import { AppDispatch, RootState } from "../../store/store";
 import { PatientTableRowTypes } from "../../types/tables.types";
 import { StyledTableCell } from "./StyledTableCell";
 
@@ -16,10 +24,75 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+
+const server = axios.create({
+  baseURL: `${import.meta.env.VITE_SERVER_URL}`,
+});
+
 const Row = ({row}:{row:PatientTableRowTypes}) => {
+  const {pathname} =  useLocation()
+  const {token} = useSelector((state:RootState)=>state.auth)
+  const dispatch  = useDispatch<AppDispatch>()
   const mdScreen = useMediaQuery("(max-width:992px)")
   const smScreen = useMediaQuery("(max-width:768px)")
   const xsScreen = useMediaQuery("(max-width:540px)")
+  const [patientsType , setPatientsType] = useState("active")
+  const [loadingActivate , setLoadingActivate] = useState(false)
+  const [loadingBlocked , setLoadingBlocked] = useState(false)
+  
+  const loadingIcon = (<CircularProgress sx={{ color: (theme) => theme.palette.common.white}} />)
+
+  const handleActivatePatient = async()=>{
+    setLoadingActivate(true)
+    await server.patch(`/patient/activatePatient/${row._id}`,{},{
+      headers:{
+        Authorization:`Bearer ${token}`
+      }
+    }).then((res)=>{
+      if(patientsType === "active"){
+        dispatch(getActivePatients({page:1}))
+      }else if(patientsType === "blocked"){
+        dispatch(getBlockedPatients({page:1}))
+      }else if(patientsType === "pending"){
+        dispatch(getPendingPatients({page:1}))
+      }
+      handleAlert({msg:res.data.message,status:"success"})
+    }).catch((err)=>{
+      handleAlert({msg:err.response.data.message,status:"error"})
+    })
+    setLoadingActivate(false)
+  }
+
+  const handleBlockPatient = async()=>{
+    setLoadingBlocked(true)
+    await server.patch(`/patient/blockPatient/${row._id}`,{},{
+      headers:{
+        Authorization:`Bearer ${token}`
+      }
+    }).then((res)=>{
+      if(patientsType === "active"){
+        dispatch(getActivePatients({page:1}))
+      }else if(patientsType === "blocked"){
+        dispatch(getBlockedPatients({page:1}))
+      }else if(patientsType === "pending"){
+        dispatch(getPendingPatients({page:1}))
+      }
+      handleAlert({msg:res.data.message,status:"success"})
+    }).catch((err)=>{
+      handleAlert({msg:err.response.data.message,status:"error"})
+    })
+    setLoadingBlocked(false)
+  }
+
+  useEffect(()=>{
+    if(pathname === `${import.meta.env.VITE_ACTIVE_PATIENTS_ROUTE}`){
+      setPatientsType("active")
+    } else if(pathname === `${import.meta.env.VITE_PENDING_PATIENTS_ROUTE}`){
+      setPatientsType("pending")
+    } else if(pathname === `${import.meta.env.VITE_BLOCKED_PATIENTS_ROUTE}`){
+      setPatientsType("blocked")
+    } 
+  },[pathname])
   
   return (
     <StyledTableRow key={row._id}>
@@ -36,22 +109,19 @@ const Row = ({row}:{row:PatientTableRowTypes}) => {
         <Typography variant="subtitle1" >{row.address}</Typography>
       </StyledTableCell>}
       <StyledTableCell align="right">
-        <Box className={`flex justify-start items-center flex-wrap gap-2`}>
-          <Tooltip title={"حذر"}>
-            <BlockedIconButton>
-              <BlockRounded/>
-            </BlockedIconButton>
-          </Tooltip>
-          <Tooltip title={"انتظار"}>
-            <PendingIconButton>
-              <PendingRounded/>
-            </PendingIconButton>
-          </Tooltip>
-          <Tooltip title={"تفعيل"}>
-            <ActiveIconButton>
+        <Box className={`flex justify-end items-center flex-wrap gap-6`}>
+          {patientsType !== "active" && <Tooltip title={"تفعيل"}>
+            <ActiveIconButton loadingPosition={"center"}
+                loading={loadingActivate} loadingIndicator={loadingIcon} onClick={handleActivatePatient}>
               <CheckRounded/>
             </ActiveIconButton>
-          </Tooltip>
+          </Tooltip>}
+          {patientsType !== "blocked" && <Tooltip title={"حذر"}>
+            <BlockedIconButton loadingPosition={"center"}
+                loading={loadingBlocked} loadingIndicator={loadingIcon} onClick={handleBlockPatient}>
+              <BlockRounded/>
+            </BlockedIconButton>
+          </Tooltip>}
         </Box>
       </StyledTableCell>
     </StyledTableRow>

@@ -5,7 +5,7 @@ export const PrimaryTextField = styled(TextField)(({ theme }) => ({
   "& input": {
     padding: "15px",
     backgroundColor: theme.palette.common.white,
-    boxShadow: theme.shadows["17"],
+    boxShadow: theme.shadows[17],
   },
   "& svg": {
     fontSize: "30px",

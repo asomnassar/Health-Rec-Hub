@@ -23,8 +23,10 @@ function App() {
   useEffect(()=>{
     try {
       const token = Cookies.get(`${import.meta.env.VITE_TOKEN_NAME}`);
-      if(!token && !authPaths.includes(pathname)){
-        navigate(`${import.meta.env.VITE_LOGIN_ROUTE}`)
+      if(!token){
+        if(!authPaths.includes(pathname)){
+          navigate(`${import.meta.env.VITE_LOGIN_ROUTE}`)
+        }
       }else{
         dispatch(getAuth())
         dispatch(getProfile())
@@ -41,7 +43,7 @@ function App() {
       <Outlet/>
     </Box>
   ):(
-    <Box component={"main"} className="!min-h-[100vh] !min-w-[100vw] bg-primary-bg pt-[80px] md:pt-[70px] sm:pt-[60px] font-ubuntu grid justify-stretch items-center content-between !overflow-x-hidden">
+    <Box component={"main"} className="!min-h-[100vh] !min-w-[100vw] bg-primary-bg pt-[80px] md:pt-[70px] sm:pt-[60px] font-ubuntu grid grid-rows-[auto,auto,1fr,auto]  justify-stretch items-end !overflow-x-hidden">
       <Header/>
       <Navbar/>
       <Outlet/>
