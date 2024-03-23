@@ -5,7 +5,7 @@ import { FormsContext } from "../../context/FormsContext";
 
 const defaultImage = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png";
 
-const UploadImage = ({ title }: { title: string }) => {
+const UploadImage = ({ title }: { title?: string }) => {
   const { uploadImage, setUploadImage } = useContext(FormsContext);
 
   const handleChange = (e: { target: { files: FileList | null } }) => {
