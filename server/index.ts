@@ -28,7 +28,7 @@ app.use(express.json());
 //Allow All CORS Request
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://health-record-hub.vercel.app/"],
   })
 );
 
