@@ -49,12 +49,12 @@ const changePassword = async (
   next: NextFunction
 ) => {
   try {
-    const { oldPassword, password } = req.body;
+    const { oldPassword, newPassword } = req.body;
     const user = await User.findOne({ _id: req.userData });
     if (user) {
       const comparePassword = await bcrypt.compare(oldPassword, user.password);
       if (comparePassword) {
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
         await User.updateOne(
           { _id: req.userData },
           { password: hashedPassword }

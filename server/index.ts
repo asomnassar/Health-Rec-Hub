@@ -26,7 +26,11 @@ const app: Express = express();
 app.use(express.json());
 
 //Allow All CORS Request
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 //Routes
 app.use("/api/auth", authRouter);
@@ -61,7 +65,7 @@ app.all("*", (req: Request, _: any, next: NextFunction) => {
 app.use(errorHandler);
 
 //Running The Server
-const port: number = +(process.env.PORT || 8000);
+const port: number = +(process.env.PORT || 5000);
 app.listen(port, (): void => {
   console.log(`Server is Running on ${port}`);
 });

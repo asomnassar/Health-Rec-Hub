@@ -35,6 +35,37 @@ interface AddPatientFormTypes {
   password: string;
 }
 
+interface EditPateintFormTypes {
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  gender: string;
+  age: string;
+  address: string;
+  dateOfBirth: string;
+  phone: string;
+}
+
+interface EditProfileFormTypes {
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  gender: string;
+  age: string;
+  address: string;
+  dateOfBirth: string;
+  phone: string;
+  specialization?: string;
+}
+
+interface ChangePasswordFormTypes {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 interface FormTypes {
   register: UseFormRegister<
     | LoginFormTypes
@@ -42,6 +73,9 @@ interface FormTypes {
     | ForgotPasswordFormTypes
     | SearchForActivePatientsFormTypes
     | AddPatientFormTypes
+    | ChangePasswordFormTypes
+    | EditPateintFormTypes
+    | EditProfileFormTypes
   >;
   errors: {
     [key: string]: { message?: string } | undefined;
@@ -55,12 +89,17 @@ interface FormInputTypes {
     | ForgotPasswordFormTypes
     | SearchForActivePatientsFormTypes
     | AddPatientFormTypes
+    | ChangePasswordFormTypes
+    | EditPateintFormTypes
+    | EditProfileFormTypes
   >;
   errors: {
     [key: string]: { message?: string } | undefined;
   };
   name:
     | "username"
+    | "newPassword"
+    | "oldPassword"
     | "password"
     | "confirmPassword"
     | "email"
@@ -71,7 +110,8 @@ interface FormInputTypes {
     | "age"
     | "gender"
     | "dateOfBirth"
-    | "address";
+    | "address"
+    | "specialization";
   label?: string;
   type?: string;
   select?: boolean;
@@ -91,11 +131,16 @@ type SubmitDataTypes =
   | ResetPasswordFormTypes
   | ForgotPasswordFormTypes
   | SearchForActivePatientsFormTypes
-  | AddPatientFormTypes;
+  | AddPatientFormTypes
+  | ChangePasswordFormTypes
+  | EditPateintFormTypes
+  | EditProfileFormTypes;
 
 export type {
   AddPatientFormTypes,
   CatchErrorTypes,
+  ChangePasswordFormTypes,
+  EditProfileFormTypes,
   ForgotPasswordFormTypes,
   FormInputTypes,
   FormTypes,
