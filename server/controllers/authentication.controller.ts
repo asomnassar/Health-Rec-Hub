@@ -16,7 +16,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
       if (isCorrect) {
         //Expired in 30 days
         const token = jwt.sign(
-          { userData: user._id },
+          { userData: user._id, userType: user.type },
           `${process.env.SECRET_KEY}`,
           { expiresIn: `${process.env.TOKEN_EXPIRED}` }
         );

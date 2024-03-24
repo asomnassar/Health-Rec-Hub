@@ -1,7 +1,8 @@
 import express, { Router } from "express";
 import {
   changePassword,
-  getUserData,
+  getAccount,
+  getProfile,
   updateUserData,
 } from "../controllers/user.controller";
 import { authorization } from "../middlewares/authorization.middleware";
@@ -10,7 +11,9 @@ import upload from "../middlewares/multer.middleware";
 
 const router: Router = express.Router();
 
-router.route("/").get(authorization, isUserExist, getUserData);
+router.route("/").get(authorization, isUserExist, getProfile);
+
+router.route("/:id").get(authorization, isUserExist, getAccount);
 
 router
   .route("/")

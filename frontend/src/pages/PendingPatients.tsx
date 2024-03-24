@@ -18,15 +18,12 @@ const PendingPatients = () => {
   }, [dispatch]);
 
   return (
-    !isLoading &&
-    pendingPatients && (
-      <PrimaryBox>
-        <PrimaryContainer className="!grid justify-stretch items-center gap-4">
-          <Forms type={"searchForPendingPatients"} />
-          <PatientsTable data={pendingPatients} />
-        </PrimaryContainer>
-      </PrimaryBox>
-    )
+    <PrimaryBox>
+      <PrimaryContainer className="!grid justify-stretch items-center gap-4">
+        <Forms type={"searchForPendingPatients"} />
+        <PatientsTable data={pendingPatients} isLoading={isLoading} />
+      </PrimaryContainer>
+    </PrimaryBox>
   );
 };
 

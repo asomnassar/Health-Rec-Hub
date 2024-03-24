@@ -4,6 +4,7 @@ import {
   addPatient,
   blockPatient,
   getAllPatients,
+  getPatient,
 } from "../controllers/patient.controller";
 import { authorization } from "../middlewares/authorization.middleware";
 import upload from "../middlewares/multer.middleware";
@@ -30,5 +31,7 @@ router
 router
   .route("/getAllPatients")
   .get(authorization, isNotPatient, getAllPatients);
+
+router.route("/getPatient/:id").get(authorization, isNotPatient, getPatient);
 
 export default router;

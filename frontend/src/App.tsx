@@ -12,7 +12,6 @@ import EditPatientModal from "./modals/EditPatientModal";
 import EditProfileModal from "./modals/EditProfileModal";
 import ForgotPasswordModal from "./modals/ForgotPasswordModal";
 import { getAuth } from "./store/authSlice";
-import { getProfile } from "./store/profileSlice";
 import { AppDispatch } from "./store/store";
 
 function App() {
@@ -35,7 +34,6 @@ function App() {
         }
       } else {
         dispatch(getAuth());
-        dispatch(getProfile());
       }
     } catch (error) {
       console.log(error);

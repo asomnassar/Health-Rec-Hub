@@ -19,6 +19,7 @@ const authorization = async (
       const decode: any = jwt.verify(token, `${process.env.SECRET_KEY}`);
       if (decode) {
         req.userData = decode.userData;
+        req.userType = decode.userType;
         return next();
       }
     }

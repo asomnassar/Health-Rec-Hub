@@ -5,8 +5,8 @@ import SubmitButton from "../../components/SubmitButton/SubmitButton";
 import { FormsContext } from "../../context/FormsContext";
 import { FormTypes } from "../../types/forms.types";
 
-const LoginForm = ({register,errors}:FormTypes) => {
-  const {handleOpenForgotPasswordModal,loading} = useContext(FormsContext)
+const LoginForm = ({ register, errors }: FormTypes) => {
+  const { handleOpenForgotPasswordModal, loading } = useContext(FormsContext);
 
   return (
     <Box className={`grid justify-stretch items-center gap-6`}>
@@ -15,6 +15,7 @@ const LoginForm = ({register,errors}:FormTypes) => {
         errors={errors}
         label="اسم المستخدم"
         name="username"
+        ac="username"
       />
       <Input
         register={register}
@@ -22,15 +23,18 @@ const LoginForm = ({register,errors}:FormTypes) => {
         label="كلمة السر"
         name="password"
         type="password"
+        ac={"current-password"}
       />
       <Box className={`grid justify-stretch items-center gap-2`}>
         <Box>
-          <Button onClick={handleOpenForgotPasswordModal}>هل نيست كلمة المرور ؟</Button>
+          <Button onClick={handleOpenForgotPasswordModal}>
+            هل نيست كلمة المرور ؟
+          </Button>
         </Box>
         <SubmitButton loading={loading}>تسجيل دخول</SubmitButton>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;

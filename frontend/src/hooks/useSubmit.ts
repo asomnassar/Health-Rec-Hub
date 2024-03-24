@@ -171,7 +171,7 @@ const useSubmit = (type: string) => {
         const { message, token, userId, type } = res.data;
         handleAlert({ msg: message, status: "success" });
         dispatch(setAuth({ token, userId, type }));
-        navigate(`${import.meta.env.VITE_HOME_ROUTE}`);
+        navigate(`${import.meta.env.VITE_PROFILE_ROUTE}`);
       })
       .catch((err: CatchErrorTypes) => {
         handleAlert({ msg: err.response.data.message, status: "error" });

@@ -116,6 +116,7 @@ interface FormInputTypes {
   type?: string;
   select?: boolean;
   data?: Array<string>;
+  ac?: string;
 }
 
 interface CatchErrorTypes {
@@ -143,8 +144,8 @@ export type {
   EditProfileFormTypes,
   ForgotPasswordFormTypes,
   FormInputTypes,
-  FormTypes,
   FormsTypes,
+  FormTypes,
   LoginFormTypes,
   ResetPasswordFormTypes,
   SubmitDataTypes,

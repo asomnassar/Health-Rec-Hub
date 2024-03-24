@@ -1,6 +1,10 @@
 import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
+import Appointment from "../models/appointment.model";
 import Counters from "../models/counters.model";
+import Prescription from "../models/prescription.model";
+import Procedure from "../models/procedure.model";
+import TestResult from "../models/testResult.model";
 import User from "../models/user.model";
 import GetAllPatientsQueryParams from "../types/controllers.types";
 import AuthorizationRequestTypes from "../types/middlewares.types";
@@ -143,4 +147,40 @@ const getAllPatients = async (
   }
 };
 
-export { activatePatient, addPatient, blockPatient, getAllPatients };
+const getPatient = async (
+  req: AuthorizationRequestTypes,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const data: any = {};
+    const patient = await User.findOne({ _id: req.params.id }).populate({
+      path: "createdBy",
+    });
+    data.data = patient;
+    if (req.userType === "systemManager" || req.userType === "doctor") {
+      const appointments = await Appointment.find({ patient: req.params.id });
+      data.appointments = appointments;
+    }
+    if (req.userType === "doctor") {
+      const procedures = await Procedure.find({ patient: req.params.id });
+      const prescriptions = await Prescription.find({ patient: req.params.id });
+      const testResults = await TestResult.find({ patient: req.params.id });
+      data.procedures = procedures;
+      data.prescriptions = prescriptions;
+      data.testResults = testResults;
+    }
+    res.status(200).json(data);
+  } catch (error: any) {
+    const err = new CustomError(error.message, 500);
+    return next(err);
+  }
+};
+
+export {
+  activatePatient,
+  addPatient,
+  blockPatient,
+  getAllPatients,
+  getPatient,
+};

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import ActivePatients from "./pages/ActivePatient";
+import Account from "./pages/Account";
+import ActivePatients from "./pages/ActivePatients";
 import AddPatient from "./pages/AddPatient";
 import Appointments from "./pages/Appointments";
 import BlockedPatients from "./pages/BlockedPatients";
@@ -20,67 +21,71 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children:[
+    children: [
       {
-        index:true,
-        element:<Home/>
+        index: true,
+        element: <Home />,
       },
       {
-        path:"login",
-        element:<Login/>
+        path: "login",
+        element: <Login />,
       },
       {
-        path:"resetPassword/:id",
-        element:<ResetPassword/>
+        path: "resetPassword/:id",
+        element: <ResetPassword />,
       },
       {
-        path:"profile",
-        element:<Profile/>
+        path: "profile",
+        element: <Profile />,
       },
       {
-        path:"addPatient",
-        element:<AddPatient/>
+        path: "account/:id",
+        element: <Account />,
       },
       {
-        path:"editPatient/:id",
-        element:<EditPatient/>
+        path: "addPatient",
+        element: <AddPatient />,
       },
       {
-        path:"medicalRecord/:id",
-        element:<MedicalRecord/>
+        path: "editPatient/:id",
+        element: <EditPatient />,
       },
       {
-        path:"appointments",
-        element:<Appointments/>
+        path: "medicalRecord/:id",
+        element: <MedicalRecord />,
       },
       {
-        path:"patient/:id",
-        element:<Patient/>
+        path: "appointments",
+        element: <Appointments />,
       },
       {
-        path:"activePatients",
-        element:<ActivePatients/>
+        path: "patient/:id",
+        element: <Patient />,
       },
       {
-        path:"pendingPatients",
-        element:<PendingPatients/>
+        path: "activePatients",
+        element: <ActivePatients />,
       },
       {
-        path:"blockedPatients",
-        element:<BlockedPatients/>
+        path: "pendingPatients",
+        element: <PendingPatients />,
       },
       {
-        path:"testResults/:id",
-        element:<TestResults/>
+        path: "blockedPatients",
+        element: <BlockedPatients />,
       },
       {
-        path:"procedures/:id",
-        element:<Procedures/>
+        path: "testResults/:id",
+        element: <TestResults />,
       },
       {
-        path:"prescriptions/:id",
-        element:<Prescriptions/>
-      }
-    ]
+        path: "procedures/:id",
+        element: <Procedures />,
+      },
+      {
+        path: "prescriptions/:id",
+        element: <Prescriptions />,
+      },
+    ],
   },
 ]);

@@ -6,4 +6,12 @@ interface PatientTableRowTypes {
   address: string;
 }
 
-export type { PatientTableRowTypes };
+interface AppointmentTableRowTypes {
+  _id: string;
+  patient: string;
+  date: string;
+  time: string;
+  notes: string;
+  status: string;
+}
+export type { AppointmentTableRowTypes, PatientTableRowTypes };

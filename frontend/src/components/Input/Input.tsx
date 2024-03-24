@@ -1,28 +1,42 @@
-import { Box, Typography } from "@mui/material";
+import { Box, InputLabel, Typography } from "@mui/material";
 import { PrimaryTextField } from "../../mui/PrimaryTextField";
 import { FormInputTypes } from "../../types/forms.types";
 
-const Input = ({register,errors,name,label,type,select,data}:FormInputTypes) => {
+const Input = ({
+  register,
+  errors,
+  name,
+  label,
+  type,
+  select,
+  data,
+  ac,
+}: FormInputTypes) => {
   return name && select ? (
     <Box className={`grid justify-stretch items-center gap-2`}>
-      <Typography variant={"h6"}>{label}</Typography>
+      <InputLabel htmlFor={name}>
+        <Typography variant={"h6"}>{label}</Typography>
+      </InputLabel>
       <PrimaryTextField
         {...register(name)}
         fullWidth
         error={!!errors[name]}
-        helperText={errors[name]?.message }
+        helperText={errors[name]?.message}
         select
         SelectProps={{
           native: true,
         }}
-        defaultValue="ذكر"
+        autoComplete={ac}
       >
-        {data && data.map((option,i)=>(
-          <option value={option} key={i}>{option}</option>
-        ))}
+        {data &&
+          data.map((option, i) => (
+            <option value={option} key={i}>
+              {option}
+            </option>
+          ))}
       </PrimaryTextField>
     </Box>
-  ):(
+  ) : (
     <Box className={`grid justify-stretch items-center gap-2`}>
       <Typography variant={"h6"}>{label}</Typography>
       <PrimaryTextField
@@ -30,10 +44,14 @@ const Input = ({register,errors,name,label,type,select,data}:FormInputTypes) => 
         fullWidth
         type={type || "text"}
         error={!!errors[name]}
-        helperText={errors[name]?.message }
+        helperText={errors[name]?.message}
+        autoComplete={ac}
+        inputProps={{
+          id: name,
+        }}
       />
     </Box>
-  )
-}
+  );
+};
 
-export default Input
+export default Input;

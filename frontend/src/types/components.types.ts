@@ -15,6 +15,7 @@ interface propsTypes {
 interface DataBoxOfProfileTypes {
   title: string;
   value: string;
+  link?: string;
 }
 
 interface NavLinkTypes {
@@ -25,6 +26,6 @@ interface NavLinkTypes {
 export type {
   DataBoxOfProfileTypes,
   NavLinkTypes,
-  SubmitButtonTypes,
   propsTypes,
+  SubmitButtonTypes,
 };

@@ -18,15 +18,12 @@ const ActivePatients = () => {
   }, [dispatch]);
 
   return (
-    !isLoading &&
-    activePatients && (
-      <PrimaryBox>
-        <PrimaryContainer className="!grid justify-stretch items-center gap-4">
-          <Forms type={"searchForActivePatients"} />
-          <PatientsTable data={activePatients} />
-        </PrimaryContainer>
-      </PrimaryBox>
-    )
+    <PrimaryBox>
+      <PrimaryContainer className="!grid justify-stretch items-center gap-4">
+        <Forms type={"searchForActivePatients"} />
+        <PatientsTable data={activePatients} isLoading={isLoading} />
+      </PrimaryContainer>
+    </PrimaryBox>
   );
 };
 

@@ -18,15 +18,12 @@ const BlockedPatients = () => {
   }, [dispatch]);
 
   return (
-    !isLoading &&
-    blockedPatients && (
-      <PrimaryBox>
-        <PrimaryContainer className="!grid justify-stretch items-center gap-4">
-          <Forms type={"searchForBlockedPatients"} />
-          <PatientsTable data={blockedPatients} />
-        </PrimaryContainer>
-      </PrimaryBox>
-    )
+    <PrimaryBox>
+      <PrimaryContainer className="!grid justify-stretch items-center gap-4">
+        <Forms type={"searchForBlockedPatients"} />
+        <PatientsTable data={blockedPatients} isLoading={isLoading} />
+      </PrimaryContainer>
+    </PrimaryBox>
   );
 };
 

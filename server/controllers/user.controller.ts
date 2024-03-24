@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
-import { NextFunction, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import User from "../models/user.model";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
 import { uploadImage } from "../utils/upload.util";
 
-const getUserData = async (
+const getProfile = async (
   req: AuthorizationRequestTypes,
   res: Response,
   next: NextFunction
@@ -14,6 +14,19 @@ const getUserData = async (
     const user = await User.findOne({ _id: req.userData })
       .select("-password")
       .exec();
+    res.status(200).json({
+      data: user,
+    });
+  } catch (error: any) {
+    const err = new CustomError(error.message, 500);
+    return next(err);
+  }
+};
+
+const getAccount = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({ _id: id }).select("-password").exec();
     res.status(200).json({
       data: user,
     });
@@ -78,4 +91,4 @@ const changePassword = async (
   }
 };
 
-export { changePassword, getUserData, updateUserData };
+export { changePassword, getAccount, getProfile, updateUserData };
