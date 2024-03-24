@@ -5,7 +5,7 @@ import {
   AccordionSummary,
   Typography,
 } from "@mui/material";
-import ProceduresTable from "../../tables/Procedures/ProceduresTable";
+import TestResultsTable from "../../tables/TestResults/TestResultsTable";
 import { TestResultsTypes } from "../../types/store.types";
 
 const PatientTestResults = ({
@@ -27,7 +27,7 @@ const PatientTestResults = ({
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <ProceduresTable data={data} isLoading={isLoading} />
+        <TestResultsTable data={data} isLoading={isLoading} />
       </AccordionDetails>
     </Accordion>
   );
