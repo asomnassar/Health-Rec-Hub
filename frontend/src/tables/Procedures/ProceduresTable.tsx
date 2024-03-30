@@ -1,4 +1,4 @@
-import { ProceduresTypes } from "../../types/store.types";
+import { ProcedureTypes } from "../../types/store.types";
 import NoData from "../NoData";
 import PrimaryTable from "../PrimaryTable";
 import LoadingProceduresTableBody from "./LoadingProceduresTableBody";
@@ -9,7 +9,7 @@ const ProceduresTable = ({
   data,
   isLoading,
 }: {
-  data: ProceduresTypes[] | null;
+  data: ProcedureTypes[] | null;
   isLoading: boolean;
 }) => {
   return (

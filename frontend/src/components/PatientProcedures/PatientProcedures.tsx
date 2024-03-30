@@ -6,13 +6,13 @@ import {
   Typography,
 } from "@mui/material";
 import ProceduresTable from "../../tables/Procedures/ProceduresTable";
-import { ProceduresTypes } from "../../types/store.types";
+import { ProcedureTypes } from "../../types/store.types";
 
 const PatientProcedures = ({
   data,
   isLoading,
 }: {
-  data: ProceduresTypes[];
+  data: ProcedureTypes[];
   isLoading: boolean;
 }) => {
   return (

@@ -1,11 +1,11 @@
 import { TableBody } from "@mui/material";
-import { PrescriptionsTypes } from "../../types/store.types";
+import { PrescriptionTypes } from "../../types/store.types";
 import Row from "./Row";
 
 const PrescriptionsTableBody = ({
   data,
 }: {
-  data: PrescriptionsTypes[] | null;
+  data: PrescriptionTypes[] | null;
 }) => {
   return (
     <TableBody>

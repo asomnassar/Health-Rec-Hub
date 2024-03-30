@@ -2,13 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
 import {
-  blockedPatientsValuesTypes,
-  patientsArgsTypes,
+  BlockedPatientsValuesTypes,
+  PatientsArgsTypes,
 } from "../types/store.types";
 
 export const getBlockedPatients = createAsyncThunk(
   "blockedPatients/getBlockedPatients",
-  async (args: patientsArgsTypes) => {
+  async (args: PatientsArgsTypes) => {
     const token = Cookies.get(`${import.meta.env.VITE_TOKEN_NAME}`);
 
     const { page, search } = args;
@@ -29,7 +29,7 @@ export const getBlockedPatients = createAsyncThunk(
   }
 );
 
-const initialState: blockedPatientsValuesTypes = {
+const initialState: BlockedPatientsValuesTypes = {
   isLoading: true,
   blockedPatients: [],
 };

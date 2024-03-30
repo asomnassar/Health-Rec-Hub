@@ -1,8 +1,8 @@
 import { TableBody } from "@mui/material";
-import { ProceduresTypes } from "../../types/store.types";
+import { ProcedureTypes } from "../../types/store.types";
 import Row from "./Row";
 
-const ProceduresTableBody = ({ data }: { data: ProceduresTypes[] | null }) => {
+const ProceduresTableBody = ({ data }: { data: ProcedureTypes[] | null }) => {
   return (
     <TableBody>
       {data && data.map((row, i) => <Row key={i} row={row} />)}

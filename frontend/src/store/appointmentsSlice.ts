@@ -2,13 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
 import {
-  appointmentsArgsTypes,
-  appointmentsValuesTypes,
+  AppointmentsArgsTypes,
+  AppointmentsValuesTypes,
 } from "../types/store.types";
 
 export const getAppointments = createAsyncThunk(
   "appointments/getAppointments",
-  async (args: appointmentsArgsTypes) => {
+  async (args: AppointmentsArgsTypes) => {
     const token = Cookies.get(`${import.meta.env.VITE_TOKEN_NAME}`);
 
     const { page, search } = args;
@@ -27,7 +27,7 @@ export const getAppointments = createAsyncThunk(
   }
 );
 
-const initialState: appointmentsValuesTypes = {
+const initialState: AppointmentsValuesTypes = {
   isLoading: true,
   appointments: [],
 };

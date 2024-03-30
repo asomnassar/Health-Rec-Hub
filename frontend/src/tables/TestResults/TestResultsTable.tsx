@@ -1,4 +1,4 @@
-import { TestResultsTypes } from "../../types/store.types";
+import { TestResultTypes } from "../../types/store.types";
 import NoData from "../NoData";
 import PrimaryTable from "../PrimaryTable";
 import LoadingTestResultsTableBody from "./LoadingTestResultsTableBody";
@@ -9,7 +9,7 @@ const TestResultsTable = ({
   data,
   isLoading,
 }: {
-  data: TestResultsTypes[] | null;
+  data: TestResultTypes[] | null;
   isLoading: boolean;
 }) => {
   return (

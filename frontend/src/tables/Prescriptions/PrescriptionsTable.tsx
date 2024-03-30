@@ -1,4 +1,4 @@
-import { PrescriptionsTypes } from "../../types/store.types";
+import { PrescriptionTypes } from "../../types/store.types";
 import NoData from "../NoData";
 import PrimaryTable from "../PrimaryTable";
 import LoadingPrescriptionsTableBody from "./LoadingPrescriptionsTableBody";
@@ -9,7 +9,7 @@ const PrescriptionsTable = ({
   data,
   isLoading,
 }: {
-  data: PrescriptionsTypes[] | null;
+  data: PrescriptionTypes[] | null;
   isLoading: boolean;
 }) => {
   return (

@@ -6,13 +6,13 @@ import {
   Typography,
 } from "@mui/material";
 import AppointmentsTable from "../../tables/Appointments/AppointmentsTable";
-import { AppointmentsTypes } from "../../types/store.types";
+import { AppointmentTypes } from "../../types/store.types";
 
 const PatientAppointments = ({
   data,
   isLoading,
 }: {
-  data: [AppointmentsTypes];
+  data: [AppointmentTypes];
   isLoading: boolean;
 }) => {
   return (
