@@ -76,12 +76,16 @@ const PatientProfileBox = ({ data }: { data: PatientTypes }) => {
         </Box>
       </Box>
       <Box className={`flex justify-center items-center gap-4`}>
-        <SecondaryButton onClick={handleOpenEditPatientModal}>
-          تعديل ملف المريض
-        </SecondaryButton>
-        <PrimaryButton onClick={handleOpenAddAppointmentModal}>
-          اضف موعد
-        </PrimaryButton>
+        {type === "systemManager" && (
+          <>
+            <SecondaryButton onClick={handleOpenEditPatientModal}>
+              تعديل ملف المريض
+            </SecondaryButton>
+            <PrimaryButton onClick={handleOpenAddAppointmentModal}>
+              اضف موعد
+            </PrimaryButton>
+          </>
+        )}
         {type === "doctor" && (
           <>
             <PrimaryButton onClick={handleOpenAddPrescriptionModal}>
