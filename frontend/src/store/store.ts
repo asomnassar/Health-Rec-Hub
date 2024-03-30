@@ -6,7 +6,10 @@ import authReducer from "./authSlice";
 import blockedPatientsReducer from "./blockedPatientsSlice";
 import patientReducer from "./patientSlice";
 import pendingPatientsReducer from "./pendingPatientsSlice";
+import prescriptionsReducer from "./prescriptionsSlice";
+import proceduresReducer from "./proceduresSlice";
 import profileReducer from "./profileSlice";
+import testResultsReducer from "./testResultsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +21,9 @@ export const store = configureStore({
     appointments: appointmentsReducer,
     patient: patientReducer,
     account: accountReducer,
+    testResults: testResultsReducer,
+    prescriptions: prescriptionsReducer,
+    procedures: proceduresReducer,
   },
 });
 

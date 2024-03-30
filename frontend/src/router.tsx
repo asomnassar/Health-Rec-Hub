@@ -75,15 +75,15 @@ export const router = createBrowserRouter([
         element: <BlockedPatients />,
       },
       {
-        path: "testResults/:id",
+        path: "testResults",
         element: <TestResults />,
       },
       {
-        path: "procedures/:id",
+        path: "procedures",
         element: <Procedures />,
       },
       {
-        path: "prescriptions/:id",
+        path: "prescriptions/",
         element: <Prescriptions />,
       },
     ],

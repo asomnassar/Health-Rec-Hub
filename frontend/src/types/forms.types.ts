@@ -22,6 +22,18 @@ interface SearchForActivePatientsFormTypes {
   search: string;
 }
 
+interface AddAppointmentFormTypes {
+  date: string;
+  time: string;
+  notes: string;
+}
+
+interface EditAppointmentFormTypes {
+  date: string;
+  time: string;
+  notes: string;
+}
+
 interface AddPatientFormTypes {
   username: string;
   firstName: string;
@@ -76,6 +88,8 @@ interface FormTypes {
     | ChangePasswordFormTypes
     | EditPateintFormTypes
     | EditProfileFormTypes
+    | AddAppointmentFormTypes
+    | EditAppointmentFormTypes
   >;
   errors: {
     [key: string]: { message?: string } | undefined;
@@ -92,6 +106,8 @@ interface FormInputTypes {
     | ChangePasswordFormTypes
     | EditPateintFormTypes
     | EditProfileFormTypes
+    | AddAppointmentFormTypes
+    | EditAppointmentFormTypes
   >;
   errors: {
     [key: string]: { message?: string } | undefined;
@@ -111,7 +127,10 @@ interface FormInputTypes {
     | "gender"
     | "dateOfBirth"
     | "address"
-    | "specialization";
+    | "specialization"
+    | "date"
+    | "time"
+    | "notes";
   label?: string;
   type?: string;
   select?: boolean;
@@ -135,12 +154,16 @@ type SubmitDataTypes =
   | AddPatientFormTypes
   | ChangePasswordFormTypes
   | EditPateintFormTypes
-  | EditProfileFormTypes;
+  | EditProfileFormTypes
+  | AddAppointmentFormTypes
+  | EditAppointmentFormTypes;
 
 export type {
+  AddAppointmentFormTypes,
   AddPatientFormTypes,
   CatchErrorTypes,
   ChangePasswordFormTypes,
+  EditAppointmentFormTypes,
   EditProfileFormTypes,
   ForgotPasswordFormTypes,
   FormInputTypes,

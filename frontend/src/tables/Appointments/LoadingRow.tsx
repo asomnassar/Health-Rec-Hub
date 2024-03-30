@@ -50,8 +50,11 @@ const LoadingRow = ({ row }: { row: PatientTableRowTypes }) => {
         </StyledTableCell>
       )}
       <StyledTableCell align="right">
+        <Skeleton variant="text" />
+      </StyledTableCell>
+      <StyledTableCell align="right">
         <Box className={`flex justify-end items-center flex-wrap gap-6`}>
-          <Skeleton variant="circular" />
+          <Skeleton variant="circular" width={50} height={50} />
         </Box>
       </StyledTableCell>
     </StyledTableRow>

@@ -2,11 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
 import {
-  AppointmentsTypes,
+  AppointmentTypes,
+  MedicalRecordTypes,
   PatientTypes,
-  PrescriptionsTypes,
-  ProceduresTypes,
-  TestResultsTypes,
+  PrescriptionTypes,
+  ProcedureTypes,
+  TestResultTypes,
 } from "../types/store.types";
 
 export const getPatient = createAsyncThunk(
@@ -28,10 +29,11 @@ export const getPatient = createAsyncThunk(
 const initialState = {
   isLoading: true,
   patient: null as PatientTypes | null,
-  appointments: null as [AppointmentsTypes] | null,
-  procedures: null as [ProceduresTypes] | null,
-  prescriptions: null as [PrescriptionsTypes] | null,
-  testResults: null as [TestResultsTypes] | null,
+  appointments: null as [AppointmentTypes] | null,
+  procedures: null as [ProcedureTypes] | null,
+  prescriptions: null as [PrescriptionTypes] | null,
+  testResults: null as [TestResultTypes] | null,
+  medicalRecord: null as MedicalRecordTypes | null,
 };
 
 export const patientSlice = createSlice({
@@ -49,6 +51,7 @@ export const patientSlice = createSlice({
       state.procedures = payload?.procedures;
       state.prescriptions = payload?.prescriptions;
       state.testResults = payload?.testResults;
+      state.medicalRecord = payload?.medicalRecord;
     });
     builder.addCase(getPatient.rejected, (_, action) => {
       if (action.payload) {

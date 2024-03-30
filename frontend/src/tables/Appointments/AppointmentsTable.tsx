@@ -1,5 +1,5 @@
 import { TableContainer } from "@mui/material";
-import { AppointmentsTypes } from "../../types/store.types";
+import { AppointmentTypes } from "../../types/store.types";
 import NoData from "../NoData";
 import PrimaryTable from "../PrimaryTable";
 import AppointmentsTableBody from "./AppointmentsTableBody";
@@ -10,7 +10,7 @@ const AppointmentsTable = ({
   data,
   isLoading,
 }: {
-  data: AppointmentsTypes[] | null;
+  data: AppointmentTypes[] | null;
   isLoading: boolean;
 }) => {
   return (

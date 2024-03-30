@@ -4,14 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { FormsContext } from "../context/FormsContext";
 import { handleAlert } from "../functions/handleAlert";
+import { getAppointments } from "../store/appointmentsSlice";
 import { setAuth } from "../store/authSlice";
+import { getPatient } from "../store/patientSlice";
 import { getPendingPatients } from "../store/pendingPatientsSlice";
 import { getProfile } from "../store/profileSlice";
 import { AppDispatch, RootState } from "../store/store";
 import {
+  AddAppointmentFormTypes,
   AddPatientFormTypes,
   CatchErrorTypes,
   ChangePasswordFormTypes,
+  EditAppointmentFormTypes,
   EditProfileFormTypes,
   SubmitDataTypes,
 } from "../types/forms.types";
@@ -26,6 +30,10 @@ const useSubmit = (type: string) => {
     handleCloseChangePasswordModal,
     handleCloseForgotPasswordModal,
     handleCloseEditProfileModal,
+    handleCloseAddAppointmentModal,
+    handleCloseEditAppointmentModal,
+    handleCloseEditPatientModal,
+    editableAppointmentData,
   } = useContext(FormsContext);
   const { uploadImage } = useContext(FormsContext);
   const auth = useSelector((state: RootState) => state.auth);
@@ -70,6 +78,58 @@ const useSubmit = (type: string) => {
     setLoading(false);
   };
 
+  const addAppointmentSubmit = async (data: AddAppointmentFormTypes) => {
+    setLoading(true);
+    await server
+      .post(`/appointment/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      })
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+        handleCloseAddAppointmentModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
+  const editAppointmentSubmit = async (data: EditAppointmentFormTypes) => {
+    setLoading(true);
+    await server
+      .put(
+        `/appointment/${
+          editableAppointmentData && editableAppointmentData._id
+        }`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        if (id) {
+          dispatch(getPatient({ id }));
+        } else {
+          dispatch(getAppointments({ page: 1 }));
+        }
+        handleCloseEditAppointmentModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
   const editPatientSubmit = async (data: AddPatientFormTypes) => {
     setLoading(true);
     const formData = new FormData();
@@ -85,9 +145,8 @@ const useSubmit = (type: string) => {
     formData.append("age", data.age);
     formData.append("gender", data.gender === "ذكر" ? "male" : "female");
     formData.append("dateOfBirth", data.dateOfBirth);
-    formData.append("password", data.password);
     await server
-      .post("/patient/addPatient", formData, {
+      .put(`/patient/editPatient/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
@@ -95,10 +154,8 @@ const useSubmit = (type: string) => {
       .then((res) => {
         const { message } = res.data;
         handleAlert({ msg: message, status: "success" });
-        dispatch(getPendingPatients({ page: 1 }));
-        if (auth.type === "technicalAdministrator") {
-          navigate(`${import.meta.env.VITE_PENDING_PATIENTS_ROUTE}`);
-        }
+        dispatch(getPatient({ id }));
+        handleCloseEditPatientModal();
       })
       .catch((err: CatchErrorTypes) => {
         handleAlert({ msg: err.response.data.message, status: "error" });
@@ -218,6 +275,12 @@ const useSubmit = (type: string) => {
     switch (type) {
       case "addPatient":
         addPatientSubmit(data as AddPatientFormTypes);
+        break;
+      case "addAppointment":
+        addAppointmentSubmit(data as AddAppointmentFormTypes);
+        break;
+      case "editAppointment":
+        editAppointmentSubmit(data as EditAppointmentFormTypes);
         break;
       case "editPatient":
         editPatientSubmit(data as AddPatientFormTypes);

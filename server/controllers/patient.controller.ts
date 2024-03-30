@@ -54,6 +54,40 @@ const addPatient = async (
   }
 };
 
+const editPatient = async (
+  req: AuthorizationRequestTypes,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { username, email, phone } = req.body;
+    const { id } = req.params;
+    const user = await User.findOne({
+      _id: id,
+    });
+    if (user) {
+      if (req.file) {
+        const image = await uploadImage(req.file);
+        req.body.avatar = image;
+      }
+      await User.updateOne(
+        { _id: id },
+        {
+          ...req.body,
+        }
+      );
+      return res.status(201).json({
+        message: "تم تعديل مريض بنجاح",
+      });
+    }
+    const err = new CustomError("المستخدم غير موجود", 404);
+    return next(err);
+  } catch (error: any) {
+    const err = new CustomError(error.message, 500);
+    return next(err);
+  }
+};
+
 const activatePatient = async (
   req: AuthorizationRequestTypes,
   res: Response,
@@ -159,7 +193,9 @@ const getPatient = async (
     });
     data.data = patient;
     if (req.userType === "systemManager" || req.userType === "doctor") {
-      const appointments = await Appointment.find({ patient: req.params.id });
+      const appointments = await Appointment.find({
+        patient: req.params.id,
+      }).populate("patient");
       data.appointments = appointments;
     }
     if (req.userType === "doctor") {
@@ -181,6 +217,7 @@ export {
   activatePatient,
   addPatient,
   blockPatient,
+  editPatient,
   getAllPatients,
   getPatient,
 };

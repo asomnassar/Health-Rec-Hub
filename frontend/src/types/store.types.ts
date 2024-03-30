@@ -1,31 +1,46 @@
-interface patientsArgsTypes {
+interface PatientsArgsTypes {
   page?: number;
   search?: string;
 }
 
-interface appointmentsArgsTypes {
+interface AppointmentsArgsTypes {
   page?: number;
   search?: string;
 }
 
-interface activePatientsValuesTypes {
+interface ActivePatientsValuesTypes {
   isLoading: boolean;
   activePatients: PatientTypes[];
 }
 
-interface pendingPatientsValuesTypes {
+interface PendingPatientsValuesTypes {
   isLoading: boolean;
   pendingPatients: PatientTypes[];
 }
 
-interface blockedPatientsValuesTypes {
+interface BlockedPatientsValuesTypes {
   isLoading: boolean;
   blockedPatients: PatientTypes[];
 }
 
-interface appointmentsValuesTypes {
+interface AppointmentsValuesTypes {
   isLoading: boolean;
-  appointments: AppointmentsTypes[];
+  appointments: AppointmentTypes[];
+}
+
+interface TestResultsValuesTypes {
+  isLoading: boolean;
+  testResults: TestResultTypes[];
+}
+
+interface PrescriptionsValuesTypes {
+  isLoading: boolean;
+  prescriptions: PrescriptionTypes[];
+}
+
+interface ProceduresValuesTypes {
+  isLoading: boolean;
+  procedures: ProcedureTypes[];
 }
 
 interface AuthStateTypes {
@@ -70,24 +85,24 @@ interface PatientTypes {
   createdBy?: object;
 }
 
-interface AppointmentsTypes {
+interface AppointmentTypes {
   _id: string;
-  patient: string;
+  patient: string | PatientTypes;
   status: "waiting" | "ended";
   notes?: string;
-  date: string;
+  date: Date;
   time: string;
   createdBy?: object;
 }
 
-interface ProceduresTypes {
+interface ProcedureTypes {
   _id: string;
   patient: string;
   details?: string;
   doctor: string;
 }
 
-interface PrescriptionsTypes {
+interface PrescriptionTypes {
   _id: string;
   patient: string;
   medication: [string];
@@ -95,25 +110,48 @@ interface PrescriptionsTypes {
   doctor: object;
 }
 
-interface TestResultsTypes {
+interface TestResultTypes {
   _id: string;
   patient: string;
   type: string;
   pdf: string;
   doctor: object;
 }
+
+interface MedicalRecordTypes {
+  _id: string;
+  patient: string;
+  currentHealthIssuses: string[];
+  age: string;
+  bloodPressure: string;
+  respiratoryRate: string;
+  weigth: string;
+  height: string;
+  bloodType: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
+  bloodSugarLevel: string;
+  surgeries: string[];
+  medicines: string[];
+  diseases: string[];
+  allergies: string[];
+  doctor: string;
+}
+
 export type {
-  AppointmentsTypes,
+  ActivePatientsValuesTypes,
+  AppointmentTypes,
+  AppointmentsArgsTypes,
+  AppointmentsValuesTypes,
   AuthStateTypes,
+  BlockedPatientsValuesTypes,
+  MedicalRecordTypes,
   PatientTypes,
-  PrescriptionsTypes,
-  ProceduresTypes,
+  PatientsArgsTypes,
+  PendingPatientsValuesTypes,
+  PrescriptionTypes,
+  PrescriptionsValuesTypes,
+  ProcedureTypes,
+  ProceduresValuesTypes,
   ProfileTypes,
-  TestResultsTypes,
-  activePatientsValuesTypes,
-  appointmentsArgsTypes,
-  appointmentsValuesTypes,
-  blockedPatientsValuesTypes,
-  patientsArgsTypes,
-  pendingPatientsValuesTypes,
+  TestResultTypes,
+  TestResultsValuesTypes,
 };

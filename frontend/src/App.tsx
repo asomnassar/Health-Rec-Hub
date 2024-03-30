@@ -7,7 +7,12 @@ import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
+import AddAppointmentModal from "./modals/AddAppointmentModal";
+import AddPrescriptionModal from "./modals/AddPrescriptionModal";
+import AddProcedureModal from "./modals/AddProcedureModal";
+import AddTestResultModal from "./modals/AddTestResultModal";
 import ChangePasswordModal from "./modals/ChangePasswordModal";
+import EditAppointmentModal from "./modals/EditAppointmentModal";
 import EditPatientModal from "./modals/EditPatientModal";
 import EditProfileModal from "./modals/EditProfileModal";
 import ForgotPasswordModal from "./modals/ForgotPasswordModal";
@@ -62,6 +67,11 @@ function App() {
       <EditPatientModal />
       <EditProfileModal />
       <ChangePasswordModal />
+      <AddAppointmentModal />
+      <EditAppointmentModal />
+      <AddProcedureModal />
+      <AddPrescriptionModal />
+      <AddTestResultModal />
     </Box>
   );
 }

@@ -67,7 +67,9 @@ const getAllAppointments = async (
   next: NextFunction
 ) => {
   try {
-    const appointments = await Appointment.find({ createdBy: req.userData });
+    const appointments = await Appointment.find({
+      createdBy: req.userData,
+    }).populate("patient");
     res.status(202).json({
       data: appointments,
     });
@@ -83,7 +85,9 @@ const getPatientAppointments = async (
   next: NextFunction
 ) => {
   try {
-    const appointments = await Appointment.find({ patient: req.userData });
+    const appointments = await Appointment.find({
+      patient: req.userData,
+    }).populate("patient");
     res.status(202).json({
       data: appointments,
     });

@@ -6,7 +6,7 @@ import UploadImage from "../../components/UploadImage/UploadImage";
 import { FormsContext } from "../../context/FormsContext";
 import { FormTypes } from "../../types/forms.types";
 
-const EditPatientForm = ({ register, errors }: FormTypes) => {
+const AddProcedureForm = ({ register, errors }: FormTypes) => {
   const { loading } = useContext(FormsContext);
   return (
     <Box className={`grid justify-stretch items-center gap-6`}>
@@ -66,12 +66,19 @@ const EditPatientForm = ({ register, errors }: FormTypes) => {
           type={"date"}
         />
         <Input register={register} errors={errors} label="العمر" name="age" />
+        <Input
+          register={register}
+          errors={errors}
+          label="كلمة السر"
+          name="password"
+          type="password"
+        />
       </Box>
       <Box className={`grid justify-center items-center`}>
-        <SubmitButton loading={loading}>تعديل</SubmitButton>
+        <SubmitButton loading={loading}>اضف</SubmitButton>
       </Box>
     </Box>
   );
 };
 
-export default EditPatientForm;
+export default AddProcedureForm;

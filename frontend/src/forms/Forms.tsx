@@ -1,7 +1,9 @@
 import useForms from "../hooks/useForms";
 import { FormsTypes } from "../types/forms.types";
+import AddAppointmentForm from "./AddAppointmentForm/AddAppointmentForm";
 import AddPatientForm from "./AddPatientForm/AddPatientForm";
 import ChangePasswordForm from "./ChangePasswordForm/ChangePasswordForm";
+import EditAppointmentForm from "./EditAppointmentForm/EditAppointmentForm";
 import EditPatientForm from "./EditPatientForm/EditPatientForm";
 import EditProfileForm from "./EditProfileForm/EditProfileForm";
 import ForgotPasswordForm from "./ForgotPasswordForm/ForgotPasswordForm";
@@ -22,6 +24,10 @@ const Forms = ({ type }: FormsTypes) => {
       <ChangePasswordForm register={register} errors={errors} />
     ) : type === "addPatient" ? (
       <AddPatientForm register={register} errors={errors} />
+    ) : type === "addAppointment" ? (
+      <AddAppointmentForm register={register} errors={errors} />
+    ) : type === "editAppointment" ? (
+      <EditAppointmentForm register={register} errors={errors} />
     ) : type === "searchForActivePatients" ? (
       <SearchForActivePatientsForm register={register} errors={errors} />
     ) : type === "searchForAppointments" ? (

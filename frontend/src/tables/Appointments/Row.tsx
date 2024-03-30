@@ -1,4 +1,4 @@
-import { CheckRounded, DeleteRounded } from "@mui/icons-material";
+import { DeleteRounded, EditRounded } from "@mui/icons-material";
 import {
   Box,
   CircularProgress,
@@ -7,13 +7,18 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { FormsContext } from "../../context/FormsContext";
 import { handleAlert } from "../../functions/handleAlert";
+import { handleDate } from "../../functions/handleDate";
 import { ActiveIconButton } from "../../mui/ActiveIconButton";
 import { BlockedIconButton } from "../../mui/BlockedIconButton";
-import { RootState } from "../../store/store";
-import { AppointmentsTypes } from "../../types/store.types";
+import { getAppointments } from "../../store/appointmentsSlice";
+import { getPatient } from "../../store/patientSlice";
+import { AppDispatch, RootState } from "../../store/store";
+import { AppointmentTypes, PatientTypes } from "../../types/store.types";
 import { StyledTableRow } from "../StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
 
@@ -21,71 +26,61 @@ const server = axios.create({
   baseURL: `${import.meta.env.VITE_SERVER_URL}`,
 });
 
-const Row = ({ row }: { row: AppointmentsTypes }) => {
+const Row = ({ row }: { row: AppointmentTypes }) => {
   const { token, type } = useSelector((state: RootState) => state.auth);
   const mdScreen = useMediaQuery("(max-width:992px)");
   const smScreen = useMediaQuery("(max-width:768px)");
   const xsScreen = useMediaQuery("(max-width:540px)");
-  const [loadingActivate, setLoadingActivate] = useState(false);
-  const [loadingBlocked, setLoadingBlocked] = useState(false);
+  const [loadingDeleted, setLoadingDeleted] = useState(false);
+  const { id } = useParams();
+  const dispatch = useDispatch<AppDispatch>();
+  const { handleOpenEditAppointmentModal, setEditableAppointmentData } =
+    useContext(FormsContext);
 
   const loadingIcon = (
     <CircularProgress sx={{ color: (theme) => theme.palette.common.white }} />
   );
 
   const handleUpdate = async () => {
-    setLoadingActivate(true);
-    await server
-      .patch(
-        `/patient/activatePatient/${row._id}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => {
-        handleAlert({ msg: res.data.message, status: "success" });
-      })
-      .catch((err) => {
-        handleAlert({ msg: err.response.data.message, status: "error" });
-      });
-    setLoadingActivate(false);
+    handleOpenEditAppointmentModal();
+    setEditableAppointmentData(row);
   };
 
   const handleDelete = async () => {
-    setLoadingBlocked(true);
+    setLoadingDeleted(true);
     await server
-      .patch(
-        `/patient/blockPatient/${row._id}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .delete(`/appointment/${row._id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         handleAlert({ msg: res.data.message, status: "success" });
+        if (id) {
+          dispatch(getPatient({ id }));
+        } else {
+          dispatch(getAppointments({ page: 1 }));
+        }
       })
       .catch((err) => {
         handleAlert({ msg: err.response.data.message, status: "error" });
       });
-    setLoadingBlocked(false);
+    setLoadingDeleted(false);
   };
 
   return (
     <StyledTableRow key={row._id}>
       <StyledTableCell scope="row" align="right">
-        <Typography variant="subtitle1">{row.patient}</Typography>
+        <Typography variant="subtitle1">
+          {(row.patient as PatientTypes).username}
+        </Typography>
       </StyledTableCell>
-      {!xsScreen && (
+      {!smScreen && (
         <StyledTableCell align="right">
-          <Typography variant="subtitle1">{row.date}</Typography>
+          <Typography variant="subtitle1">{handleDate(row.date)}</Typography>
         </StyledTableCell>
       )}
-      {!smScreen && (
+      {!xsScreen && (
         <StyledTableCell align="right">
           <Typography variant="subtitle1">{row.time}</Typography>
         </StyledTableCell>
@@ -96,25 +91,31 @@ const Row = ({ row }: { row: AppointmentsTypes }) => {
         </StyledTableCell>
       )}
       <StyledTableCell align="right">
-        <Typography variant="subtitle1">{row.status}</Typography>
+        <Typography
+          variant="subtitle1"
+          className={`${
+            row.status !== "waiting" ? "text-red-500" : "text-green-500"
+          } font-[700]`}
+        >
+          {row.status === "waiting" ? "في الانتظار" : "انتهى"}
+        </Typography>
       </StyledTableCell>
-      {type === "technicalAdministrator" && (
+      {type === "systemManager" && (
         <StyledTableCell align="right">
           <Box className={`flex justify-end items-center flex-wrap gap-6`}>
-            <Tooltip title={"تفعيل"}>
+            <Tooltip title={"تعديل"}>
               <ActiveIconButton
                 loadingPosition={"center"}
-                loading={loadingActivate}
                 loadingIndicator={loadingIcon}
                 onClick={handleUpdate}
               >
-                <CheckRounded />
+                <EditRounded />
               </ActiveIconButton>
             </Tooltip>
             <Tooltip title={"حذف"}>
               <BlockedIconButton
                 loadingPosition={"center"}
-                loading={loadingBlocked}
+                loading={loadingDeleted}
                 loadingIndicator={loadingIcon}
                 onClick={handleDelete}
               >

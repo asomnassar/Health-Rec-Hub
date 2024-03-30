@@ -1,10 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { z } from "zod";
+import { FormsContext } from "../context/FormsContext";
+import { addAppointmentSchema } from "../forms/AddAppointmentForm/AddAppointmentSchema";
 import { addPatientSchema } from "../forms/AddPatientForm/AddPatientSchema";
 import { changePasswordSchema } from "../forms/ChangePasswordForm/ChangePasswordSchema";
+import { editAppointmentSchema } from "../forms/EditAppointmentForm/EditAppointmentSchema";
 import { editPatientSchema } from "../forms/EditPatientForm/EditPatientSchema";
 import { editProfileSchema } from "../forms/EditProfileForm/EditProfileSchema";
 import { forgotPasswordSchema } from "../forms/ForgotPasswordForm/ForgotPasswordSchema";
@@ -17,11 +20,25 @@ import useSubmit from "./useSubmit";
 
 const useForms = (type: string) => {
   const { profile } = useSelector((state: RootState) => state.profile);
+  const { patient } = useSelector((state: RootState) => state.patient);
+  const { editableAppointmentData, setUploadImage } = useContext(FormsContext);
+
+  useEffect(() => {
+    if (type === "editProfile") {
+      setUploadImage(profile && profile.avatar);
+    } else if (type === "editPatient") {
+      setUploadImage(patient && patient.avatar);
+    }
+  }, [type, patient, profile,setUploadImage]);
 
   const schema = useMemo(() => {
     switch (type) {
       case "addPatient":
         return addPatientSchema;
+      case "addAppointment":
+        return addAppointmentSchema;
+      case "editAppointment":
+        return editAppointmentSchema;
       case "editPatient":
         return editPatientSchema;
       case "editProfile":
@@ -57,11 +74,31 @@ const useForms = (type: string) => {
             }
           : {};
       case "editPatient":
-        return {};
+        return patient
+          ? {
+              username: patient.username,
+              firstName: patient.firstName,
+              lastName: patient.lastName,
+              address: patient.address,
+              age: patient.age,
+              dateOfBirth: handleDateForInput(patient.dateOfBirth),
+              phone: patient.phone,
+              gender: patient.gender === "male" ? "ذكر" : "انثى",
+              email: patient.email,
+            }
+          : {};
+      case "editAppointment":
+        return editableAppointmentData
+          ? {
+              date: handleDateForInput(editableAppointmentData.date),
+              time: editableAppointmentData.time,
+              notes: editableAppointmentData.notes,
+            }
+          : {};
       default:
         return {};
     }
-  }, [type, profile]);
+  }, [type, profile, patient, editableAppointmentData]);
 
   type FormData = z.infer<typeof schema>;
 
@@ -78,6 +115,8 @@ const useForms = (type: string) => {
   const { submit } = useSubmit(type);
 
   const onSubmit = (data: FormData) => {
+    console.log(data);
+
     submit(data);
   };
 

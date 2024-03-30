@@ -18,7 +18,7 @@ const Navbar = () => {
             link={`${import.meta.env.VITE_PROFILE_ROUTE}`}
           />
           <NavLink
-            title={"المرضى النشيطين"}
+            title={"المرضى"}
             link={`${import.meta.env.VITE_ACTIVE_PATIENTS_ROUTE}`}
           />
           <NavLink
@@ -60,8 +60,24 @@ const Navbar = () => {
             link={`${import.meta.env.VITE_PROFILE_ROUTE}`}
           />
           <NavLink
-            title={"المرضى النشيطين"}
+            title={"المرضى"}
             link={`${import.meta.env.VITE_ACTIVE_PATIENTS_ROUTE}`}
+          />
+          <NavLink
+            title={"الروشتات"}
+            link={`${import.meta.env.VITE_PRESCRIPTIONS_ROUTE}`}
+          />
+          <NavLink
+            title={"الاجراءات"}
+            link={`${import.meta.env.VITE_PROCEDURES_ROUTE}`}
+          />
+          <NavLink
+            title={"الاختبارات"}
+            link={`${import.meta.env.VITE_TEST_RESULTS_ROUTE}`}
+          />
+          <NavLink
+            title={"المواعيد"}
+            link={`${import.meta.env.VITE_APPOINTMENTS_TABLE_ROUTE}`}
           />
         </>
       );

@@ -1,9 +1,11 @@
+import { Paper, Skeleton } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PatientAppointments from "../components/PatientAppointments/PatientAppointments";
 import PatientPrescriptions from "../components/PatientPrescriptions/PatientPrescriptions";
 import PatientProcedures from "../components/PatientProcedures/PatientProcedures";
+import LoadingPatientProfileBox from "../components/PatientProfileBox/LoadingPatientProfileBox";
 import PatientProfileBox from "../components/PatientProfileBox/PatientProfileBox";
 import PatientTestResults from "../components/PatientTestResults/PatientTestResults";
 import { PrimaryBox } from "../mui/PrimaryBox";
@@ -47,9 +49,14 @@ const Patient = () => {
     </PrimaryBox>
   ) : (
     <PrimaryBox>
-      <PrimaryContainer
-        className={`!grid grid-cols-[auto,1fr] justify-stretch items-start gap-8`}
-      ></PrimaryContainer>
+      <PrimaryContainer className={`!grid justify-stretch items-start gap-8`}>
+        <LoadingPatientProfileBox />
+        {new Array(4).fill(0).map((_, i) => (
+          <Paper className={`p-4`} key={i}>
+            <Skeleton variant="text" className={`w-[40%]`} />
+          </Paper>
+        ))}
+      </PrimaryContainer>
     </PrimaryBox>
   );
 };

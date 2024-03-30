@@ -3,6 +3,7 @@ import {
   activatePatient,
   addPatient,
   blockPatient,
+  editPatient,
   getAllPatients,
   getPatient,
 } from "../controllers/patient.controller";
@@ -19,6 +20,10 @@ const router: Router = express.Router();
 router
   .route("/addPatient")
   .post(authorization, isSystemManager, upload.single("image"), addPatient);
+
+router
+  .route("/editPatient/:id")
+  .put(authorization, isSystemManager, upload.single("image"), editPatient);
 
 router
   .route("/activatePatient/:id")
