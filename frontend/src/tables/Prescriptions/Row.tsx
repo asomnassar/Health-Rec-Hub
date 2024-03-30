@@ -1,9 +1,9 @@
 import { Typography, useMediaQuery } from "@mui/material";
-import { PrescriptionsTypes } from "../../types/store.types";
+import { PrescriptionTypes } from "../../types/store.types";
 import { StyledTableRow } from "../StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
 
-const Row = ({ row }: { row: PrescriptionsTypes }) => {
+const Row = ({ row }: { row: PrescriptionTypes }) => {
   const mdScreen = useMediaQuery("(max-width:992px)");
   const smScreen = useMediaQuery("(max-width:768px)");
   const xsScreen = useMediaQuery("(max-width:540px)");
