@@ -2,19 +2,19 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
 import {
-  AppointmentsArgsTypes,
+  PrescriptionsArgsTypes,
   PrescriptionsValuesTypes,
 } from "../types/store.types";
 
 export const getPrescriptions = createAsyncThunk(
   "prescriptions/getPrescriptions",
-  async (args: AppointmentsArgsTypes) => {
+  async (args: PrescriptionsArgsTypes) => {
     const token = Cookies.get(`${import.meta.env.VITE_TOKEN_NAME}`);
 
     const { page, search } = args;
 
     const res = await axios.get(
-      `${import.meta.env.VITE_SERVER_URL}/appointment/all?page=${
+      `${import.meta.env.VITE_SERVER_URL}/prescription?page=${
         page || 1
       }&search=${search || ""}`,
       {

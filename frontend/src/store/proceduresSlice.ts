@@ -2,21 +2,21 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
 import {
-  AppointmentsArgsTypes,
+  ProceduresArgsTypes,
   ProceduresValuesTypes,
 } from "../types/store.types";
 
 export const getProcedures = createAsyncThunk(
   "procedures/getProcedures",
-  async (args: AppointmentsArgsTypes) => {
+  async (args: ProceduresArgsTypes) => {
     const token = Cookies.get(`${import.meta.env.VITE_TOKEN_NAME}`);
 
     const { page, search } = args;
 
     const res = await axios.get(
-      `${import.meta.env.VITE_SERVER_URL}/appointment/all?page=${
-        page || 1
-      }&search=${search || ""}`,
+      `${import.meta.env.VITE_SERVER_URL}/procedure?page=${page || 1}&search=${
+        search || ""
+      }`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

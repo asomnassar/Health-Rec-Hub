@@ -6,14 +6,21 @@ import { z } from "zod";
 import { FormsContext } from "../context/FormsContext";
 import { addAppointmentSchema } from "../forms/AddAppointmentForm/AddAppointmentSchema";
 import { addPatientSchema } from "../forms/AddPatientForm/AddPatientSchema";
+import { addPrescriptionSchema } from "../forms/AddPrescriptionForm/AddPrescriptionSchema";
+import { addProcedureSchema } from "../forms/AddProcedureForm/AddProcedureSchema";
+import { addTestResultSchema } from "../forms/AddTestResultForm/AddTestResultSchema";
 import { changePasswordSchema } from "../forms/ChangePasswordForm/ChangePasswordSchema";
 import { editAppointmentSchema } from "../forms/EditAppointmentForm/EditAppointmentSchema";
 import { editPatientSchema } from "../forms/EditPatientForm/EditPatientSchema";
+import { editPrescriptionSchema } from "../forms/EditPrescriptionForm/EditPrescriptionSchema";
+import { editProcedureSchema } from "../forms/EditProcedureForm/EditProcedureSchema";
 import { editProfileSchema } from "../forms/EditProfileForm/EditProfileSchema";
+import { editTestResultSchema } from "../forms/EditTestResultForm/EditTestResultSchema";
 import { forgotPasswordSchema } from "../forms/ForgotPasswordForm/ForgotPasswordSchema";
 import { loginSchema } from "../forms/LoginForm/LoginSchema";
 import { resetPasswordSchema } from "../forms/ResetPasswordForm/ResetPasswordSchema";
 import { searchForActivePatientsSchema } from "../forms/SearchForActivePatientsForm/SearchForActivePatientsSchema";
+import { searchForAppointmentsSchema } from "../forms/SearchForAppointmentsForm/SearchForAppointmentsSchema";
 import { handleDateForInput } from "../functions/handleDateForInput";
 import { RootState } from "../store/store";
 import useSubmit from "./useSubmit";
@@ -29,24 +36,38 @@ const useForms = (type: string) => {
     } else if (type === "editPatient") {
       setUploadImage(patient && patient.avatar);
     }
-  }, [type, patient, profile,setUploadImage]);
+  }, [type, patient, profile, setUploadImage]);
 
   const schema = useMemo(() => {
     switch (type) {
       case "addPatient":
         return addPatientSchema;
+      case "editPatient":
+        return editPatientSchema;
       case "addAppointment":
         return addAppointmentSchema;
       case "editAppointment":
         return editAppointmentSchema;
-      case "editPatient":
-        return editPatientSchema;
+      case "addPrescription":
+        return addPrescriptionSchema;
+      case "editPrescription":
+        return editPrescriptionSchema;
+      case "addProcedure":
+        return addProcedureSchema;
+      case "editProcedure":
+        return editProcedureSchema;
+      case "addTestResult":
+        return addTestResultSchema;
+      case "editTestResult":
+        return editTestResultSchema;
       case "editProfile":
         return editProfileSchema;
       case "changePassword":
         return changePasswordSchema;
       case "searchForActivPatients":
         return searchForActivePatientsSchema;
+      case "searchForAppointments":
+        return searchForAppointmentsSchema;
       case "login":
         return loginSchema;
       case "resetPassword":
@@ -70,7 +91,7 @@ const useForms = (type: string) => {
               phone: profile.phone,
               gender: profile.gender === "male" ? "ذكر" : "انثى",
               email: profile.email,
-              specialization: "",
+              specialization: profile?.specialization,
             }
           : {};
       case "editPatient":
@@ -115,8 +136,6 @@ const useForms = (type: string) => {
   const { submit } = useSubmit(type);
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
-
     submit(data);
   };
 

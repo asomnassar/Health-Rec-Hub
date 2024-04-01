@@ -3,13 +3,13 @@ import { useContext } from "react";
 import { FormsContext } from "../context/FormsContext";
 import Forms from "../forms/Forms";
 
-const AddPrescriptionModal = () => {
-  const { openAddPrescriptionModal, handleCloseAddPrescriptionModal } =
+const EditTestResultModal = () => {
+  const { openEditTestResultModal, handleCloseEditTestResultModal } =
     useContext(FormsContext);
   return (
     <Modal
-      open={openAddPrescriptionModal}
-      onClose={handleCloseAddPrescriptionModal}
+      open={openEditTestResultModal}
+      onClose={handleCloseEditTestResultModal}
     >
       <Box
         className={`bg-white absolute left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%] max-w-[90vw] max-h-[90vh] min-w-[50%] rounded-lg overflow-auto p-4`}
@@ -19,13 +19,13 @@ const AddPrescriptionModal = () => {
             className={`text-center font-[700] text-primary`}
             variant="h3"
           >
-            اضف روشتة
+            تعديل نتائج الاختبار
           </Typography>
-          <Forms type={"addPrescription"} />
+          <Forms type={"editTestResult"} />
         </Box>
       </Box>
     </Modal>
   );
 };
 
-export default AddPrescriptionModal;
+export default EditTestResultModal;

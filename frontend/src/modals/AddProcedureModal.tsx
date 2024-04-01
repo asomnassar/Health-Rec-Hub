@@ -16,7 +16,7 @@ const AddProcedureModal = () => {
             className={`text-center font-[700] text-primary`}
             variant="h3"
           >
-            اضف موعد
+            اضف اجراء
           </Typography>
           <Forms type={"addProcedure"} />
         </Box>

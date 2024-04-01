@@ -199,9 +199,15 @@ const getPatient = async (
       data.appointments = appointments;
     }
     if (req.userType === "doctor") {
-      const procedures = await Procedure.find({ patient: req.params.id });
-      const prescriptions = await Prescription.find({ patient: req.params.id });
-      const testResults = await TestResult.find({ patient: req.params.id });
+      const procedures = await Procedure.find({
+        patient: req.params.id,
+      }).populate("patient");
+      const prescriptions = await Prescription.find({
+        patient: req.params.id,
+      }).populate("patient");
+      const testResults = await TestResult.find({
+        patient: req.params.id,
+      }).populate("patient");
       data.procedures = procedures;
       data.prescriptions = prescriptions;
       data.testResults = testResults;

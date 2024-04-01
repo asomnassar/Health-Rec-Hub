@@ -6,6 +6,7 @@ import AddPatient from "./pages/AddPatient";
 import Appointments from "./pages/Appointments";
 import BlockedPatients from "./pages/BlockedPatients";
 import EditPatient from "./pages/EditPatient";
+import Error from "./pages/Error";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import MedicalRecord from "./pages/MedicalRecord";
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
       {
         path: "prescriptions/",
         element: <Prescriptions />,
+      },
+      {
+        path: "*",
+        element: <Error />,
       },
     ],
   },

@@ -23,7 +23,7 @@ const Navbar = () => {
           />
           <NavLink
             title={"جدول المواعيد"}
-            link={`${import.meta.env.VITE_APPOINTMENTS_TABLE_ROUTE}`}
+            link={`${import.meta.env.VITE_APPOINTMENTS_ROUTE}`}
           />
           <NavLink
             title={"اضافة مريض"}
@@ -77,7 +77,7 @@ const Navbar = () => {
           />
           <NavLink
             title={"المواعيد"}
-            link={`${import.meta.env.VITE_APPOINTMENTS_TABLE_ROUTE}`}
+            link={`${import.meta.env.VITE_APPOINTMENTS_ROUTE}`}
           />
         </>
       );

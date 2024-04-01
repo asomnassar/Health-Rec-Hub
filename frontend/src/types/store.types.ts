@@ -8,6 +8,25 @@ interface AppointmentsArgsTypes {
   search?: string;
 }
 
+interface TestResultsArgsTypes {
+  page?: number;
+  search?: string;
+}
+
+interface ProceduresArgsTypes {
+  page?: number;
+  search?: string;
+}
+interface PrescriptionsArgsTypes {
+  page?: number;
+  search?: string;
+}
+
+interface TestResultsArgsTypes {
+  page?: number;
+  search?: string;
+}
+
 interface ActivePatientsValuesTypes {
   isLoading: boolean;
   activePatients: PatientTypes[];
@@ -31,6 +50,11 @@ interface AppointmentsValuesTypes {
 interface TestResultsValuesTypes {
   isLoading: boolean;
   testResults: TestResultTypes[];
+}
+
+interface MedicationsValuesTypes {
+  isLoading: boolean;
+  medications: MedicationTypes[];
 }
 
 interface PrescriptionsValuesTypes {
@@ -85,6 +109,14 @@ interface PatientTypes {
   createdBy?: object;
 }
 
+interface MedicationTypes {
+  _id: string;
+  patient: string | PatientTypes;
+  name: string;
+  notes: string;
+  doctor: string;
+}
+
 interface AppointmentTypes {
   _id: string;
   patient: string | PatientTypes;
@@ -97,9 +129,10 @@ interface AppointmentTypes {
 
 interface ProcedureTypes {
   _id: string;
-  patient: string;
-  details?: string;
+  patient: PatientTypes;
+  details: string;
   doctor: string;
+  updatedAt: Date;
 }
 
 interface PrescriptionTypes {
@@ -144,14 +177,19 @@ export type {
   AuthStateTypes,
   BlockedPatientsValuesTypes,
   MedicalRecordTypes,
+  MedicationTypes,
+  MedicationsValuesTypes,
   PatientTypes,
   PatientsArgsTypes,
   PendingPatientsValuesTypes,
   PrescriptionTypes,
+  PrescriptionsArgsTypes,
   PrescriptionsValuesTypes,
   ProcedureTypes,
+  ProceduresArgsTypes,
   ProceduresValuesTypes,
   ProfileTypes,
   TestResultTypes,
+  TestResultsArgsTypes,
   TestResultsValuesTypes,
 };

@@ -46,10 +46,6 @@ router
     deleteTestResult
   );
 
-router
-  .route("/:id")
-  .get(authorization, isUserExist, isDoctor, isPatientExist, getAllTestResults);
-
 router.route("/").get(authorization, isUserExist, getAllTestResults);
 
 export default router;

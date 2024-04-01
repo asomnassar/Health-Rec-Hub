@@ -27,8 +27,11 @@ const updatePrescription = async (
   next: NextFunction
 ) => {
   try {
-    const { medication,dosage } = req.body;
-    await Prescription.updateOne({ _id: req.params.id }, { medication,dosage });
+    const { medication, dosage } = req.body;
+    await Prescription.updateOne(
+      { _id: req.params.id },
+      { medication, dosage }
+    );
     res.status(202).json({
       message: "تم تعديل الروشتة بنجاح",
     });
@@ -61,9 +64,8 @@ const getAllPrescriptions = async (
 ) => {
   try {
     const prescriptions = await Prescription.find({
-      patient: req.params.id,
       doctor: req.userData,
-    });
+    }).populate("patient");
     res.status(202).json({
       data: prescriptions,
     });
@@ -77,6 +79,5 @@ export {
   addPrescription,
   deletePrescription,
   getAllPrescriptions,
-  updatePrescription
+  updatePrescription,
 };
-

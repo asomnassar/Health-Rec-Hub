@@ -11,6 +11,8 @@ const Input = ({
   select,
   data,
   ac,
+  rows,
+  multiline,
 }: FormInputTypes) => {
   return name && select ? (
     <Box className={`grid justify-stretch items-center gap-2`}>
@@ -49,6 +51,8 @@ const Input = ({
         inputProps={{
           id: name,
         }}
+        multiline={multiline}
+        rows={rows}
       />
     </Box>
   );

@@ -70,18 +70,10 @@ const getAllTestResults = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
     let testResults;
-    if (id) {
-      testResults = await TestResult.find({
-        doctor: req.userData,
-        patient: id,
-      });
-    } else {
-      testResults = await TestResult.find({
-        patient: req.userData,
-      });
-    }
+    testResults = await TestResult.find({
+      patient: req.userData,
+    }).populate("patient");
     res.status(202).json({
       data: testResults,
     });

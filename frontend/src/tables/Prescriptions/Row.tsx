@@ -14,24 +14,23 @@ const Row = ({ row }: { row: PrescriptionTypes }) => {
       className={`cursor-pointer group hover:!bg-dark-gray`}
     >
       <StyledTableCell scope="row" align="right">
-        <Typography
-          variant="subtitle1"
-          className={`group-hover:underline`}
-        ></Typography>
+        <Typography variant="subtitle1" className={`group-hover:underline`}>
+          {}
+        </Typography>
       </StyledTableCell>
       {!smScreen && (
         <StyledTableCell align="right">
-          <Typography variant="subtitle1"></Typography>
+          <Typography variant="subtitle1">{}</Typography>
         </StyledTableCell>
       )}
       {!xsScreen && (
         <StyledTableCell align="right">
-          <Typography variant="subtitle1"></Typography>
+          <Typography variant="subtitle1">{}</Typography>
         </StyledTableCell>
       )}
       {!mdScreen && (
         <StyledTableCell align="right">
-          <Typography variant="subtitle1"></Typography>
+          <Typography variant="subtitle1">{}</Typography>
         </StyledTableCell>
       )}
     </StyledTableRow>

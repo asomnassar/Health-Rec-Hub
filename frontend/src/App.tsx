@@ -14,7 +14,10 @@ import AddTestResultModal from "./modals/AddTestResultModal";
 import ChangePasswordModal from "./modals/ChangePasswordModal";
 import EditAppointmentModal from "./modals/EditAppointmentModal";
 import EditPatientModal from "./modals/EditPatientModal";
+import EditPrescriptionModal from "./modals/EditPrescriptionModal";
+import EditProcedureModal from "./modals/EditProcedureModal";
 import EditProfileModal from "./modals/EditProfileModal";
+import EditTestResultModal from "./modals/EditTestResultModal";
 import ForgotPasswordModal from "./modals/ForgotPasswordModal";
 import { getAuth } from "./store/authSlice";
 import { AppDispatch } from "./store/store";
@@ -70,8 +73,11 @@ function App() {
       <AddAppointmentModal />
       <EditAppointmentModal />
       <AddProcedureModal />
+      <EditProcedureModal />
       <AddPrescriptionModal />
+      <EditPrescriptionModal />
       <AddTestResultModal />
+      <EditTestResultModal />
     </Box>
   );
 }

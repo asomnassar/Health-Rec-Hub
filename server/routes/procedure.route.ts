@@ -31,10 +31,6 @@ router
     deleteProcedure
   );
 
-router
-  .route("/:id")
-  .get(authorization, isUserExist, isDoctor, isPatientExist, getAllProcedures);
-
 router.route("/").get(authorization, isUserExist, getAllProcedures);
 
 export default router;

@@ -60,18 +60,10 @@ const getAllProcedures = async (
   next: NextFunction
 ) => {
   try {
-    const {id} = req.params
-    let procedures
-    if(id){
-      procedures = await Procedure.find({
-        patient: id,
-        doctor: req.userData,
-      });
-    }else{
-      procedures = await Procedure.find({
-        patient: req.userData,
-      });
-    }
+    let procedures;
+    procedures = await Procedure.find({
+      doctor: req.userData,
+    }).populate("patient");
     res.status(202).json({
       data: procedures,
     });
@@ -82,4 +74,3 @@ const getAllProcedures = async (
 };
 
 export { addProcedure, deleteProcedure, getAllProcedures, updateProcedure };
-

@@ -1,6 +1,11 @@
 import { ReactNode, createContext, useState } from "react";
 import { FormsContextTypes } from "../types/contexts.types";
-import { AppointmentTypes } from "../types/store.types";
+import {
+  AppointmentTypes,
+  PrescriptionTypes,
+  ProcedureTypes,
+  TestResultTypes,
+} from "../types/store.types";
 
 export const FormsContext = createContext<FormsContextTypes>({
   uploadImage: null,
@@ -11,8 +16,24 @@ export const FormsContext = createContext<FormsContextTypes>({
   setEditableAppointmentData: function (): void {
     throw new Error("Function not implemented.");
   },
+  editablePrescriptionData: null,
+  setEditablePrescriptionData: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  editableProcedureData: null,
+  setEditableProcedureData: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  editableTestResultData: null,
+  setEditableTestResultData: function (): void {
+    throw new Error("Function not implemented.");
+  },
   loading: false,
   setLoading: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  testResultFile: undefined,
+  setTestResultFile: function (): void {
     throw new Error("Function not implemented.");
   },
   openForgotPasswordModal: false,
@@ -106,6 +127,19 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
 
   const [editableAppointmentData, setEditableAppointmentData] =
     useState<AppointmentTypes | null>(null);
+
+  const [testResultFile, setTestResultFile] = useState<File | undefined>(
+    undefined
+  );
+
+  const [editablePrescriptionData, setEditablePrescriptionData] =
+    useState<PrescriptionTypes | null>(null);
+
+  const [editableProcedureData, setEditableProcedureData] =
+    useState<ProcedureTypes | null>(null);
+
+  const [editableTestResultData, setEditableTestResultData] =
+    useState<TestResultTypes | null>(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -254,8 +288,16 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
     handleOpenEditProfileModal,
     handleCloseEditProfileModal,
     openChangePasswordModal,
+    editablePrescriptionData,
+    setEditablePrescriptionData,
+    editableProcedureData,
+    setEditableProcedureData,
+    editableTestResultData,
+    setEditableTestResultData,
     handleOpenChangePasswordModal,
     handleCloseChangePasswordModal,
+    testResultFile,
+    setTestResultFile,
     openEditPatientModal,
     handleOpenEditPatientModal,
     handleCloseEditPatientModal,

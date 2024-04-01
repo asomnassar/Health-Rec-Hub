@@ -22,6 +22,10 @@ interface SearchForActivePatientsFormTypes {
   search: string;
 }
 
+interface SearchForAppointmentsFormTypes {
+  search: string;
+}
+
 interface AddAppointmentFormTypes {
   date: string;
   time: string;
@@ -32,6 +36,30 @@ interface EditAppointmentFormTypes {
   date: string;
   time: string;
   notes: string;
+}
+
+interface AddPrescriptionFormTypes {
+  dosage: string[];
+}
+
+interface EditPrescriptionFormTypes {
+  dosage: string[];
+}
+
+interface AddProcedureFormTypes {
+  details: string;
+}
+
+interface EditProcedureFormTypes {
+  details: string;
+}
+
+interface AddTestResultFormTypes {
+  type: string;
+}
+
+interface EditTestResultFormTypes {
+  type: string;
 }
 
 interface AddPatientFormTypes {
@@ -47,7 +75,7 @@ interface AddPatientFormTypes {
   password: string;
 }
 
-interface EditPateintFormTypes {
+interface EditPatientFormTypes {
   username: string;
   firstName: string;
   lastName: string;
@@ -85,11 +113,18 @@ interface FormTypes {
     | ForgotPasswordFormTypes
     | SearchForActivePatientsFormTypes
     | AddPatientFormTypes
+    | EditPatientFormTypes
     | ChangePasswordFormTypes
-    | EditPateintFormTypes
     | EditProfileFormTypes
     | AddAppointmentFormTypes
     | EditAppointmentFormTypes
+    | AddPrescriptionFormTypes
+    | EditPrescriptionFormTypes
+    | SearchForAppointmentsFormTypes
+    | AddProcedureFormTypes
+    | EditProcedureFormTypes
+    | AddTestResultFormTypes
+    | EditTestResultFormTypes
   >;
   errors: {
     [key: string]: { message?: string } | undefined;
@@ -103,11 +138,18 @@ interface FormInputTypes {
     | ForgotPasswordFormTypes
     | SearchForActivePatientsFormTypes
     | AddPatientFormTypes
+    | EditPatientFormTypes
     | ChangePasswordFormTypes
-    | EditPateintFormTypes
     | EditProfileFormTypes
+    | SearchForAppointmentsFormTypes
     | AddAppointmentFormTypes
     | EditAppointmentFormTypes
+    | AddPrescriptionFormTypes
+    | EditPrescriptionFormTypes
+    | AddProcedureFormTypes
+    | EditProcedureFormTypes
+    | AddTestResultFormTypes
+    | EditTestResultFormTypes
   >;
   errors: {
     [key: string]: { message?: string } | undefined;
@@ -130,12 +172,17 @@ interface FormInputTypes {
     | "specialization"
     | "date"
     | "time"
-    | "notes";
+    | "notes"
+    | "dosage"
+    | "details"
+    | "type";
   label?: string;
   type?: string;
   select?: boolean;
   data?: Array<string>;
   ac?: string;
+  multiline?: boolean;
+  rows?: number;
 }
 
 interface CatchErrorTypes {
@@ -151,25 +198,40 @@ type SubmitDataTypes =
   | ResetPasswordFormTypes
   | ForgotPasswordFormTypes
   | SearchForActivePatientsFormTypes
+  | EditPatientFormTypes
   | AddPatientFormTypes
   | ChangePasswordFormTypes
-  | EditPateintFormTypes
   | EditProfileFormTypes
   | AddAppointmentFormTypes
-  | EditAppointmentFormTypes;
+  | EditAppointmentFormTypes
+  | AddPrescriptionFormTypes
+  | EditPrescriptionFormTypes
+  | AddProcedureFormTypes
+  | EditProcedureFormTypes
+  | SearchForAppointmentsFormTypes
+  | AddTestResultFormTypes
+  | EditTestResultFormTypes;
 
 export type {
   AddAppointmentFormTypes,
   AddPatientFormTypes,
+  AddPrescriptionFormTypes,
+  AddProcedureFormTypes,
+  AddTestResultFormTypes,
   CatchErrorTypes,
   ChangePasswordFormTypes,
   EditAppointmentFormTypes,
+  EditPatientFormTypes,
+  EditPrescriptionFormTypes,
+  EditProcedureFormTypes,
   EditProfileFormTypes,
+  EditTestResultFormTypes,
   ForgotPasswordFormTypes,
   FormInputTypes,
   FormsTypes,
   FormTypes,
   LoginFormTypes,
   ResetPasswordFormTypes,
+  SearchForAppointmentsFormTypes,
   SubmitDataTypes,
 };

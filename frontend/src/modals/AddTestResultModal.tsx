@@ -19,7 +19,7 @@ const AddTestResultModal = () => {
             className={`text-center font-[700] text-primary`}
             variant="h3"
           >
-            اضف موعد
+            اضف نتائج الاختبار
           </Typography>
           <Forms type={"addTestResult"} />
         </Box>
