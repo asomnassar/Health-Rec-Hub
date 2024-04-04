@@ -22,14 +22,18 @@ const PatientProfileBox = ({ data }: { data: PatientTypes }) => {
   } = useContext(FormsContext);
 
   return (
-    <Paper className={`grid justify-stretch items-center gap-6 p-4`}>
+    <Paper
+      className={`grid justify-stretch items-center gap-6 p-4 md:gap-4 md:p-3`}
+    >
       <Typography variant="h5" className={`font-[600] text-primary`}>
         ملف المريض الشخصى
       </Typography>
       <Box
-        className={`grid justify-stretch items-start gap-8 grid-cols-[1fr,auto]`}
+        className={`grid justify-stretch items-start gap-8 grid-cols-[1fr,auto] md:grid-cols-1 md:justify-center`}
       >
-        <Box className={`grid justify-stretch items-center gap-4`}>
+        <Box
+          className={`grid justify-stretch items-center gap-4 md:gap-3 sm:!gap-2 md:justify-center`}
+        >
           <Box
             className={`w-[260px] h-[260px] flex justify-center items-center rounded-full overflow-hidden`}
           >
@@ -75,7 +79,9 @@ const PatientProfileBox = ({ data }: { data: PatientTypes }) => {
           )}
         </Box>
       </Box>
-      <Box className={`flex justify-center items-center gap-4`}>
+      <Box
+        className={`flex justify-center items-center gap-4 md:gap-3 sm:!gap-2 flex-wrap`}
+      >
         {type === "systemManager" && (
           <>
             <SecondaryButton onClick={handleOpenEditPatientModal}>

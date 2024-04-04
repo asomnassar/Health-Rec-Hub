@@ -1,17 +1,19 @@
-import { Box } from "@mui/material"
-import { useContext } from "react"
-import Input from "../../components/Input/Input"
-import SubmitButton from "../../components/SubmitButton/SubmitButton"
-import UploadImage from "../../components/UploadImage/UploadImage"
-import { FormsContext } from "../../context/FormsContext"
-import { FormTypes } from "../../types/forms.types"
+import { Box } from "@mui/material";
+import { useContext } from "react";
+import Input from "../../components/Input/Input";
+import SubmitButton from "../../components/SubmitButton/SubmitButton";
+import UploadImage from "../../components/UploadImage/UploadImage";
+import { FormsContext } from "../../context/FormsContext";
+import { FormTypes } from "../../types/forms.types";
 
-const AddPatientForm = ({register,errors}:FormTypes) => {
-  const {loading} = useContext(FormsContext)
+const AddPatientForm = ({ register, errors }: FormTypes) => {
+  const { loading } = useContext(FormsContext);
   return (
     <Box className={`grid justify-stretch items-center gap-6`}>
-      <UploadImage/>
-      <Box className={`grid grid-cols-2 justify-center items-center gap-4`}>
+      <UploadImage />
+      <Box
+        className={`grid grid-cols-2 justify-center items-center gap-4 md:gap-3 sm:!gap-2 md:grid-cols-1`}
+      >
         <Input
           register={register}
           errors={errors}
@@ -56,7 +58,7 @@ const AddPatientForm = ({register,errors}:FormTypes) => {
           label="الجنس"
           name="gender"
           select={true}
-          data={["ذكر","انثى"]}
+          data={["ذكر", "انثى"]}
         />
         <Input
           register={register}
@@ -65,12 +67,7 @@ const AddPatientForm = ({register,errors}:FormTypes) => {
           name="dateOfBirth"
           type={"date"}
         />
-        <Input
-          register={register}
-          errors={errors}
-          label="العمر"
-          name="age"
-        />
+        <Input register={register} errors={errors} label="العمر" name="age" />
         <Input
           register={register}
           errors={errors}
@@ -83,7 +80,7 @@ const AddPatientForm = ({register,errors}:FormTypes) => {
         <SubmitButton loading={loading}>اضف</SubmitButton>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default AddPatientForm
+export default AddPatientForm;

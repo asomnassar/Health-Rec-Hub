@@ -27,9 +27,9 @@ const Forms = ({ type }: FormsTypes) => {
     ) : type === "editPatient" ? (
       <EditPatientForm register={register} errors={errors} />
     ) : type === "addPrescription" ? (
-      <AddPrescriptionForm register={register} errors={errors} />
+      <AddPrescriptionForm />
     ) : type === "editPrescription" ? (
-      <EditPrescriptionForm register={register} errors={errors} />
+      <EditPrescriptionForm />
     ) : type === "addProcedure" ? (
       <AddProcedureForm register={register} errors={errors} />
     ) : type === "editProcedure" ? (

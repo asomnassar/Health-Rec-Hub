@@ -2,25 +2,25 @@ import { styled } from "@mui/material/styles";
 import { PrimaryButton } from "./PrimaryButton";
 
 export const PrimaryIconButton = styled(PrimaryButton)(({ theme }) => ({
-  borderRadius: "100px",
+  borderRadius: "100px !important",
   padding: "0px !important",
   minWidth: "auto",
   width: "50px",
   height: "50px",
   [theme.breakpoints.down("lg")]: {
-    width: "30px",
-    height: "30px",
+    width: "45px",
+    height: "45px",
   },
   [theme.breakpoints.down("md")]: {
-    width: "28px",
-    height: "28px",
+    width: "40px",
+    height: "40px",
   },
   [theme.breakpoints.down("sm")]: {
-    width: "26px",
-    height: "26px",
+    width: "35px",
+    height: "35px",
   },
   [theme.breakpoints.down("xs")]: {
-    width: "24px",
-    height: "24px",
+    width: "25px",
+    height: "25px",
   },
 }));

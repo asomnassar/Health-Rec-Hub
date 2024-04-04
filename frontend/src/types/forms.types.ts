@@ -38,14 +38,9 @@ interface EditAppointmentFormTypes {
   notes: string;
 }
 
-interface AddPrescriptionFormTypes {
-  name: string[];
-  dosage: string[];
-}
+interface AddPrescriptionFormTypes {}
 
-interface EditPrescriptionFormTypes {
-  dosage: string[];
-}
+interface EditPrescriptionFormTypes {}
 
 interface AddProcedureFormTypes {
   details: string;
@@ -174,10 +169,8 @@ interface FormInputTypes {
     | "date"
     | "time"
     | "notes"
-    | "dosage"
     | "details"
-    | "type"
-    | "medication";
+    | "type";
   label?: string;
   type?: string;
   select?: boolean;

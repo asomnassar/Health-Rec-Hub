@@ -1,4 +1,8 @@
-import { DeleteRounded, EditRounded } from "@mui/icons-material";
+import {
+  DeleteRounded,
+  EditRounded,
+  RemoveRedEyeRounded,
+} from "@mui/icons-material";
 import {
   Box,
   CircularProgress,
@@ -68,6 +72,8 @@ const Row = ({ row }: { row: AppointmentTypes }) => {
     setLoadingDeleted(false);
   };
 
+  const handleView = () => {};
+
   return (
     <StyledTableRow key={row._id}>
       <StyledTableCell scope="row" align="right">
@@ -102,7 +108,16 @@ const Row = ({ row }: { row: AppointmentTypes }) => {
       </StyledTableCell>
       {type === "systemManager" && (
         <StyledTableCell align="right">
-          <Box className={`flex justify-end items-center flex-wrap gap-6`}>
+          <Box
+            className={`flex justify-end items-center flex-wrap gap-6 md:gap-4 sm:!gap-2`}
+          >
+            {mdScreen && (
+              <Tooltip title={"المزيد"}>
+                <ActiveIconButton onClick={handleView}>
+                  <RemoveRedEyeRounded />
+                </ActiveIconButton>
+              </Tooltip>
+            )}
             <Tooltip title={"تعديل"}>
               <ActiveIconButton
                 loadingPosition={"center"}

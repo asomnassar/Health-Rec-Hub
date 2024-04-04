@@ -24,7 +24,7 @@ const Profile = () => {
   return !isLoading && profile ? (
     <PrimaryBox>
       <PrimaryContainer
-        className={`!grid grid-cols-[auto,1fr] justify-stretch items-start gap-8`}
+        className={`!grid grid-cols-[auto,1fr] justify-stretch items-start gap-8 md:gap-6 sm:!gap-4 md:grid-cols-1`}
       >
         <ProfileAvatar avatar={profile.avatar} username={profile.username} />
         <Box className={`grid justify-stretch items-center gap-4`}>

@@ -8,7 +8,7 @@ const ProfileAvatar = ({ avatar, username }: propsTypes) => {
       className={`!grid justify-center items-center gap-2 bg-white p-4`}
       elevation={0}
     >
-      <Box className="!w-[260px] !h-[260px] flex justify-center items-center m-auto overflow-hidden rounded-full">
+      <Box className="!w-[260px] !h-[260px] flex justify-center items-center m-auto overflow-hidden rounded-full md:!w-[200px] md:!h-[200px]">
         <LazyLoadImage
           alt={"avatar"}
           src={avatar}

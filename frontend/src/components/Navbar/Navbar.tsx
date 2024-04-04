@@ -14,7 +14,7 @@ const Navbar = () => {
       setNavs(
         <>
           <NavLink
-            title={"الملف الشخصى"}
+            title={"الملف"}
             link={`${import.meta.env.VITE_PROFILE_ROUTE}`}
           />
           <NavLink
@@ -22,7 +22,7 @@ const Navbar = () => {
             link={`${import.meta.env.VITE_ACTIVE_PATIENTS_ROUTE}`}
           />
           <NavLink
-            title={"جدول المواعيد"}
+            title={"المواعيد"}
             link={`${import.meta.env.VITE_APPOINTMENTS_ROUTE}`}
           />
           <NavLink
@@ -35,7 +35,7 @@ const Navbar = () => {
       setNavs(
         <>
           <NavLink
-            title={"الملف الشخصى"}
+            title={"الملف"}
             link={`${import.meta.env.VITE_PROFILE_ROUTE}`}
           />
           <NavLink
@@ -56,12 +56,41 @@ const Navbar = () => {
       setNavs(
         <>
           <NavLink
-            title={"الملف الشخصى"}
+            title={"الملف"}
             link={`${import.meta.env.VITE_PROFILE_ROUTE}`}
           />
           <NavLink
             title={"المرضى"}
             link={`${import.meta.env.VITE_ACTIVE_PATIENTS_ROUTE}`}
+          />
+          <NavLink
+            title={"الروشتات"}
+            link={`${import.meta.env.VITE_PRESCRIPTIONS_ROUTE}`}
+          />
+          <NavLink
+            title={"الاجراءات"}
+            link={`${import.meta.env.VITE_PROCEDURES_ROUTE}`}
+          />
+          <NavLink
+            title={"الاختبارات"}
+            link={`${import.meta.env.VITE_TEST_RESULTS_ROUTE}`}
+          />
+          <NavLink
+            title={"المواعيد"}
+            link={`${import.meta.env.VITE_APPOINTMENTS_ROUTE}`}
+          />
+        </>
+      );
+    } else if (type === "patient") {
+      setNavs(
+        <>
+          <NavLink
+            title={"الملف"}
+            link={`${import.meta.env.VITE_PROFILE_ROUTE}`}
+          />
+          <NavLink
+            title={"السجل الطبى"}
+            link={`${import.meta.env.VITE_MEDICAL_RECORD_ROUTE}`}
           />
           <NavLink
             title={"الروشتات"}
@@ -87,7 +116,7 @@ const Navbar = () => {
   return (
     <PrimaryContainer>
       <Box
-        className={`flex justify-between items-center gap-4 p-4 px-8 bg-white rounded-xl`}
+        className={`flex justify-between items-center gap-4 p-4 px-8 bg-white rounded-xl md:gap-3 sm:!gap-2 md:p-2 md:px-6 md:mt-2 md:grid md:grid-cols-2`}
       >
         {navs}
       </Box>
