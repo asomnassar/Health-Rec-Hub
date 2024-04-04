@@ -76,6 +76,13 @@ export const FormsContext = createContext<FormsContextTypes>({
   handleCloseAddAppointmentModal: function (): void {
     throw new Error("Function not implemented.");
   },
+  openViewAppointmentModal: false,
+  handleOpenViewAppointmentModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleCloseViewAppointmentModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
   openEditAppointmentModal: false,
   handleOpenEditAppointmentModal: function (): void {
     throw new Error("Function not implemented.");
@@ -219,6 +226,18 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
     setOpenAddAppointmentModal(false);
   };
 
+  //View Appointment
+  const [openViewAppointmentModal, setOpenViewAppointmentModal] =
+    useState(false);
+
+  const handleOpenViewAppointmentModal = () => {
+    setOpenViewAppointmentModal(true);
+  };
+
+  const handleCloseViewAppointmentModal = () => {
+    setOpenViewAppointmentModal(false);
+  };
+
   //Edit Appointment
   const [openEditAppointmentModal, setOpenEditAppointmentModal] =
     useState(false);
@@ -259,6 +278,7 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
 
   const handleOpenAddPrescriptionModal = () => {
     setOpenAddPrescriptionModal(true);
+    setMedications(null);
   };
 
   const handleCloseAddPrescriptionModal = () => {
@@ -350,6 +370,9 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
     setEditablePrescriptionData,
     setEditMedication,
     editableProcedureData,
+    openViewAppointmentModal,
+    handleOpenViewAppointmentModal,
+    handleCloseViewAppointmentModal,
     setEditableProcedureData,
     editableTestResultData,
     setEditableTestResultData,

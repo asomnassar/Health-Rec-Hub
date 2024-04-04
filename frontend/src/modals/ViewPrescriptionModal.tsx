@@ -23,7 +23,7 @@ const ViewPrescriptionModal = () => {
           >
             الروشتة
           </Typography>
-          <MedicationsTable data={medications} />
+          <MedicationsTable data={medications} view={true} />
         </Box>
       </Box>
     </Modal>

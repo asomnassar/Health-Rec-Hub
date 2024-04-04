@@ -19,8 +19,10 @@ import EditProcedureModal from "./modals/EditProcedureModal";
 import EditProfileModal from "./modals/EditProfileModal";
 import EditTestResultModal from "./modals/EditTestResultModal";
 import ForgotPasswordModal from "./modals/ForgotPasswordModal";
+import ViewAppointmentModal from "./modals/ViewAppointmentModal";
 import ViewPrescriptionModal from "./modals/ViewPrescriptionModal";
 import { getAuth } from "./store/authSlice";
+import { getProfile } from "./store/profileSlice";
 import { AppDispatch } from "./store/store";
 
 function App() {
@@ -43,6 +45,7 @@ function App() {
         }
       } else {
         dispatch(getAuth());
+        dispatch(getProfile());
       }
     } catch (error) {
       console.log(error);
@@ -72,6 +75,7 @@ function App() {
       <EditProfileModal />
       <ChangePasswordModal />
       <AddAppointmentModal />
+      <ViewAppointmentModal />
       <EditAppointmentModal />
       <AddProcedureModal />
       <EditProcedureModal />

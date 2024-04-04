@@ -4,12 +4,18 @@ import PrimaryTable from "../PrimaryTable";
 import MedicationsTableBody from "./MedicationsTableBody";
 import TableHeader from "./TableHeader";
 
-const MedicationsTable = ({ data }: { data: MedicationTypes[] | null }) => {
+const MedicationsTable = ({
+  data,
+  view,
+}: {
+  data: MedicationTypes[] | null;
+  view?: boolean;
+}) => {
   return (
     <>
       <PrimaryTable>
-        <TableHeader />
-        <MedicationsTableBody data={data} />
+        <TableHeader view={view} />
+        <MedicationsTableBody data={data} view={view} />
       </PrimaryTable>
       {data && data.length === 0 && <NoData />}
     </>

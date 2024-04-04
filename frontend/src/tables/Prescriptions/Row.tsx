@@ -1,5 +1,15 @@
-import { DeleteRounded, VisibilityRounded } from "@mui/icons-material";
-import { Box, CircularProgress, Tooltip, Typography } from "@mui/material";
+import {
+  DeleteRounded,
+  EditRounded,
+  VisibilityRounded,
+} from "@mui/icons-material";
+import {
+  Box,
+  CircularProgress,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +20,7 @@ import { handleAlert } from "../../functions/handleAlert";
 import { handleDate } from "../../functions/handleDate";
 import { ActiveIconButton } from "../../mui/ActiveIconButton";
 import { BlockedIconButton } from "../../mui/BlockedIconButton";
+import { PrimaryIconButton } from "../../mui/PrimaryIconButton";
 import { getPatient } from "../../store/patientSlice";
 import { getPrescriptions } from "../../store/prescriptionsSlice";
 import { AppDispatch, RootState } from "../../store/store";
@@ -25,13 +36,24 @@ const Row = ({ row }: { row: PrescriptionTypes }) => {
   const { handleOpenViewPrescriptionModal } = useContext(AppContext);
   const { token } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
-  const { setMedications } = useContext(FormsContext);
+  const {
+    setMedications,
+    handleOpenEditPrescriptionModal,
+    setEditablePrescriptionData,
+  } = useContext(FormsContext);
   const [loadingDeleted, setLoadingDeleted] = useState(false);
   const { id } = useParams();
+  const mdScreen = useMediaQuery("(max-width:992px)");
 
   const handleViewPrescription = () => {
     handleOpenViewPrescriptionModal();
     setMedications(row.medications);
+  };
+
+  const handleEditPrescription = () => {
+    handleOpenEditPrescriptionModal();
+    setMedications(row.medications);
+    setEditablePrescriptionData(row);
   };
 
   const loadingIcon = (
@@ -71,20 +93,27 @@ const Row = ({ row }: { row: PrescriptionTypes }) => {
       <StyledTableCell align="right">
         <Box className={`flex justify-end items-center flex-wrap gap-6`}>
           <Tooltip title={"المزيد"}>
-            <ActiveIconButton onClick={handleViewPrescription}>
+            <PrimaryIconButton onClick={handleViewPrescription}>
               <VisibilityRounded />
+            </PrimaryIconButton>
+          </Tooltip>
+          <Tooltip title={"تعديل"}>
+            <ActiveIconButton onClick={handleEditPrescription}>
+              <EditRounded />
             </ActiveIconButton>
           </Tooltip>
-          <Tooltip title={"حذف"}>
-            <BlockedIconButton
-              loadingPosition={"center"}
-              loading={loadingDeleted}
-              loadingIndicator={loadingIcon}
-              onClick={handleDeletePrescription}
-            >
-              <DeleteRounded />
-            </BlockedIconButton>
-          </Tooltip>
+          {!mdScreen && (
+            <Tooltip title={"حذف"}>
+              <BlockedIconButton
+                loadingPosition={"center"}
+                loading={loadingDeleted}
+                loadingIndicator={loadingIcon}
+                onClick={handleDeletePrescription}
+              >
+                <DeleteRounded />
+              </BlockedIconButton>
+            </Tooltip>
+          )}
         </Box>
       </StyledTableCell>
     </StyledTableRow>

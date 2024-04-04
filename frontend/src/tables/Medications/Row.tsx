@@ -8,7 +8,15 @@ import { MedicationTypes } from "../../types/store.types";
 import { StyledTableRow } from "../StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
 
-const Row = ({ row, index }: { row: MedicationTypes; index: number }) => {
+const Row = ({
+  row,
+  index,
+  view,
+}: {
+  row: MedicationTypes;
+  index: number;
+  view?: boolean;
+}) => {
   const { setEditMedication, handleDeleteMedication } =
     useContext(FormsContext);
 
@@ -30,20 +38,22 @@ const Row = ({ row, index }: { row: MedicationTypes; index: number }) => {
         <Typography variant="subtitle1">{row.dosage}</Typography>
       </StyledTableCell>
 
-      <StyledTableCell align="right">
-        <Box className={`flex justify-end items-center flex-wrap gap-6`}>
-          <Tooltip title={"تعديل"}>
-            <ActiveIconButton onClick={handleEdit}>
-              <EditRounded />
-            </ActiveIconButton>
-          </Tooltip>
-          <Tooltip title={"حذف"}>
-            <BlockedIconButton onClick={handleDelete}>
-              <DeleteRounded />
-            </BlockedIconButton>
-          </Tooltip>
-        </Box>
-      </StyledTableCell>
+      {!view && (
+        <StyledTableCell align="right">
+          <Box className={`flex justify-end items-center flex-wrap gap-6`}>
+            <Tooltip title={"تعديل"}>
+              <ActiveIconButton onClick={handleEdit}>
+                <EditRounded />
+              </ActiveIconButton>
+            </Tooltip>
+            <Tooltip title={"حذف"}>
+              <BlockedIconButton onClick={handleDelete}>
+                <DeleteRounded />
+              </BlockedIconButton>
+            </Tooltip>
+          </Box>
+        </StyledTableCell>
+      )}
     </StyledTableRow>
   );
 };

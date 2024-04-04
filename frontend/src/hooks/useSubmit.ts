@@ -22,7 +22,6 @@ import {
   ChangePasswordFormTypes,
   EditAppointmentFormTypes,
   EditPatientFormTypes,
-  EditPrescriptionFormTypes,
   EditProcedureFormTypes,
   EditProfileFormTypes,
   EditTestResultFormTypes,
@@ -142,14 +141,18 @@ const useSubmit = (type: string) => {
     setLoading(false);
   };
 
-  const editPrescriptionSubmit = async (data: EditPrescriptionFormTypes) => {
+  const editPrescriptionSubmit = async () => {
+    if (!medications || medications.length === 0) {
+      handleAlert({ msg: "قم بادخال الدواء والجرعة" });
+      return;
+    }
     setLoading(true);
     await server
       .put(
         `/prescription/${
           editablePrescriptionData && editablePrescriptionData._id
         }`,
-        data,
+        { medications },
         {
           headers: {
             Authorization: `Bearer ${auth.token}`,
@@ -485,7 +488,7 @@ const useSubmit = (type: string) => {
         addPrescriptionSubmit();
         break;
       case "editPrescription":
-        editPrescriptionSubmit(data as EditPrescriptionFormTypes);
+        editPrescriptionSubmit();
         break;
       case "addProcedure":
         addProcedureSubmit(data as AddProcedureFormTypes);

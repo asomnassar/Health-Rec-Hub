@@ -38,8 +38,11 @@ const Row = ({ row }: { row: AppointmentTypes }) => {
   const [loadingDeleted, setLoadingDeleted] = useState(false);
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
-  const { handleOpenEditAppointmentModal, setEditableAppointmentData } =
-    useContext(FormsContext);
+  const {
+    handleOpenEditAppointmentModal,
+    setEditableAppointmentData,
+    handleOpenViewAppointmentModal,
+  } = useContext(FormsContext);
 
   const loadingIcon = (
     <CircularProgress sx={{ color: (theme) => theme.palette.common.white }} />
@@ -72,7 +75,10 @@ const Row = ({ row }: { row: AppointmentTypes }) => {
     setLoadingDeleted(false);
   };
 
-  const handleView = () => {};
+  const handleView = () => {
+    handleOpenViewAppointmentModal();
+    setEditableAppointmentData(row);
+  };
 
   return (
     <StyledTableRow key={row._id}>

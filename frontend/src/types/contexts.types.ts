@@ -44,6 +44,9 @@ interface FormsContextTypes {
   openAddAppointmentModal: boolean;
   handleOpenAddAppointmentModal: () => void;
   handleCloseAddAppointmentModal: () => void;
+  openViewAppointmentModal: boolean;
+  handleOpenViewAppointmentModal: () => void;
+  handleCloseViewAppointmentModal: () => void;
   openEditAppointmentModal: boolean;
   handleOpenEditAppointmentModal: () => void;
   handleCloseEditAppointmentModal: () => void;

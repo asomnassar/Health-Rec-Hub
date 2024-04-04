@@ -4,7 +4,7 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import SubmitButton from "../../components/SubmitButton/SubmitButton";
 import { FormsContext } from "../../context/FormsContext";
 import { handleAlert } from "../../functions/handleAlert";
-import { PrimaryButton } from "../../mui/PrimaryButton";
+import { PrimaryIconButton } from "../../mui/PrimaryIconButton";
 import { PrimaryTextField } from "../../mui/PrimaryTextField";
 import MedicationsTable from "../../tables/Medications/MedicationsTable";
 
@@ -73,9 +73,9 @@ const AddPrescriptionForm = () => {
             onChange={handleChangeDosage}
           />
         </Box>
-        <PrimaryButton onClick={handleAdd}>
+        <PrimaryIconButton onClick={handleAdd}>
           {editMedication ? <EditRounded /> : <AddRounded />}
-        </PrimaryButton>
+        </PrimaryIconButton>
       </Box>
       {medications && medications.length > 0 && (
         <MedicationsTable data={medications} />
