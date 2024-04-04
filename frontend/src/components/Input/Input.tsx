@@ -20,10 +20,10 @@ const Input = ({
         <Typography variant={"h6"}>{label}</Typography>
       </InputLabel>
       <PrimaryTextField
-        {...register(name)}
+        {...(register && register(name))}
         fullWidth
-        error={!!errors[name]}
-        helperText={errors[name]?.message}
+        error={errors && !!errors[name]}
+        helperText={errors && errors[name]?.message}
         select
         SelectProps={{
           native: true,
@@ -42,11 +42,11 @@ const Input = ({
     <Box className={`grid justify-stretch items-center gap-2`}>
       <Typography variant={"h6"}>{label}</Typography>
       <PrimaryTextField
-        {...register(name)}
+        {...(register && register(name))}
         fullWidth
         type={type || "text"}
-        error={!!errors[name]}
-        helperText={errors[name]?.message}
+        error={errors && !!errors[name]}
+        helperText={errors && errors[name]?.message}
         autoComplete={ac}
         inputProps={{
           id: name,

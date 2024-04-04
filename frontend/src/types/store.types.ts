@@ -110,11 +110,8 @@ interface PatientTypes {
 }
 
 interface MedicationTypes {
-  _id: string;
-  patient: string | PatientTypes;
   name: string;
-  notes: string;
-  doctor: string;
+  dosage: string;
 }
 
 interface AppointmentTypes {
@@ -137,18 +134,19 @@ interface ProcedureTypes {
 
 interface PrescriptionTypes {
   _id: string;
-  patient: string;
-  medication: [string];
-  dosage: [string];
+  patient: PatientTypes;
+  medications: MedicationTypes[];
   doctor: object;
+  updatedAt: Date;
 }
 
 interface TestResultTypes {
   _id: string;
-  patient: string;
+  patient: PatientTypes;
   type: string;
   pdf: string;
   doctor: object;
+  updatedAt: Date;
 }
 
 interface MedicalRecordTypes {

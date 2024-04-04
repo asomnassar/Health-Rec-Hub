@@ -9,13 +9,9 @@ const PrescriptionSchema: Schema<PrescriptionTypes> =
         ref: "User",
         required: [true, "Patient is required"],
       },
-      medication: {
-        type: [String],
-        required: [true, "Medication is required"],
-      },
-      dosage: {
-        type: [String],
-        required: [true, "dosage is required"],
+      medications: {
+        type: [Map],
+        required: [true, "Medications is required"],
       },
       doctor: {
         type: mongoose.Schema.ObjectId,

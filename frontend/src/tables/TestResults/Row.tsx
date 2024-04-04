@@ -1,12 +1,17 @@
-import { Typography, useMediaQuery } from "@mui/material";
+import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import { FaFilePdf } from "react-icons/fa6";
+import { handleDate } from "../../functions/handleDate";
+import { ActiveIconButton } from "../../mui/ActiveIconButton";
 import { TestResultTypes } from "../../types/store.types";
 import { StyledTableRow } from "../StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
 
 const Row = ({ row }: { row: TestResultTypes }) => {
   const mdScreen = useMediaQuery("(max-width:992px)");
-  const smScreen = useMediaQuery("(max-width:768px)");
-  const xsScreen = useMediaQuery("(max-width:540px)");
+
+  const handleViewPDF = () => {
+    window.open(row.pdf, "_blank");
+  };
 
   return (
     <StyledTableRow
@@ -14,26 +19,29 @@ const Row = ({ row }: { row: TestResultTypes }) => {
       className={`cursor-pointer group hover:!bg-dark-gray`}
     >
       <StyledTableCell scope="row" align="right">
-        <Typography
-          variant="subtitle1"
-          className={`group-hover:underline`}
-        ></Typography>
+        <Typography variant="subtitle1" className={`group-hover:underline`}>
+          {row.patient.username}
+        </Typography>
       </StyledTableCell>
-      {!smScreen && (
-        <StyledTableCell align="right">
-          <Typography variant="subtitle1"></Typography>
-        </StyledTableCell>
-      )}
-      {!xsScreen && (
-        <StyledTableCell align="right">
-          <Typography variant="subtitle1"></Typography>
-        </StyledTableCell>
-      )}
+      <StyledTableCell align="right">
+        <Typography variant="subtitle1">{row.type}</Typography>
+      </StyledTableCell>
       {!mdScreen && (
         <StyledTableCell align="right">
-          <Typography variant="subtitle1"></Typography>
+          <Typography variant="subtitle1">
+            {handleDate(row.updatedAt)}
+          </Typography>
         </StyledTableCell>
       )}
+      <StyledTableCell align="right">
+        <Box className={`flex justify-end items-center flex-wrap gap-6`}>
+          <Tooltip title={"الملف"}>
+            <ActiveIconButton onClick={handleViewPDF}>
+              <FaFilePdf />
+            </ActiveIconButton>
+          </Tooltip>
+        </Box>
+      </StyledTableCell>
     </StyledTableRow>
   );
 };

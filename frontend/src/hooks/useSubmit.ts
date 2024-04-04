@@ -16,7 +16,6 @@ import { getTestResults } from "../store/testResultsSlice";
 import {
   AddAppointmentFormTypes,
   AddPatientFormTypes,
-  AddPrescriptionFormTypes,
   AddProcedureFormTypes,
   AddTestResultFormTypes,
   CatchErrorTypes,
@@ -54,6 +53,7 @@ const useSubmit = (type: string) => {
     editableProcedureData,
     editableTestResultData,
     testResultFile,
+    medications,
   } = useContext(FormsContext);
   const { uploadImage } = useContext(FormsContext);
   const auth = useSelector((state: RootState) => state.auth);
@@ -113,14 +113,22 @@ const useSubmit = (type: string) => {
     setLoading(false);
   };
 
-  const addPrescriptionSubmit = async (data: AddPrescriptionFormTypes) => {
+  const addPrescriptionSubmit = async () => {
+    if (!medications || medications.length === 0) {
+      handleAlert({ msg: "قم بادخال الدواء والجرعة" });
+      return;
+    }
     setLoading(true);
     await server
-      .post(`/prescription/${id}`, data, {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      })
+      .post(
+        `/prescription/${id}`,
+        { medications },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
       .then((res) => {
         const { message } = res.data;
         handleAlert({ msg: message, status: "success" });
@@ -474,7 +482,7 @@ const useSubmit = (type: string) => {
         editAppointmentSubmit(data as EditAppointmentFormTypes);
         break;
       case "addPrescription":
-        addPrescriptionSubmit(data as AddPrescriptionFormTypes);
+        addPrescriptionSubmit();
         break;
       case "editPrescription":
         editPrescriptionSubmit(data as EditPrescriptionFormTypes);

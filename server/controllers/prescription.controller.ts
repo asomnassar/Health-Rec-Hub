@@ -27,11 +27,8 @@ const updatePrescription = async (
   next: NextFunction
 ) => {
   try {
-    const { medication, dosage } = req.body;
-    await Prescription.updateOne(
-      { _id: req.params.id },
-      { medication, dosage }
-    );
+    const { medications } = req.body;
+    await Prescription.updateOne({ _id: req.params.id }, { medications });
     res.status(202).json({
       message: "تم تعديل الروشتة بنجاح",
     });

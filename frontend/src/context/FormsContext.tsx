@@ -2,6 +2,7 @@ import { ReactNode, createContext, useState } from "react";
 import { FormsContextTypes } from "../types/contexts.types";
 import {
   AppointmentTypes,
+  MedicationTypes,
   PrescriptionTypes,
   ProcedureTypes,
   TestResultTypes,
@@ -10,6 +11,10 @@ import {
 export const FormsContext = createContext<FormsContextTypes>({
   uploadImage: null,
   setUploadImage: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  editMedication: null,
+  setEditMedication: function (): void {
     throw new Error("Function not implemented.");
   },
   editableAppointmentData: null,
@@ -120,10 +125,26 @@ export const FormsContext = createContext<FormsContextTypes>({
   handleCloseEditTestResultModal: function (): void {
     throw new Error("Function not implemented.");
   },
+  medications: null,
+  setMedications: () => {},
+  handleAddMedication: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleEditMedication: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleDeleteMedication: function (): void {
+    throw new Error("Function not implemented.");
+  },
 });
 
 const FormsProvider = ({ children }: { children: ReactNode }) => {
   const [uploadImage, setUploadImage] = useState<File | string | null>(null);
+
+  const [editMedication, setEditMedication] = useState<{
+    data: MedicationTypes;
+    index: number;
+  } | null>(null);
 
   const [editableAppointmentData, setEditableAppointmentData] =
     useState<AppointmentTypes | null>(null);
@@ -278,7 +299,43 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
     setOpenEditTestResultModal(false);
   };
 
+  //Medication Table
+  const [medications, setMedications] = useState<MedicationTypes[] | null>(
+    null
+  );
+
+  const handleAddMedication = (data: MedicationTypes) => {
+    if (medications) {
+      setMedications([...medications, data]);
+    } else {
+      setMedications([data]);
+    }
+  };
+
+  const handleEditMedication = (data: MedicationTypes, index: number) => {
+    if (medications) {
+      const newMed: MedicationTypes[] = medications;
+      for (let i = 0; i < medications.length; i++) {
+        if (i === index) {
+          newMed[i] = data;
+        }
+      }
+      setMedications(newMed);
+    }
+  };
+
+  const handleDeleteMedication = (index: number) => {
+    if (medications) {
+      setMedications(medications?.filter((_, i) => i !== index));
+    }
+    setEditMedication(null);
+  };
+
   const values = {
+    handleAddMedication,
+    handleDeleteMedication,
+    handleEditMedication,
+    medications,
     uploadImage,
     setUploadImage,
     openForgotPasswordModal,
@@ -288,14 +345,17 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
     handleOpenEditProfileModal,
     handleCloseEditProfileModal,
     openChangePasswordModal,
+    setMedications,
     editablePrescriptionData,
     setEditablePrescriptionData,
+    setEditMedication,
     editableProcedureData,
     setEditableProcedureData,
     editableTestResultData,
     setEditableTestResultData,
     handleOpenChangePasswordModal,
     handleCloseChangePasswordModal,
+    editMedication,
     testResultFile,
     setTestResultFile,
     openEditPatientModal,

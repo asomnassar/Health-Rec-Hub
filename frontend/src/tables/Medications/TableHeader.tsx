@@ -5,8 +5,8 @@ const TableHeader = () => {
   return (
     <TableHead>
       <TableRow>
-        <StyledTableCell align="right">اسم المريض</StyledTableCell>
-        <StyledTableCell align="right">الدواء</StyledTableCell>
+        <StyledTableCell align="right">اسم الدواء</StyledTableCell>
+        <StyledTableCell align="left">الجرعة</StyledTableCell>
         <StyledTableCell align="right"></StyledTableCell>
       </TableRow>
     </TableHead>

@@ -42,8 +42,7 @@ interface ProcedureTypes extends Document {
 
 interface PrescriptionTypes extends Document {
   patient: object;
-  medication: object[];
-  dosage: string[];
+  medications: object[];
   doctor: object;
 }
 

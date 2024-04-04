@@ -39,6 +39,7 @@ interface EditAppointmentFormTypes {
 }
 
 interface AddPrescriptionFormTypes {
+  name: string[];
   dosage: string[];
 }
 
@@ -132,7 +133,7 @@ interface FormTypes {
 }
 
 interface FormInputTypes {
-  register: UseFormRegister<
+  register?: UseFormRegister<
     | LoginFormTypes
     | ResetPasswordFormTypes
     | ForgotPasswordFormTypes
@@ -151,7 +152,7 @@ interface FormInputTypes {
     | AddTestResultFormTypes
     | EditTestResultFormTypes
   >;
-  errors: {
+  errors?: {
     [key: string]: { message?: string } | undefined;
   };
   name:
@@ -175,7 +176,8 @@ interface FormInputTypes {
     | "notes"
     | "dosage"
     | "details"
-    | "type";
+    | "type"
+    | "medication";
   label?: string;
   type?: string;
   select?: boolean;

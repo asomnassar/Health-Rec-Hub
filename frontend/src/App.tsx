@@ -19,6 +19,7 @@ import EditProcedureModal from "./modals/EditProcedureModal";
 import EditProfileModal from "./modals/EditProfileModal";
 import EditTestResultModal from "./modals/EditTestResultModal";
 import ForgotPasswordModal from "./modals/ForgotPasswordModal";
+import ViewPrescriptionModal from "./modals/ViewPrescriptionModal";
 import { getAuth } from "./store/authSlice";
 import { AppDispatch } from "./store/store";
 
@@ -76,6 +77,7 @@ function App() {
       <EditProcedureModal />
       <AddPrescriptionModal />
       <EditPrescriptionModal />
+      <ViewPrescriptionModal />
       <AddTestResultModal />
       <EditTestResultModal />
     </Box>

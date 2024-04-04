@@ -72,7 +72,7 @@ const getAllTestResults = async (
   try {
     let testResults;
     testResults = await TestResult.find({
-      patient: req.userData,
+      doctor: req.userData,
     }).populate("patient");
     res.status(202).json({
       data: testResults,

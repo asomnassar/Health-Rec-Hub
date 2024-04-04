@@ -5,18 +5,29 @@ import { StyledTableCell } from "./StyledTableCell";
 
 const LoadingRow = ({ row }: { row: PatientTableRowTypes }) => {
   const mdScreen = useMediaQuery("(max-width:992px)");
+  const smScreen = useMediaQuery("(max-width:768px)");
+  const xsScreen = useMediaQuery("(max-width:540px)");
   return (
     <StyledTableRow key={row._id}>
-      <StyledTableCell align="right">
+      <StyledTableCell scope="row" align="right">
         <Typography variant="subtitle1">
           <Skeleton variant="text" />
         </Typography>
       </StyledTableCell>
-      <StyledTableCell align="right">
-        <Typography variant="subtitle1">
-          <Skeleton variant="text" />
-        </Typography>
-      </StyledTableCell>
+      {!smScreen && (
+        <StyledTableCell align="right">
+          <Typography variant="subtitle1">
+            <Skeleton variant="text" />
+          </Typography>
+        </StyledTableCell>
+      )}
+      {!xsScreen && (
+        <StyledTableCell align="right">
+          <Typography variant="subtitle1">
+            <Skeleton variant="text" />
+          </Typography>
+        </StyledTableCell>
+      )}
       {!mdScreen && (
         <StyledTableCell align="right">
           <Skeleton variant="text" />
