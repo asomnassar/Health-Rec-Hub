@@ -53,6 +53,7 @@ const useSubmit = (type: string) => {
     editableTestResultData,
     testResultFile,
     medications,
+    setTestResultFile,
   } = useContext(FormsContext);
   const { uploadImage } = useContext(FormsContext);
   const auth = useSelector((state: RootState) => state.auth);
@@ -245,6 +246,7 @@ const useSubmit = (type: string) => {
       .then((res) => {
         const { message } = res.data;
         handleAlert({ msg: message, status: "success" });
+        setTestResultFile(undefined);
         dispatch(getPatient({ id }));
         handleCloseAddTestResultModal();
       })
@@ -278,6 +280,7 @@ const useSubmit = (type: string) => {
       .then((res) => {
         const { message } = res.data;
         handleAlert({ msg: message, status: "success" });
+        setTestResultFile(undefined);
         if (id) {
           dispatch(getPatient({ id }));
         } else {

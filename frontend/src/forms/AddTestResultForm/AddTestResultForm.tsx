@@ -11,7 +11,9 @@ const AddTestResultForm = ({ register, errors }: FormTypes) => {
 
   return (
     <Box className={`grid justify-stretch items-center gap-6`}>
-      <Box className={`grid grid-cols-2 justify-center items-end gap-4`}>
+      <Box
+        className={`grid grid-cols-2 justify-center items-end gap-4 md:gap-3 sm:!gap-2 md:grid-cols-1`}
+      >
         <UploadFile />
         <Input
           register={register}

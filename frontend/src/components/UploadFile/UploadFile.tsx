@@ -11,7 +11,7 @@ const UploadFile = () => {
   return (
     <Box
       component={"label"}
-      htmlFor="file"
+      htmlFor="pdf"
       className={`flex justify-center items-center cursor-pointer border-dashed border-primary border-2 p-3 hover:!bg-primary hover:text-white rounded-lg`}
     >
       <Typography variant="h6" className={`font-[600]`}>
@@ -19,12 +19,13 @@ const UploadFile = () => {
       </Typography>
       <input
         type={"file"}
-        id={"file"}
-        name={"file"}
+        id={"pdf"}
+        name={"pdf"}
         accept=".pdf"
+        title="Upload PDF File"
         placeholder=""
         className="hidden"
-        onInput={handleChange}
+        onChange={handleChange}
       />
     </Box>
   );

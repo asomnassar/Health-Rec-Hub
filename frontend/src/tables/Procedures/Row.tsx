@@ -90,7 +90,7 @@ const Row = ({ row }: { row: ProcedureTypes }) => {
         <Box
           className={`flex justify-end items-center gap-4 md:gap-3 sm:!gap-2`}
         >
-          <Tooltip title={"المزيد"}>
+          <Tooltip title={"تعديل"}>
             <ActiveIconButton onClick={handleEdit}>
               <EditRounded />
             </ActiveIconButton>

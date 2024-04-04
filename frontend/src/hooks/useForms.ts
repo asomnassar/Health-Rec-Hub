@@ -28,8 +28,12 @@ import useSubmit from "./useSubmit";
 const useForms = (type: string) => {
   const { profile } = useSelector((state: RootState) => state.profile);
   const { patient } = useSelector((state: RootState) => state.patient);
-  const { editableAppointmentData, editableProcedureData, setUploadImage } =
-    useContext(FormsContext);
+  const {
+    editableAppointmentData,
+    editableTestResultData,
+    editableProcedureData,
+    setUploadImage,
+  } = useContext(FormsContext);
 
   useEffect(() => {
     if (type === "editProfile") {
@@ -123,10 +127,24 @@ const useForms = (type: string) => {
               details: editableProcedureData.details,
             }
           : {};
+      case "editTestResult":
+        return editableTestResultData
+          ? {
+              type: editableTestResultData.type,
+              pdf: editableTestResultData.pdf,
+            }
+          : {};
       default:
         return {};
     }
-  }, [type, profile, patient, editableAppointmentData, editableProcedureData]);
+  }, [
+    type,
+    profile,
+    patient,
+    editableAppointmentData,
+    editableProcedureData,
+    editableTestResultData,
+  ]);
 
   type FormData = z.infer<typeof schema>;
 
