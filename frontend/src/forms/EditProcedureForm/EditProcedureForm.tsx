@@ -9,13 +9,13 @@ const EditProcedureForm = ({ register, errors }: FormTypes) => {
   const { loading } = useContext(FormsContext);
   return (
     <Box className={`grid justify-stretch items-center gap-6`}>
-      <Box className={`grid grid-cols-2 justify-center items-center gap-4`}>
+      <Box className={`grid justify-stretch items-center gap-4`}>
         <Input
           register={register}
           errors={errors}
           label="تفاصيل الاجراء"
           name="details"
-          rows={4}
+          rows={3}
           multiline={true}
         />
       </Box>

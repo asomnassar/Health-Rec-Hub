@@ -15,7 +15,7 @@ const AddProcedureForm = ({ register, errors }: FormTypes) => {
           errors={errors}
           label="تفاصيل الاجراء"
           name="details"
-          rows={4}
+          rows={3}
           multiline={true}
         />
       </Box>

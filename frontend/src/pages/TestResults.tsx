@@ -13,8 +13,6 @@ const TestResults = () => {
     (state: RootState) => state.testResults
   );
 
-  console.log(testResults);
-
   useEffect(() => {
     dispatch(getTestResults({ page: 1 }));
   }, [dispatch]);
