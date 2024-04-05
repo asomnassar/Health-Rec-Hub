@@ -228,7 +228,6 @@ const useSubmit = (type: string) => {
   };
 
   const addTestResultSubmit = async (data: AddTestResultFormTypes) => {
-    setLoading(true);
     const formData = new FormData();
     if (!testResultFile) {
       handleAlert({ msg: "ارفع ملف الاختبار", status: "error" });
@@ -237,6 +236,7 @@ const useSubmit = (type: string) => {
       formData.append("file", testResultFile);
     }
     formData.append("type", data.type);
+    setLoading(true);
     await server
       .post(`/testResult/${id}`, formData, {
         headers: {
@@ -258,7 +258,6 @@ const useSubmit = (type: string) => {
   };
 
   const editTestResultSubmit = async (data: EditTestResultFormTypes) => {
-    setLoading(true);
     const formData = new FormData();
     if (!testResultFile) {
       handleAlert({ msg: "ارفع ملف الاختبار", status: "error" });
@@ -267,6 +266,7 @@ const useSubmit = (type: string) => {
       formData.append("file", testResultFile);
     }
     formData.append("type", data.type);
+    setLoading(true);
     await server
       .put(
         `/testResult/${editableTestResultData && editableTestResultData._id}`,

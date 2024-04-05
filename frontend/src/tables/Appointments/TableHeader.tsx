@@ -16,7 +16,7 @@ const TableHeader = () => {
         {!smScreen && <StyledTableCell align="right">الساعة</StyledTableCell>}
         {!mdScreen && <StyledTableCell align="right">ملاحظات</StyledTableCell>}
         <StyledTableCell align="right">الحالة</StyledTableCell>
-        {type === "systemManager" && (
+        {(type === "systemManager" || mdScreen) && (
           <StyledTableCell align="right"></StyledTableCell>
         )}
       </TableRow>

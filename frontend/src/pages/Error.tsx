@@ -8,7 +8,7 @@ const Error = () => {
     <PrimaryBox>
       <PrimaryContainer className={`flex justify-center items-center`}>
         <Box
-          className={`flex justify-center items-center rounded-xl overflow-hidden w-[400px] m-auto`}
+          className={`flex justify-center items-center rounded-xl overflow-hidden w-[400px] m-auto md:w-[300px] sm:!w-[200px]`}
         >
           <LazyLoadImage src={"/images/error.jpg"} alt={"erorr"} />
         </Box>

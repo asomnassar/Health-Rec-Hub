@@ -67,14 +67,9 @@ const Row = ({ row }: { row: ProcedureTypes }) => {
   };
 
   return (
-    <StyledTableRow
-      key={row._id}
-      className={`cursor-pointer group hover:!bg-dark-gray`}
-    >
+    <StyledTableRow key={row._id}>
       <StyledTableCell scope="row" align="right">
-        <Typography variant="subtitle1" className={`group-hover:underline`}>
-          {row.patient.username}
-        </Typography>
+        <Typography variant="subtitle1">{row.patient.username}</Typography>
       </StyledTableCell>
       <StyledTableCell align="right">
         <Typography variant="subtitle1">{row.details}</Typography>

@@ -37,8 +37,6 @@ router
     deleteMedicalRecord
   );
 
-router
-  .route("/:id")
-  .get(authorization, isUserExist, isDoctor, getMedicalRecord);
+router.route("/:id").get(authorization, isUserExist, getMedicalRecord);
 
 export default router;

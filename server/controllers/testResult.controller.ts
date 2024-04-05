@@ -70,12 +70,23 @@ const getAllTestResults = async (
   next: NextFunction
 ) => {
   try {
-    let testResults;
-    testResults = await TestResult.find({
-      doctor: req.userData,
-    }).populate("patient");
-    res.status(202).json({
-      data: testResults,
+    if (req.userType === "patient") {
+      const testResults = await TestResult.find({
+        patient: req.userData,
+      }).populate("patient");
+      return res.status(202).json({
+        data: testResults,
+      });
+    } else if (req.userType === "doctor") {
+      const testResults = await TestResult.find({
+        doctor: req.userData,
+      }).populate("patient");
+      return res.status(202).json({
+        data: testResults,
+      });
+    }
+    return res.status(400).json({
+      message: "Not Authorized",
     });
   } catch (error: any) {
     const err = new CustomError(error.message, 500);

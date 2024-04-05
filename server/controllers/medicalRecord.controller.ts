@@ -70,9 +70,14 @@ const getMedicalRecord = async (
 ) => {
   try {
     const { id } = req.params;
-    const medicalRecord = await MedicalRecord.findOne({ patient: id });
-    return res.status(200).json({
-      data: medicalRecord,
+    if (req.userType === "patient" || req.userType === "doctor") {
+      const medicalRecord = await MedicalRecord.findOne({ patient: id });
+      return res.status(200).json({
+        data: medicalRecord,
+      });
+    }
+    return res.status(400).json({
+      message: "Not Authorized",
     });
   } catch (error: any) {
     const err = new CustomError(error.message, 500);

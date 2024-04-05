@@ -60,12 +60,23 @@ const getAllProcedures = async (
   next: NextFunction
 ) => {
   try {
-    let procedures;
-    procedures = await Procedure.find({
-      doctor: req.userData,
-    }).populate("patient");
-    res.status(202).json({
-      data: procedures,
+    if (req.userType === "patient") {
+      const procedures = await Procedure.find({
+        patient: req.userData,
+      }).populate("patient");
+      return res.status(202).json({
+        data: procedures,
+      });
+    } else if (req.userType === "doctor") {
+      const procedures = await Procedure.find({
+        doctor: req.userData,
+      }).populate("patient");
+      return res.status(202).json({
+        data: procedures,
+      });
+    }
+    return res.status(400).json({
+      message: "Not Authorized",
     });
   } catch (error: any) {
     const err = new CustomError(error.message, 500);

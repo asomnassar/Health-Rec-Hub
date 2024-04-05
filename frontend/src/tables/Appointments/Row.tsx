@@ -146,6 +146,19 @@ const Row = ({ row }: { row: AppointmentTypes }) => {
           </Box>
         </StyledTableCell>
       )}
+      {type !== "systemManager" && mdScreen && (
+        <StyledTableCell align="right">
+          <Box
+            className={`flex justify-end items-center flex-wrap gap-6 md:gap-4 sm:!gap-2`}
+          >
+            <Tooltip title={"المزيد"}>
+              <ActiveIconButton onClick={handleView}>
+                <RemoveRedEyeRounded />
+              </ActiveIconButton>
+            </Tooltip>
+          </Box>
+        </StyledTableCell>
+      )}
     </StyledTableRow>
   );
 };

@@ -1,4 +1,8 @@
-import { DeleteRounded, EditRounded } from "@mui/icons-material";
+import {
+  DeleteRounded,
+  EditRounded,
+  FileOpenRounded,
+} from "@mui/icons-material";
 import {
   Box,
   CircularProgress,
@@ -8,7 +12,6 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useContext, useState } from "react";
-import { FaFilePdf } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { FormsContext } from "../../context/FormsContext";
@@ -72,14 +75,9 @@ const Row = ({ row }: { row: TestResultTypes }) => {
   };
 
   return (
-    <StyledTableRow
-      key={row._id}
-      className={`cursor-pointer group hover:!bg-dark-gray`}
-    >
+    <StyledTableRow key={row._id}>
       <StyledTableCell scope="row" align="right">
-        <Typography variant="subtitle1" className={`group-hover:underline`}>
-          {row.patient.username}
-        </Typography>
+        <Typography variant="subtitle1">{row.patient.username}</Typography>
       </StyledTableCell>
       <StyledTableCell align="right">
         <Typography variant="subtitle1">{row.type}</Typography>
@@ -95,7 +93,7 @@ const Row = ({ row }: { row: TestResultTypes }) => {
         <Box className={`flex justify-end items-center flex-wrap gap-6`}>
           <Tooltip title={"الملف"}>
             <ActiveIconButton onClick={handleViewPDF}>
-              <FaFilePdf />
+              <FileOpenRounded />
             </ActiveIconButton>
           </Tooltip>
           <Tooltip title={"المزيد"}>

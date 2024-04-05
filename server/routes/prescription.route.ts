@@ -24,9 +24,7 @@ router
   .route("/:id")
   .delete(authorization, isUserExist, isDoctor, deletePrescription);
 
-router
-  .route("/")
-  .get(authorization, isUserExist, isDoctor, getAllPrescriptions);
+router.route("/").get(authorization, isUserExist, getAllPrescriptions);
 
 router.route("/").get(authorization, isUserExist, getAllPrescriptions);
 
