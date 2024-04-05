@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PatientAppointments from "../components/PatientAppointments/PatientAppointments";
+import PatientMedicalRecord from "../components/PatientMedicalRecord/PatientMedicalRecord";
 import PatientPrescriptions from "../components/PatientPrescriptions/PatientPrescriptions";
 import PatientProcedures from "../components/PatientProcedures/PatientProcedures";
 import LoadingPatientProfileBox from "../components/PatientProfileBox/LoadingPatientProfileBox";
@@ -21,6 +22,7 @@ const Patient = () => {
     testResults,
     prescriptions,
     isLoading,
+    medicalRecord,
   } = useSelector((state: RootState) => state.patient);
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams();
@@ -33,6 +35,9 @@ const Patient = () => {
     <PrimaryBox>
       <PrimaryContainer className={`!grid justify-stretch items-start gap-8`}>
         <PatientProfileBox data={patient} />
+        {medicalRecord && (
+          <PatientMedicalRecord data={medicalRecord} isLoading={isLoading} />
+        )}
         {appointments && (
           <PatientAppointments data={appointments} isLoading={isLoading} />
         )}

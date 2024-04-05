@@ -10,12 +10,12 @@ const MedicalRecordSchema: Schema<MedicalRecordTypes> =
         required: [true, "Patient is required"],
       },
       currentHealthIssuses: {
-        type: [String],
+        type: String,
         required: [true, "current health issues is required"],
       },
-      age: {
+      heartRate: {
         type: String,
-        required: [true, "age is required"],
+        required: [true, "Heart Rate is required"],
       },
       bloodPressure: {
         type: String,

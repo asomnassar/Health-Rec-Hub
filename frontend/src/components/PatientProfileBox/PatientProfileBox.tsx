@@ -19,6 +19,7 @@ const PatientProfileBox = ({ data }: { data: PatientTypes }) => {
     handleOpenAddPrescriptionModal,
     handleOpenAddTestResultModal,
     handleOpenEditPatientModal,
+    handleOpenAddMedicalRecordModal,
   } = useContext(FormsContext);
 
   return (
@@ -67,16 +68,6 @@ const PatientProfileBox = ({ data }: { data: PatientTypes }) => {
               <DataBox title={"العمر : "} value={data.age} />
             </Box>
           </Box>
-          {type === "doctor" && (
-            <Box className={`grid justify-start items-center gap-6`}>
-              <Typography variant="h5" className={`text-primary font-[600]`}>
-                بيانات طبية
-              </Typography>
-              <Box
-                className={`flex justify-stretch items-center gap-8 flex-wrap`}
-              ></Box>
-            </Box>
-          )}
         </Box>
       </Box>
       <Box
@@ -104,7 +95,7 @@ const PatientProfileBox = ({ data }: { data: PatientTypes }) => {
               اضف اختبار
             </PrimaryButton>
             {!medicalRecord && (
-              <PrimaryButton onClick={handleOpenAddTestResultModal}>
+              <PrimaryButton onClick={handleOpenAddMedicalRecordModal}>
                 اضف سجل طبى
               </PrimaryButton>
             )}

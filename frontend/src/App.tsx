@@ -7,16 +7,26 @@ import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
+import AddAllergeryModal from "./modals/AddAllergeryModal";
 import AddAppointmentModal from "./modals/AddAppointmentModal";
+import AddDiseaseModal from "./modals/AddDiseaseModal";
+import AddMedicalRecordModal from "./modals/AddMedicalRecordModal";
+import AddMedicineModal from "./modals/AddMedicineModal";
 import AddPrescriptionModal from "./modals/AddPrescriptionModal";
 import AddProcedureModal from "./modals/AddProcedureModal";
+import AddSurgeryModal from "./modals/AddSurgeryModal";
 import AddTestResultModal from "./modals/AddTestResultModal";
 import ChangePasswordModal from "./modals/ChangePasswordModal";
+import EditAllergeryModal from "./modals/EditAllergeryModal";
 import EditAppointmentModal from "./modals/EditAppointmentModal";
+import EditDiseaseModal from "./modals/EditDiseaseModal";
+import EditMedicalRecordModal from "./modals/EditMedicalRecordModal";
+import EditMedicineModal from "./modals/EditMedicineModal";
 import EditPatientModal from "./modals/EditPatientModal";
 import EditPrescriptionModal from "./modals/EditPrescriptionModal";
 import EditProcedureModal from "./modals/EditProcedureModal";
 import EditProfileModal from "./modals/EditProfileModal";
+import EditSurgeryModal from "./modals/EditSurgeryModal";
 import EditTestResultModal from "./modals/EditTestResultModal";
 import ForgotPasswordModal from "./modals/ForgotPasswordModal";
 import ViewAppointmentModal from "./modals/ViewAppointmentModal";
@@ -84,6 +94,16 @@ function App() {
       <ViewPrescriptionModal />
       <AddTestResultModal />
       <EditTestResultModal />
+      <AddMedicalRecordModal />
+      <EditMedicalRecordModal />
+      <AddMedicineModal />
+      <EditMedicineModal />
+      <AddSurgeryModal />
+      <EditSurgeryModal />
+      <AddDiseaseModal />
+      <EditDiseaseModal />
+      <AddAllergeryModal />
+      <EditAllergeryModal />
     </Box>
   );
 }

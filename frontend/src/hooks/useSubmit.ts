@@ -14,13 +14,19 @@ import { getProfile } from "../store/profileSlice";
 import { AppDispatch, RootState } from "../store/store";
 import { getTestResults } from "../store/testResultsSlice";
 import {
+  AddAllergeryFormTypes,
   AddAppointmentFormTypes,
+  AddDiseaseFormTypes,
+  AddMedicalRecordFormTypes,
+  AddMedicineFormTypes,
   AddPatientFormTypes,
   AddProcedureFormTypes,
+  AddSurgeryFormTypes,
   AddTestResultFormTypes,
   CatchErrorTypes,
   ChangePasswordFormTypes,
   EditAppointmentFormTypes,
+  EditMedicalRecordFormTypes,
   EditPatientFormTypes,
   EditProcedureFormTypes,
   EditProfileFormTypes,
@@ -54,12 +60,323 @@ const useSubmit = (type: string) => {
     testResultFile,
     medications,
     setTestResultFile,
+    handleCloseAddMedicalRecordModal,
+    handleCloseEditMedicalRecordModal,
+    editableMedicalRecordData,
+    handleCloseAddSurgeryModal,
+    handleCloseEditSurgeryModal,
+    handleCloseAddMedicineModal,
+    handleCloseEditMedicineModal,
+    handleCloseEditAllergeryModal,
+    handleCloseAddAllergeryModal,
+    handleCloseAddDiseaseModal,
+    handleCloseEditDiseaseModal,
+    surgeryIndex,
+    medicineIndex,
+    allergeryIndex,
+    diseaseIndex,
   } = useContext(FormsContext);
   const { uploadImage } = useContext(FormsContext);
   const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const addMedicalRecordSubmit = async (data: AddMedicalRecordFormTypes) => {
+    setLoading(true);
+    await server
+      .post(`/medicalRecord/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      })
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+        handleCloseAddMedicalRecordModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
+  const editMedicalRecordSubmit = async (data: EditMedicalRecordFormTypes) => {
+    setLoading(true);
+    await server
+      .put(
+        `/medicalRecord/${
+          editableMedicalRecordData && editableMedicalRecordData._id
+        }`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+        handleCloseEditMedicalRecordModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
+  const addSurgerySubmit = async (data: AddSurgeryFormTypes) => {
+    if (!editableMedicalRecordData) {
+      return "";
+    }
+    setLoading(true);
+    await server
+      .put(
+        `/medicalRecord/${
+          editableMedicalRecordData && editableMedicalRecordData._id
+        }`,
+        { surgeries: [...editableMedicalRecordData.surgeries, data.surgery] },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+        handleCloseAddSurgeryModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
+  const editSurgerySubmit = async (data: AddSurgeryFormTypes) => {
+    if (!editableMedicalRecordData) {
+      return "";
+    }
+    const d = [...editableMedicalRecordData.surgeries];
+    d[surgeryIndex] = data.surgery;
+    setLoading(true);
+    await server
+      .put(
+        `/medicalRecord/${
+          editableMedicalRecordData && editableMedicalRecordData._id
+        }`,
+        { surgeries: d },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+        handleCloseEditSurgeryModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
+  const addMedicineSubmit = async (data: AddMedicineFormTypes) => {
+    if (!editableMedicalRecordData) {
+      return "";
+    }
+    setLoading(true);
+    await server
+      .put(
+        `/medicalRecord/${
+          editableMedicalRecordData && editableMedicalRecordData._id
+        }`,
+        { medicines: [...editableMedicalRecordData.medicines, data.medicine] },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+        handleCloseAddMedicineModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
+  const editMedicineSubmit = async (data: AddMedicineFormTypes) => {
+    if (!editableMedicalRecordData) {
+      return "";
+    }
+    const d = [...editableMedicalRecordData.medicines];
+    d[medicineIndex] = data.medicine;
+    setLoading(true);
+    await server
+      .put(
+        `/medicalRecord/${
+          editableMedicalRecordData && editableMedicalRecordData._id
+        }`,
+        { medicines: d },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+        handleCloseEditMedicineModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
+  const addAllergerySubmit = async (data: AddAllergeryFormTypes) => {
+    if (!editableMedicalRecordData) {
+      return "";
+    }
+    setLoading(true);
+    await server
+      .put(
+        `/medicalRecord/${
+          editableMedicalRecordData && editableMedicalRecordData._id
+        }`,
+        { allergies: [...editableMedicalRecordData.allergies, data.allergery] },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+        handleCloseAddAllergeryModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
+  const editAllergerySubmit = async (data: AddAllergeryFormTypes) => {
+    if (!editableMedicalRecordData) {
+      return "";
+    }
+    const d = [...editableMedicalRecordData.allergies];
+    d[allergeryIndex] = data.allergery;
+    setLoading(true);
+    await server
+      .put(
+        `/medicalRecord/${
+          editableMedicalRecordData && editableMedicalRecordData._id
+        }`,
+        { allergies: d },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+        handleCloseEditAllergeryModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
+  const addDiseaseSubmit = async (data: AddDiseaseFormTypes) => {
+    if (!editableMedicalRecordData) {
+      return "";
+    }
+    setLoading(true);
+    await server
+      .put(
+        `/medicalRecord/${
+          editableMedicalRecordData && editableMedicalRecordData._id
+        }`,
+        { diseases: [...editableMedicalRecordData.diseases, data.disease] },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+        handleCloseAddDiseaseModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
+
+  const editDiseaseSubmit = async (data: AddDiseaseFormTypes) => {
+    if (!editableMedicalRecordData) {
+      return "";
+    }
+    const d = [...editableMedicalRecordData.diseases];
+    d[diseaseIndex] = data.disease;
+    setLoading(true);
+    await server
+      .put(
+        `/medicalRecord/${
+          editableMedicalRecordData && editableMedicalRecordData._id
+        }`,
+        { diseases: d },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+        handleCloseEditDiseaseModal();
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+        setLoading(false);
+      });
+    setLoading(false);
+  };
 
   const addAppointmentSubmit = async (data: AddAppointmentFormTypes) => {
     setLoading(true);
@@ -475,6 +792,36 @@ const useSubmit = (type: string) => {
 
   const submit = (data: SubmitDataTypes) => {
     switch (type) {
+      case "addMedicalRecord":
+        addMedicalRecordSubmit(data as AddMedicalRecordFormTypes);
+        break;
+      case "addSurgery":
+        addSurgerySubmit(data as AddSurgeryFormTypes);
+        break;
+      case "addMedicine":
+        addMedicineSubmit(data as AddMedicineFormTypes);
+        break;
+      case "addAllergery":
+        addAllergerySubmit(data as AddAllergeryFormTypes);
+        break;
+      case "addDisease":
+        addDiseaseSubmit(data as AddDiseaseFormTypes);
+        break;
+      case "editDisease":
+        editDiseaseSubmit(data as AddDiseaseFormTypes);
+        break;
+      case "editAllergery":
+        editAllergerySubmit(data as AddAllergeryFormTypes);
+        break;
+      case "editMedicine":
+        editMedicineSubmit(data as AddMedicineFormTypes);
+        break;
+      case "editSurgery":
+        editSurgerySubmit(data as AddSurgeryFormTypes);
+        break;
+      case "editMedicalRecord":
+        editMedicalRecordSubmit(data as EditMedicalRecordFormTypes);
+        break;
       case "addPatient":
         addPatientSubmit(data as AddPatientFormTypes);
         break;

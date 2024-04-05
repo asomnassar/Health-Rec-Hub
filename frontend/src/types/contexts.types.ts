@@ -1,5 +1,6 @@
 import {
   AppointmentTypes,
+  MedicalRecordTypes,
   MedicationTypes,
   PrescriptionTypes,
   ProcedureTypes,
@@ -9,6 +10,14 @@ import {
 interface FormsContextTypes {
   uploadImage: File | string | null;
   setUploadImage: (uploadImage: File | string | null) => void;
+  allergeryIndex: number;
+  setAllergeryIndex: (index: number) => void;
+  surgeryIndex: number;
+  setSurgeryIndex: (index: number) => void;
+  medicineIndex: number;
+  setMedicineIndex: (index: number) => void;
+  diseaseIndex: number;
+  setDiseaseIndex: (index: number) => void;
   editMedication: { data: MedicationTypes; index: number } | null;
   setEditMedication: (
     medication: { data: MedicationTypes; index: number } | null
@@ -17,7 +26,10 @@ interface FormsContextTypes {
   setTestResultFile: (file: File | undefined) => void;
   editableAppointmentData: AppointmentTypes | null;
   setEditableAppointmentData: (appointment: AppointmentTypes | null) => void;
-
+  editableMedicalRecordData: MedicalRecordTypes | null;
+  setEditableMedicalRecordData: (
+    medicalRecord: MedicalRecordTypes | null
+  ) => void;
   editablePrescriptionData: PrescriptionTypes | null;
   setEditablePrescriptionData: (prescription: PrescriptionTypes | null) => void;
 
@@ -29,9 +41,39 @@ interface FormsContextTypes {
 
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  openAddMedicineModal: boolean;
+  handleOpenAddMedicineModal: () => void;
+  handleCloseAddMedicineModal: () => void;
+  openEditMedicineModal: boolean;
+  handleOpenEditMedicineModal: () => void;
+  handleCloseEditMedicineModal: () => void;
+  openEditSurgeryModal: boolean;
+  handleOpenEditSurgeryModal: () => void;
+  handleCloseEditSurgeryModal: () => void;
+  openAddSurgeryModal: boolean;
+  handleOpenAddSurgeryModal: () => void;
+  handleCloseAddSurgeryModal: () => void;
+  openEditAllergeryModal: boolean;
+  handleOpenEditAllergeryModal: () => void;
+  handleCloseEditAllergeryModal: () => void;
+  openAddAllergeryModal: boolean;
+  handleOpenAddAllergeryModal: () => void;
+  handleCloseAddAllergeryModal: () => void;
+  openAddDiseaseModal: boolean;
+  handleOpenAddDiseaseModal: () => void;
+  handleCloseAddDiseaseModal: () => void;
+  openEditDiseaseModal: boolean;
+  handleOpenEditDiseaseModal: () => void;
+  handleCloseEditDiseaseModal: () => void;
   openForgotPasswordModal: boolean;
   handleOpenForgotPasswordModal: () => void;
   handleCloseForgotPasswordModal: () => void;
+  openAddMedicalRecordModal: boolean;
+  handleOpenAddMedicalRecordModal: () => void;
+  handleCloseAddMedicalRecordModal: () => void;
+  openEditMedicalRecordModal: boolean;
+  handleOpenEditMedicalRecordModal: () => void;
+  handleCloseEditMedicalRecordModal: () => void;
   openEditProfileModal: boolean;
   handleOpenEditProfileModal: () => void;
   handleCloseEditProfileModal: () => void;

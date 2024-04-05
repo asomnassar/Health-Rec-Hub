@@ -151,9 +151,9 @@ interface TestResultTypes {
 
 interface MedicalRecordTypes {
   _id: string;
-  patient: string;
-  currentHealthIssuses: string[];
-  age: string;
+  patient: PatientTypes;
+  currentHealthIssuses: string;
+  heartRate: string;
   bloodPressure: string;
   respiratoryRate: string;
   weigth: string;

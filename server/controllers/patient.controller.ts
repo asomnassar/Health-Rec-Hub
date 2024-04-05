@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
 import Appointment from "../models/appointment.model";
 import Counters from "../models/counters.model";
+import MedicalRecord from "../models/medicalRecord.model";
 import Prescription from "../models/prescription.model";
 import Procedure from "../models/procedure.model";
 import TestResult from "../models/testResult.model";
@@ -208,9 +209,13 @@ const getPatient = async (
       const testResults = await TestResult.find({
         patient: req.params.id,
       }).populate("patient");
+      const medicalRecord = await MedicalRecord.findOne({
+        patient: req.params.id,
+      }).populate("patient");
       data.procedures = procedures;
       data.prescriptions = prescriptions;
       data.testResults = testResults;
+      data.medicalRecord = medicalRecord;
     }
     res.status(200).json(data);
   } catch (error: any) {

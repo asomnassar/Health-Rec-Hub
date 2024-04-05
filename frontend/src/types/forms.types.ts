@@ -58,6 +58,22 @@ interface EditTestResultFormTypes {
   type: string;
 }
 
+interface AddSurgeryFormTypes {
+  surgery: string;
+}
+
+interface AddDiseaseFormTypes {
+  disease: string;
+}
+
+interface AddAllergeryFormTypes {
+  allergery: string;
+}
+
+interface AddMedicineFormTypes {
+  medicine: string;
+}
+
 interface AddPatientFormTypes {
   username: string;
   firstName: string;
@@ -81,6 +97,28 @@ interface EditPatientFormTypes {
   address: string;
   dateOfBirth: string;
   phone: string;
+}
+
+interface AddMedicalRecordFormTypes {
+  currentHealthIssuses: string;
+  bloodPressure: string;
+  respiratoryRate: string;
+  weigth: string;
+  height: string;
+  bloodType: string;
+  bloodSugarLevel: string;
+  heartRate: string;
+}
+
+interface EditMedicalRecordFormTypes {
+  currentHealthIssuses: string;
+  bloodPressure: string;
+  respiratoryRate: string;
+  weigth: string;
+  height: string;
+  bloodType: string;
+  bloodSugarLevel: string;
+  heartRate: string;
 }
 
 interface EditProfileFormTypes {
@@ -118,9 +156,15 @@ interface FormTypes {
     | EditPrescriptionFormTypes
     | SearchForAppointmentsFormTypes
     | AddProcedureFormTypes
+    | AddMedicineFormTypes
+    | AddAllergeryFormTypes
+    | AddDiseaseFormTypes
+    | AddSurgeryFormTypes
     | EditProcedureFormTypes
     | AddTestResultFormTypes
     | EditTestResultFormTypes
+    | AddMedicalRecordFormTypes
+    | EditMedicalRecordFormTypes
   >;
   errors: {
     [key: string]: { message?: string } | undefined;
@@ -146,6 +190,12 @@ interface FormInputTypes {
     | EditProcedureFormTypes
     | AddTestResultFormTypes
     | EditTestResultFormTypes
+    | AddMedicalRecordFormTypes
+    | EditMedicalRecordFormTypes
+    | AddMedicineFormTypes
+    | AddAllergeryFormTypes
+    | AddDiseaseFormTypes
+    | AddSurgeryFormTypes
   >;
   errors?: {
     [key: string]: { message?: string } | undefined;
@@ -170,7 +220,19 @@ interface FormInputTypes {
     | "time"
     | "notes"
     | "details"
-    | "type";
+    | "type"
+    | "currentHealthIssuses"
+    | "bloodPressure"
+    | "respiratoryRate"
+    | "weigth"
+    | "height"
+    | "bloodType"
+    | "bloodSugarLevel"
+    | "heartRate"
+    | "disease"
+    | "allergery"
+    | "medicine"
+    | "surgery";
   label?: string;
   type?: string;
   select?: boolean;
@@ -205,17 +267,29 @@ type SubmitDataTypes =
   | EditProcedureFormTypes
   | SearchForAppointmentsFormTypes
   | AddTestResultFormTypes
-  | EditTestResultFormTypes;
+  | EditTestResultFormTypes
+  | AddMedicineFormTypes
+  | AddAllergeryFormTypes
+  | AddDiseaseFormTypes
+  | AddSurgeryFormTypes
+  | AddMedicalRecordFormTypes
+  | EditMedicalRecordFormTypes;
 
 export type {
+  AddAllergeryFormTypes,
   AddAppointmentFormTypes,
+  AddDiseaseFormTypes,
+  AddMedicalRecordFormTypes,
+  AddMedicineFormTypes,
   AddPatientFormTypes,
   AddPrescriptionFormTypes,
   AddProcedureFormTypes,
+  AddSurgeryFormTypes,
   AddTestResultFormTypes,
   CatchErrorTypes,
   ChangePasswordFormTypes,
   EditAppointmentFormTypes,
+  EditMedicalRecordFormTypes,
   EditPatientFormTypes,
   EditPrescriptionFormTypes,
   EditProcedureFormTypes,

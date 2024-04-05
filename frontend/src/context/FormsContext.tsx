@@ -2,6 +2,7 @@ import { ReactNode, createContext, useState } from "react";
 import { FormsContextTypes } from "../types/contexts.types";
 import {
   AppointmentTypes,
+  MedicalRecordTypes,
   MedicationTypes,
   PrescriptionTypes,
   ProcedureTypes,
@@ -11,6 +12,22 @@ import {
 export const FormsContext = createContext<FormsContextTypes>({
   uploadImage: null,
   setUploadImage: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  medicineIndex: 0,
+  setMedicineIndex: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  surgeryIndex: 0,
+  setSurgeryIndex: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  allergeryIndex: 0,
+  setAllergeryIndex: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  diseaseIndex: 0,
+  setDiseaseIndex: function (): void {
     throw new Error("Function not implemented.");
   },
   editMedication: null,
@@ -33,6 +50,10 @@ export const FormsContext = createContext<FormsContextTypes>({
   setEditableTestResultData: function (): void {
     throw new Error("Function not implemented.");
   },
+  editableMedicalRecordData: null,
+  setEditableMedicalRecordData: function (): void {
+    throw new Error("Function not implemented.");
+  },
   loading: false,
   setLoading: function (): void {
     throw new Error("Function not implemented.");
@@ -46,6 +67,76 @@ export const FormsContext = createContext<FormsContextTypes>({
     throw new Error("Function not implemented.");
   },
   handleCloseForgotPasswordModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  openAddMedicalRecordModal: false,
+  handleOpenAddMedicalRecordModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleCloseAddMedicalRecordModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  openEditMedicalRecordModal: false,
+  handleOpenEditMedicalRecordModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleCloseEditMedicalRecordModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  openAddMedicineModal: false,
+  handleOpenAddMedicineModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleCloseAddMedicineModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  openEditMedicineModal: false,
+  handleOpenEditMedicineModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleCloseEditMedicineModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  openEditSurgeryModal: false,
+  handleOpenEditSurgeryModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleCloseEditSurgeryModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  openAddSurgeryModal: false,
+  handleOpenAddSurgeryModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleCloseAddSurgeryModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  openEditAllergeryModal: false,
+  handleOpenEditAllergeryModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleCloseEditAllergeryModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  openAddAllergeryModal: false,
+  handleOpenAddAllergeryModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleCloseAddAllergeryModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  openAddDiseaseModal: false,
+  handleOpenAddDiseaseModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleCloseAddDiseaseModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  openEditDiseaseModal: false,
+  handleOpenEditDiseaseModal: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  handleCloseEditDiseaseModal: function (): void {
     throw new Error("Function not implemented.");
   },
   openEditProfileModal: false,
@@ -148,6 +239,11 @@ export const FormsContext = createContext<FormsContextTypes>({
 const FormsProvider = ({ children }: { children: ReactNode }) => {
   const [uploadImage, setUploadImage] = useState<File | string | null>(null);
 
+  const [medicineIndex, setMedicineIndex] = useState<number>(0);
+  const [surgeryIndex, setSurgeryIndex] = useState<number>(0);
+  const [allergeryIndex, setAllergeryIndex] = useState<number>(0);
+  const [diseaseIndex, setDiseaseIndex] = useState<number>(0);
+
   const [editMedication, setEditMedication] = useState<{
     data: MedicationTypes;
     index: number;
@@ -169,6 +265,9 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
   const [editableTestResultData, setEditableTestResultData] =
     useState<TestResultTypes | null>(null);
 
+  const [editableMedicalRecordData, setEditableMedicalRecordData] =
+    useState<MedicalRecordTypes | null>(null);
+
   const [loading, setLoading] = useState(false);
 
   //Forgot Password
@@ -180,6 +279,106 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
 
   const handleCloseForgotPasswordModal = () => {
     setOpenForgotPasswordModal(false);
+  };
+
+  //Add Medical Record
+  const [openAddMedicalRecordModal, setOpenAddMedicalRecordModal] =
+    useState(false);
+
+  const handleOpenAddMedicalRecordModal = () => {
+    setOpenAddMedicalRecordModal(true);
+  };
+
+  const handleCloseAddMedicalRecordModal = () => {
+    setOpenAddMedicalRecordModal(false);
+  };
+
+  //Edit Medical Record
+  const [openEditMedicalRecordModal, setOpenEditMedicalRecordModal] =
+    useState(false);
+
+  const handleOpenEditMedicalRecordModal = () => {
+    setOpenEditMedicalRecordModal(true);
+  };
+  const handleCloseEditMedicalRecordModal = () => {
+    setOpenEditMedicalRecordModal(false);
+  };
+
+  //Add Medicine
+  const [openAddMedicineModal, setOpenAddMedicineModal] = useState(false);
+
+  const handleOpenAddMedicineModal = () => {
+    setOpenAddMedicineModal(true);
+  };
+  const handleCloseAddMedicineModal = () => {
+    setOpenAddMedicineModal(false);
+  };
+
+  //Edit Medicine
+  const [openEditMedicineModal, setOpenEditMedicineModal] = useState(false);
+
+  const handleOpenEditMedicineModal = () => {
+    setOpenEditMedicineModal(true);
+  };
+
+  const handleCloseEditMedicineModal = () => {
+    setOpenEditMedicineModal(false);
+  };
+
+  //Add Surgery
+  const [openAddSurgeryModal, setOpenAddSurgeryModal] = useState(false);
+
+  const handleOpenAddSurgeryModal = () => {
+    setOpenAddSurgeryModal(true);
+  };
+  const handleCloseAddSurgeryModal = () => {
+    setOpenAddSurgeryModal(false);
+  };
+  //Edit Surgery
+  const [openEditSurgeryModal, setOpenEditSurgeryModal] = useState(false);
+
+  const handleOpenEditSurgeryModal = () => {
+    setOpenEditSurgeryModal(true);
+  };
+  const handleCloseEditSurgeryModal = () => {
+    setOpenEditSurgeryModal(false);
+  };
+  //Add Allergery
+  const [openAddAllergeryModal, setOpenAddAllergeryModal] = useState(false);
+
+  const handleOpenAddAllergeryModal = () => {
+    setOpenAddAllergeryModal(true);
+  };
+  const handleCloseAddAllergeryModal = () => {
+    setOpenAddAllergeryModal(false);
+  };
+  //Edit Allergery
+  const [openEditAllergeryModal, setOpenEditAllergeryModal] = useState(false);
+
+  const handleOpenEditAllergeryModal = () => {
+    setOpenEditAllergeryModal(true);
+  };
+  const handleCloseEditAllergeryModal = () => {
+    setOpenEditAllergeryModal(false);
+  };
+  //Add Disease
+  const [openAddDiseaseModal, setOpenAddDiseaseModal] = useState(false);
+
+  const handleOpenAddDiseaseModal = () => {
+    setOpenAddDiseaseModal(true);
+  };
+  const handleCloseAddDiseaseModal = () => {
+    setOpenAddDiseaseModal(false);
+  };
+  //Edit Disease
+  const [openEditDiseaseModal, setOpenEditDiseaseModal] = useState(false);
+
+  const handleOpenEditDiseaseModal = () => {
+    setOpenEditDiseaseModal(true);
+  };
+
+  const handleCloseEditDiseaseModal = () => {
+    setOpenEditDiseaseModal(false);
   };
 
   //Edit Profile
@@ -368,7 +567,31 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
     setMedications,
     editablePrescriptionData,
     setEditablePrescriptionData,
+    openAddMedicineModal,
+    handleOpenAddMedicineModal,
+    handleCloseAddMedicineModal,
+    openAddAllergeryModal,
+    handleOpenAddAllergeryModal,
+    handleCloseAddAllergeryModal,
+    openEditAllergeryModal,
+    handleOpenEditAllergeryModal,
+    handleCloseEditAllergeryModal,
+    openEditMedicineModal,
+    handleOpenEditMedicineModal,
+    handleCloseEditMedicineModal,
+    openAddSurgeryModal,
+    handleOpenAddSurgeryModal,
+    handleCloseAddSurgeryModal,
+    openEditSurgeryModal,
+    handleOpenEditSurgeryModal,
+    handleCloseEditSurgeryModal,
     setEditMedication,
+    openEditDiseaseModal,
+    handleOpenEditDiseaseModal,
+    handleCloseEditDiseaseModal,
+    openAddDiseaseModal,
+    handleCloseAddDiseaseModal,
+    handleOpenAddDiseaseModal,
     editableProcedureData,
     openViewAppointmentModal,
     handleOpenViewAppointmentModal,
@@ -379,6 +602,8 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
     handleOpenChangePasswordModal,
     handleCloseChangePasswordModal,
     editMedication,
+    editableMedicalRecordData,
+    setEditableMedicalRecordData,
     testResultFile,
     setTestResultFile,
     openEditPatientModal,
@@ -399,6 +624,20 @@ const FormsProvider = ({ children }: { children: ReactNode }) => {
     handleOpenAddTestResultModal,
     handleCloseAddTestResultModal,
     openEditPrescriptionModal,
+    openAddMedicalRecordModal,
+    handleOpenAddMedicalRecordModal,
+    handleCloseAddMedicalRecordModal,
+    medicineIndex,
+    setMedicineIndex,
+    surgeryIndex,
+    setSurgeryIndex,
+    allergeryIndex,
+    setAllergeryIndex,
+    diseaseIndex,
+    setDiseaseIndex,
+    openEditMedicalRecordModal,
+    handleOpenEditMedicalRecordModal,
+    handleCloseEditMedicalRecordModal,
     handleOpenEditPrescriptionModal,
     handleCloseEditPrescriptionModal,
     openAddProcedureModal,

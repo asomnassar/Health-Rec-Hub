@@ -48,9 +48,9 @@ interface PrescriptionTypes extends Document {
 
 interface MedicalRecordTypes extends Document {
   patient: object;
-  currentHealthIssuses: string[];
+  currentHealthIssuses: string;
   allergies: string[];
-  age: string;
+  heartRate: string;
   bloodPressure: string;
   bloodSugarLevel: string;
   diseases: string[];

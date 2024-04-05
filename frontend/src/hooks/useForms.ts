@@ -5,12 +5,26 @@ import { useSelector } from "react-redux";
 import { z } from "zod";
 import { FormsContext } from "../context/FormsContext";
 import { addAppointmentSchema } from "../forms/AddAppointmentForm/AddAppointmentSchema";
+import {
+  addAllergerySchema,
+  addDiseaseSchema,
+  addMedicalRecordSchema,
+  addMedicineSchema,
+  addSurgerySchema,
+} from "../forms/AddMedicalRecordForm/AddMedicalRecordSchema";
 import { addPatientSchema } from "../forms/AddPatientForm/AddPatientSchema";
 import { addPrescriptionSchema } from "../forms/AddPrescriptionForm/AddPrescriptionSchema";
 import { addProcedureSchema } from "../forms/AddProcedureForm/AddProcedureSchema";
 import { addTestResultSchema } from "../forms/AddTestResultForm/AddTestResultSchema";
 import { changePasswordSchema } from "../forms/ChangePasswordForm/ChangePasswordSchema";
 import { editAppointmentSchema } from "../forms/EditAppointmentForm/EditAppointmentSchema";
+import {
+  editAllergerySchema,
+  editDiseaseSchema,
+  editMedicalRecordSchema,
+  editMedicineSchema,
+  editSurgerySchema,
+} from "../forms/EditMedicalRecordForm/EditMedicalRecordSchema";
 import { editPatientSchema } from "../forms/EditPatientForm/EditPatientSchema";
 import { editPrescriptionSchema } from "../forms/EditPrescriptionForm/EditPrescriptionSchema";
 import { editProcedureSchema } from "../forms/EditProcedureForm/EditProcedureSchema";
@@ -32,7 +46,12 @@ const useForms = (type: string) => {
     editableAppointmentData,
     editableTestResultData,
     editableProcedureData,
+    editableMedicalRecordData,
     setUploadImage,
+    surgeryIndex,
+    medicineIndex,
+    allergeryIndex,
+    diseaseIndex,
   } = useContext(FormsContext);
 
   useEffect(() => {
@@ -45,6 +64,26 @@ const useForms = (type: string) => {
 
   const schema = useMemo(() => {
     switch (type) {
+      case "addMedicalRecord":
+        return addMedicalRecordSchema;
+      case "addSurgery":
+        return addSurgerySchema;
+      case "addMedicine":
+        return addMedicineSchema;
+      case "addAllergery":
+        return addAllergerySchema;
+      case "addDisease":
+        return addDiseaseSchema;
+      case "editDisease":
+        return editDiseaseSchema;
+      case "editAllergery":
+        return editAllergerySchema;
+      case "editMedicine":
+        return editMedicineSchema;
+      case "editSurgery":
+        return editSurgerySchema;
+      case "editMedicalRecord":
+        return editMedicalRecordSchema;
       case "addPatient":
         return addPatientSchema;
       case "editPatient":
@@ -84,6 +123,44 @@ const useForms = (type: string) => {
 
   const initialValues = useMemo(() => {
     switch (type) {
+      case "editDisease":
+        return editableMedicalRecordData
+          ? {
+              disease: editableMedicalRecordData.diseases[diseaseIndex],
+            }
+          : {};
+      case "editAllergery":
+        return editableMedicalRecordData
+          ? {
+              allergery: editableMedicalRecordData.allergies[allergeryIndex],
+            }
+          : {};
+      case "editMedicine":
+        return editableMedicalRecordData
+          ? {
+              medicine: editableMedicalRecordData.medicines[medicineIndex],
+            }
+          : {};
+      case "editSurgery":
+        return editableMedicalRecordData
+          ? {
+              surgery: editableMedicalRecordData.surgeries[surgeryIndex],
+            }
+          : {};
+      case "editMedicalRecord":
+        return editableMedicalRecordData
+          ? {
+              currentHealthIssuses:
+                editableMedicalRecordData.currentHealthIssuses,
+              bloodPressure: editableMedicalRecordData.bloodPressure,
+              respiratoryRate: editableMedicalRecordData.respiratoryRate,
+              weigth: editableMedicalRecordData.weigth,
+              height: editableMedicalRecordData.height,
+              bloodType: editableMedicalRecordData.bloodType,
+              bloodSugarLevel: editableMedicalRecordData.bloodSugarLevel,
+              heartRate: editableMedicalRecordData.heartRate,
+            }
+          : {};
       case "editProfile":
         return profile
           ? {
@@ -139,6 +216,11 @@ const useForms = (type: string) => {
     }
   }, [
     type,
+    editableMedicalRecordData,
+    diseaseIndex,
+    allergeryIndex,
+    medicineIndex,
+    surgeryIndex,
     profile,
     patient,
     editableAppointmentData,
