@@ -22,7 +22,9 @@ const EditProfileForm = ({ register, errors }: FormTypes) => {
   return (
     <Box className={`grid justify-stretch items-center gap-6`}>
       <UploadImage title={"الصورة"} />
-      <Box className={`grid grid-cols-2 justify-center items-center gap-4`}>
+      <Box
+        className={`grid grid-cols-2 justify-center items-center gap-4 sm:grid-cols-1`}
+      >
         <Input
           register={register}
           errors={errors}
@@ -87,7 +89,7 @@ const EditProfileForm = ({ register, errors }: FormTypes) => {
         )}
       </Box>
       <Box className={`grid justify-center items-center`}>
-        <SubmitButton loading={loading}>اضف</SubmitButton>
+        <SubmitButton loading={loading}>تعديل</SubmitButton>
       </Box>
     </Box>
   );

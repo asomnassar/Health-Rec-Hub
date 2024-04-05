@@ -60,9 +60,15 @@ const getAllPrescriptions = async (
   next: NextFunction
 ) => {
   try {
+    let queries: any;
+    const { search }: { search?: string } = req.query;
+    if (search && search !== "") {
+      queries.medications.name = { $regex: new RegExp(search, "i") };
+    }
     if (req.userType === "patient") {
       const prescriptions = await Prescription.find({
         patient: req.userData,
+        ...queries,
       }).populate("patient");
       return res.status(202).json({
         data: prescriptions,
@@ -70,6 +76,7 @@ const getAllPrescriptions = async (
     } else if (req.userType === "doctor") {
       const prescriptions = await Prescription.find({
         doctor: req.userData,
+        ...queries,
       }).populate("patient");
       return res.status(202).json({
         data: prescriptions,

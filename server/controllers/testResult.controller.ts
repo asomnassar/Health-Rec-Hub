@@ -70,9 +70,15 @@ const getAllTestResults = async (
   next: NextFunction
 ) => {
   try {
+    let queries: any;
+    const { search }: { search?: string } = req.query;
+    if (search && search !== "") {
+      queries.details = { $regex: new RegExp(search, "i") };
+    }
     if (req.userType === "patient") {
       const testResults = await TestResult.find({
         patient: req.userData,
+        ...queries,
       }).populate("patient");
       return res.status(202).json({
         data: testResults,
@@ -80,6 +86,7 @@ const getAllTestResults = async (
     } else if (req.userType === "doctor") {
       const testResults = await TestResult.find({
         doctor: req.userData,
+        ...queries,
       }).populate("patient");
       return res.status(202).json({
         data: testResults,

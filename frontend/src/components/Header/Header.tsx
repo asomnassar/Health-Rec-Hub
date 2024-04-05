@@ -23,7 +23,7 @@ const Header = () => {
   };
 
   return (
-    <AppBar className={`!bg-white h-[80px]`}>
+    <AppBar className={`!bg-white h-[80px] md:h-[70px] sm:!h-[60px]`}>
       <PrimaryContainer className="text-dark !flex justify-between items-center ">
         <Logo />
         <Box className={`flex justify-end items-center gap-4`}>

@@ -36,9 +36,7 @@ router
     deleteAppointment
   );
 
-router
-  .route("/all")
-  .get(authorization, isUserExist, isDoctorOrSystemManager, getAllAppointments);
+router.route("/all").get(authorization, isUserExist, getAllAppointments);
 
 router
   .route("/patient")

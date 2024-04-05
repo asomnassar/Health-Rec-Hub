@@ -116,7 +116,7 @@ const Navbar = () => {
   return (
     <PrimaryContainer>
       <Box
-        className={`flex justify-between items-center gap-4 p-4 px-8 bg-white rounded-xl md:gap-3 sm:!gap-2 md:p-2 md:px-6 md:mt-2 md:grid md:grid-cols-2`}
+        className={`flex justify-between items-center gap-4 p-4 px-8 bg-white rounded-xl md:gap-3 sm:!gap-2 md:p-2 md:px-6 md:grid md:grid-cols-2`}
       >
         {navs}
       </Box>

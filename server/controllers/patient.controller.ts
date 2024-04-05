@@ -149,7 +149,6 @@ const getAllPatients = async (
 ) => {
   try {
     const { status, search, page }: GetAllPatientsQueryParams = req.query;
-    let allPatients;
     let queries: any = { type: "patient" };
 
     if (search && search !== "") {
@@ -162,15 +161,16 @@ const getAllPatients = async (
 
     let skipped = 0;
 
-    if (page) {
-      skipped =
-        parseInt(`${process.env.PAGINATION_NUMBER}`) *
-        (parseInt(`${page}`) - 1);
-    }
+    // if (page) {
+    //   skipped =
+    //     parseInt(`${process.env.PAGINATION_NUMBER}`) *
+    //     (parseInt(`${page}`) - 1);
+    // }
 
-    allPatients = await User.find(queries)
-      .skip(skipped)
-      .limit(parseInt(`${process.env.PAGINATION_NUMBER}`));
+    // allPatients = await User.find(queries)
+    //   .skip(skipped)
+    //   .limit(parseInt(`${process.env.PAGINATION_NUMBER}`));
+    const allPatients = await User.find(queries);
 
     res.status(200).json({
       data: allPatients,

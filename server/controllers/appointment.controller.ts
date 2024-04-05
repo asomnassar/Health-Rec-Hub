@@ -67,9 +67,27 @@ const getAllAppointments = async (
   next: NextFunction
 ) => {
   try {
-    const appointments = await Appointment.find().populate("patient");
-    res.status(202).json({
-      data: appointments,
+    let queries: any;
+    const { search }: { search?: string } = req.query;
+    if (search && search !== "") {
+      queries.notes = { $regex: new RegExp(search, "i") };
+    }
+    if (req.userType === "doctor" || req.userType === "systemManager") {
+      const appointments = await Appointment.find(queries).populate("patient");
+      res.status(202).json({
+        data: appointments,
+      });
+    } else if (req.userType === "patient") {
+      const appointments = await Appointment.find({
+        ...queries,
+        patient: req.userData,
+      }).populate("patient");
+      res.status(202).json({
+        data: appointments,
+      });
+    }
+    res.status(400).json({
+      message: "Not Authorized",
     });
   } catch (error: any) {
     const err = new CustomError(error.message, 500);

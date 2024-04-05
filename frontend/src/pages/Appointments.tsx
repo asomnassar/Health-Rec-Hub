@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Forms from "../forms/Forms";
 import { PrimaryBox } from "../mui/PrimaryBox";
 import { PrimaryContainer } from "../mui/PrimaryContiner";
 import { getAppointments } from "../store/appointmentsSlice";
@@ -19,7 +18,7 @@ const Appointments = () => {
   return (
     <PrimaryBox>
       <PrimaryContainer className="!grid justify-stretch items-center gap-4">
-        <Forms type={"searchForAppointments"} />
+        {/* <Forms type={"searchForAppointments"} /> */}
         <AppointmentsTable data={appointments} isLoading={isLoading} />
       </PrimaryContainer>
     </PrimaryBox>
