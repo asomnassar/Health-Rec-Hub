@@ -4,6 +4,7 @@ import activePatientsReducer from "./activePatientsSlice";
 import appointmentsReducer from "./appointmentsSlice";
 import authReducer from "./authSlice";
 import blockedPatientsReducer from "./blockedPatientsSlice";
+import medicalRecordReducer from "./medicalRecordSlice";
 import patientReducer from "./patientSlice";
 import pendingPatientsReducer from "./pendingPatientsSlice";
 import prescriptionsReducer from "./prescriptionsSlice";
@@ -24,6 +25,7 @@ export const store = configureStore({
     testResults: testResultsReducer,
     prescriptions: prescriptionsReducer,
     procedures: proceduresReducer,
+    medicalRecord: medicalRecordReducer,
   },
 });
 

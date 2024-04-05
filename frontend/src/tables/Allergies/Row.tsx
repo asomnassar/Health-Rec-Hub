@@ -1,14 +1,21 @@
 import { DeleteRounded, EditRounded } from "@mui/icons-material";
-import { Box, Tooltip, Typography } from "@mui/material";
-import { useContext } from "react";
-import { useSelector } from "react-redux";
+import { Box, CircularProgress, Tooltip, Typography } from "@mui/material";
+import axios from "axios";
+import { useContext, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { FormsContext } from "../../context/FormsContext";
+import { handleAlert } from "../../functions/handleAlert";
 import { ActiveIconButton } from "../../mui/ActiveIconButton";
 import { BlockedIconButton } from "../../mui/BlockedIconButton";
-import { RootState } from "../../store/store";
+import { getPatient } from "../../store/patientSlice";
+import { AppDispatch, RootState } from "../../store/store";
+import { CatchErrorTypes } from "../../types/forms.types";
 import { StyledTableRow } from "../StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
-
+const server = axios.create({
+  baseURL: `${import.meta.env.VITE_SERVER_URL}`,
+});
 const Row = ({
   row,
   index,
@@ -31,7 +38,42 @@ const Row = ({
     setEditableMedicalRecordData(medicalRecord);
   };
 
-  const handleDelete = async () => {};
+  const [loadingDeleted, setLoadingDeleted] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const { token } = useSelector((state: RootState) => state.auth);
+  const { id } = useParams();
+
+  const loadingIcon = (
+    <CircularProgress sx={{ color: (theme) => theme.palette.common.white }} />
+  );
+
+  const handleDelete = async () => {
+    if (!medicalRecord) {
+      return "";
+    }
+    const d = [...medicalRecord.allergies];
+    d.splice(index, 1);
+    setLoadingDeleted(true);
+    await server
+      .put(
+        `/medicalRecord/${medicalRecord._id}`,
+        { allergies: d },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { message } = res.data;
+        handleAlert({ msg: message, status: "success" });
+        dispatch(getPatient({ id }));
+      })
+      .catch((err: CatchErrorTypes) => {
+        handleAlert({ msg: err.response.data.message, status: "error" });
+      });
+    setLoadingDeleted(false);
+  };
 
   return (
     <StyledTableRow className={`cursor-pointer`}>
@@ -48,7 +90,12 @@ const Row = ({
               </ActiveIconButton>
             </Tooltip>
             <Tooltip title={"حذف"}>
-              <BlockedIconButton onClick={handleDelete}>
+              <BlockedIconButton
+                loadingPosition={"center"}
+                loading={loadingDeleted}
+                loadingIndicator={loadingIcon}
+                onClick={handleDelete}
+              >
                 <DeleteRounded />
               </BlockedIconButton>
             </Tooltip>
