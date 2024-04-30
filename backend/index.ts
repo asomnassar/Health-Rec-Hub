@@ -1,6 +1,6 @@
-// import cors from "cors";
+import cors from "cors";
 import { config } from "dotenv";
-import express, { Express } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 // import dbConnection from "./db/db";
 // import appointmentRouter from "./routes/appointment.route";
 // import authRouter from "./routes/authentication.route";
@@ -11,8 +11,8 @@ import express, { Express } from "express";
 // import procedureRouter from "./routes/procedure.route";
 // import testResultRouter from "./routes/testResult.route";
 // import userRouter from "./routes/user.route";
-// import CustomError from "./utils/customError.util";
-// import errorHandler from "./utils/errorHandler.util";
+import CustomError from "./utils/customError.util";
+import errorHandler from "./utils/errorHandler.util";
 
 // //Connect Dataase
 // dbConnection();
@@ -23,14 +23,14 @@ config();
 //Create Express App
 const app: Express = express();
 
-// app.use(express.json());
+app.use(express.json());
 
-// //Allow All CORS Request
-// app.use(
-//   cors({
-//     origin: "*",
-//   })
-// );
+//Allow All CORS Request
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 // //Routes
 // app.use("/api/auth", authRouter);
@@ -43,26 +43,26 @@ const app: Express = express();
 // app.use("/api/testResult", testResultRouter);
 // app.use("/api/medication", medicationRouter);
 
-// //Root Route
-// app.get("/", (_, res: Response) => {
-//   const treasureMap = {
-//     message: "🗺️ Welcome to the Health Record Hub API! 🏴‍☠️",
-//     clues: [
-//       "🌴 Follow the path of 'api/' to start the journey.",
-//       "🦜 Look out for the 'X marks the spot' at each endpoint!",
-//     ],
-//   };
-//   res.status(200).json(treasureMap);
-// });
+//Root Route
+app.get("/", (_, res: Response) => {
+  const treasureMap = {
+    message: "🗺️ Welcome to the Health Record Hub API! 🏴‍☠️",
+    clues: [
+      "🌴 Follow the path of 'api/' to start the journey.",
+      "🦜 Look out for the 'X marks the spot' at each endpoint!",
+    ],
+  };
+  res.status(200).json(treasureMap);
+});
 
-// //Wrong Path Error Handle
-// app.all("*", (req: Request, _: any, next: NextFunction) => {
-//   const err = new CustomError(`${req.url} لم استطيع الوصول الى`, 404);
-//   next(err);
-// });
+//Wrong Path Error Handle
+app.all("*", (req: Request, _: any, next: NextFunction) => {
+  const err = new CustomError(`${req.url} لم استطيع الوصول الى`, 404);
+  next(err);
+});
 
-// //Error Handle
-// app.use(errorHandler);
+//Error Handle
+app.use(errorHandler);
 
 //Running The Server
 const port: number = +(process.env.PORT || 4000);
