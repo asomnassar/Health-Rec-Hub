@@ -1,12 +1,7 @@
-import { Pool } from "pg";
+import { PrismaClient } from "@prisma/client";
 
-const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL,
+const prisma = new PrismaClient({
+  log: ["query"],
 });
 
-pool.connect((err) => {
-  if (err) throw err;
-  console.log("Connect to PostgreseSQL successfully");
-});
-
-module.exports = pool;
+export default prisma;

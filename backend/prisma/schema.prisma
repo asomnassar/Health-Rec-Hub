@@ -1,14 +1,109 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+model User {
+  id                   String          @id @default(uuid())
+  username             String          @unique
+  firstName            String
+  lastName             String
+  type                 String          @default("patient")
+  gender               String
+  age                  String
+  email                String          @unique
+  dateOfBirth          DateTime?
+  phone                String?
+  address              String?
+  specialization       String?
+  password             String
+  status               String          @default("pending")
+  avatar               String?         @default("https://cdn-icons-png.flaticon.com/128/3177/3177440.png")
+  creator              String?
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  AppointmentsPatient  Appointment[]   @relation("patient")
+  AppointmentsCreator  Appointment[]   @relation("creator")
+  MedicalRecordPatient MedicalRecord[] @relation("patient")
+  MedicalRecordDoctor  MedicalRecord[] @relation("doctor")
+  PrescriptionPatient  Prescription[]  @relation("patient")
+  PrescriptionDoctor   Prescription[]  @relation("doctor")
+  proceduresPatient    Procedure[]     @relation("patient")
+  proceduresDoctor     Procedure[]     @relation("doctor")
+  testResultsPatient   TestResult[]    @relation("patient")
+  testResultsDoctor    TestResult[]    @relation("doctor")
+}
+
+model TestResult {
+  id        String   @id @default(uuid())
+  patient   User     @relation("patient", fields: [patientId], references: [id])
+  patientId String
+  type      String
+  pdf       String
+  doctor    User     @relation("doctor", fields: [doctorId], references: [id])
+  doctorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Prescription {
+  id          String   @id @default(uuid())
+  patient     User     @relation("patient", fields: [patientId], references: [id])
+  patientId   String
+  medications Json[]
+  doctor      User     @relation("doctor", fields: [doctorId], references: [id])
+  doctorId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Appointment {
+  id        String   @id @default(uuid())
+  status    String   @default("waiting")
+  notes     String?
+  date      String
+  time      String
+  patient   User     @relation("patient", fields: [patientId], references: [id])
+  patientId String
+  creator   User     @relation("creator", fields: [creatorId], references: [id])
+  creatorId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Procedure {
+  id        String   @id @default(uuid())
+  patient   User     @relation("patient", fields: [patientId], references: [id])
+  patientId String
+  details   String
+  doctor    User     @relation("doctor", fields: [doctorId], references: [id])
+  doctorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MedicalRecord {
+  id                  String   @id @default(uuid())
+  patient             User     @relation("patient", fields: [patientId], references: [id])
+  patientId           String
+  currentHealthIssues String
+  heartRate           String
+  bloodPressure       String
+  respiratoryRate     String
+  weight              String
+  height              String
+  bloodType           String
+  bloodSugarLevel     String
+  surgeries           String[]
+  medicines           String[]
+  diseases            String[]
+  allergies           String[]
+  doctor              User     @relation("doctor", fields: [doctorId], references: [id])
+  doctorId            String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }
