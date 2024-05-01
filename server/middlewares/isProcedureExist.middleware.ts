@@ -1,7 +1,9 @@
+import { PrismaClient } from "@prisma/client";
 import { NextFunction, Response } from "express";
-import Procedure from "../models/procedure.model";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
+
+const prisma = new PrismaClient();
 
 const isProcedureExist = async (
   req: AuthorizationRequestTypes,
@@ -9,10 +11,15 @@ const isProcedureExist = async (
   next: NextFunction
 ) => {
   try {
-    const procedure = await Procedure.findOne({ _id: req.params.id });
+    const { id } = req.params;
+    const procedure = await prisma.procedure.findUnique({
+      where: { id },
+    });
+
     if (procedure) {
       return next();
     }
+
     return res.status(404).json({
       message: "الاجراء غير موجود",
     });

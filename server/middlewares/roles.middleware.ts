@@ -1,29 +1,40 @@
+import { PrismaClient } from "@prisma/client";
 import { NextFunction } from "express";
-import User from "../models/user.model";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
 
-//Check if Role is Right or not
+const prisma = new PrismaClient();
+
+// Check if Role is Right or not
 const checkRole = async (
   next: NextFunction,
   userData?: string,
   ...roles: string[]
 ) => {
-  const user = await User.findOne({ _id: userData });
-  if (user) {
-    if (roles.includes(user.type)) {
-      return next();
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userData },
+      select: { type: true },
+    });
+
+    if (user) {
+      if (roles.includes(user.type)) {
+        return next();
+      } else {
+        const err = new CustomError("غير مسموح لك بهذا الاجراء", 401);
+        return next(err);
+      }
     } else {
-      const err = new CustomError("غير مسموح لك بهذا الاجراء", 401);
+      const err = new CustomError("المستخدم غير موجود", 401);
       return next(err);
     }
-  } else {
-    const err = new CustomError("المستخدم غير موجود", 401);
-    return next(err);
+  } catch (error: any) {
+    const err = new CustomError(error.message, 500);
+    next(err);
   }
 };
 
-//Roles Types
+// Roles Types
 
 const isNotPatient = async (
   req: AuthorizationRequestTypes,
@@ -33,7 +44,7 @@ const isNotPatient = async (
   try {
     const { userData } = req;
     if (userData) {
-      checkRole(
+      await checkRole(
         next,
         userData,
         "doctor",
@@ -58,7 +69,7 @@ const isDoctor = async (
   try {
     const { userData } = req;
     if (userData) {
-      checkRole(next, userData, "doctor");
+      await checkRole(next, userData, "doctor");
     } else {
       const err = new CustomError("صلاحية تسجيل الدخول انتهت", 401);
       next(err);
@@ -77,7 +88,7 @@ const isSystemManager = async (
   try {
     const { userData } = req;
     if (userData) {
-      checkRole(next, userData, "systemManager");
+      await checkRole(next, userData, "systemManager");
     } else {
       const err = new CustomError("صلاحية تسجيل الدخول انتهت", 401);
       next(err);
@@ -96,7 +107,7 @@ const isDoctorOrSystemManager = async (
   try {
     const { userData } = req;
     if (userData) {
-      checkRole(next, userData, "doctor", "systemManager");
+      await checkRole(next, userData, "doctor", "systemManager");
     } else {
       const err = new CustomError("صلاحية تسجيل الدخول انتهت", 401);
       next(err);
@@ -114,7 +125,12 @@ const isTechnicalAdministrator = async (
 ) => {
   try {
     const { userData } = req;
-    checkRole(next, userData, "technicalAdministrator");
+    if (userData) {
+      await checkRole(next, userData, "technicalAdministrator");
+    } else {
+      const err = new CustomError("صلاحية تسجيل الدخول انتهت", 401);
+      next(err);
+    }
   } catch (error: any) {
     const err = new CustomError(error.message, 500);
     next(err);
