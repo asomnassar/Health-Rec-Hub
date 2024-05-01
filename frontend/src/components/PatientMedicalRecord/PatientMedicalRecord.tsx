@@ -73,12 +73,12 @@ const PatientMedicalRecord = ({
             <Box
               className={`grid justify-stretch items-center gap-2 grid-cols-4 md:grid-cols-2 sm:!grid-cols-1`}
             >
-              <DataBox title={"التشخيص : "} value={data.currentHealthIssues} />
+              <DataBox title={"التشخيص : "} value={data.currentHealthIssuses} />
               <DataBox title={"ضغط الدم : "} value={data.bloodPressure} />
               <DataBox title={"معدل التنفس : "} value={data.respiratoryRate} />
               <DataBox title={"معدل نبضات القلب : "} value={data.heartRate} />
               <DataBox title={"زمرة الدم : "} value={data.bloodType} />
-              <DataBox title={"الوزن : "} value={data.weight} />
+              <DataBox title={"الوزن : "} value={data.weigth} />
               <DataBox title={"الطول : "} value={data.height} />
               <DataBox
                 title={"نسبة السكر بالدم : "}
