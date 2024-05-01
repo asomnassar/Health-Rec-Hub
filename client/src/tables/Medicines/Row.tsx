@@ -55,7 +55,7 @@ const Row = ({
     setLoadingDeleted(true);
     await server
       .put(
-        `/medicalRecord/${medicalRecord._id}`,
+        `/medicalRecord/${medicalRecord.id}`,
         { medicines: d },
         {
           headers: {

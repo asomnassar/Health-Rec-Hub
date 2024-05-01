@@ -39,7 +39,7 @@ const ViewAppointmentModal = () => {
                 </Typography>
                 <Link
                   to={`${import.meta.env.VITE_PATIENT_ROUTE}/${
-                    (editableAppointmentData.patient as ProfileTypes)._id
+                    (editableAppointmentData.patient as ProfileTypes).id
                   }`}
                   onClick={handleCloseViewAppointmentModal}
                 >
