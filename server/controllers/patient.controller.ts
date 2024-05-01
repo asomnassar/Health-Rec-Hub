@@ -1,16 +1,12 @@
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
-import Appointment from "../models/appointment.model";
-import Counters from "../models/counters.model";
-import MedicalRecord from "../models/medicalRecord.model";
-import Prescription from "../models/prescription.model";
-import Procedure from "../models/procedure.model";
-import TestResult from "../models/testResult.model";
-import User from "../models/user.model";
 import GetAllPatientsQueryParams from "../types/controllers.types";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
 import { uploadImage } from "../utils/upload.util";
+
+const prisma = new PrismaClient();
 
 const addPatient = async (
   req: AuthorizationRequestTypes,
@@ -18,30 +14,32 @@ const addPatient = async (
   next: NextFunction
 ) => {
   try {
-    const { username, email, phone, password } = req.body;
-    const user = await User.findOne({
-      $or: [{ username }, { email }, { phone }],
+    const { username, email, phone, password, dateOfBirth } = req.body;
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [{ username }, { email }, { phone }],
+      },
     });
-    if (!user) {
+    if (!existingUser) {
       const hashedPassword = await bcrypt.hash(password, 10);
+      let avatar;
       if (req.file) {
-        const image = await uploadImage(req.file);
-        req.body.avatar = image;
+        avatar = await uploadImage(req.file);
+        req.body.avatar = avatar;
       }
-      const newUser = await User.create({
-        ...req.body,
-        password: hashedPassword,
-        status: "pending",
-        createdBy: req.userData,
+      delete req.body.image;
+      if (dateOfBirth) {
+        req.body.dateOfBirth = new Date(dateOfBirth);
+      }
+      const newUser = await prisma.user.create({
+        data: {
+          ...req.body,
+          password: hashedPassword,
+          status: "pending",
+          creator: req.userData,
+        },
       });
       if (newUser) {
-        const counters = await Counters.findOne({ status: "original" });
-        if (counters) {
-          Counters.updateOne(
-            { status: "original" },
-            { pendingPatients: +counters.pendingPatients + 1 }
-          );
-        }
         return res.status(201).json({
           message: "تم انشاء مريض جديد بنجاح",
         });
@@ -61,22 +59,26 @@ const editPatient = async (
   next: NextFunction
 ) => {
   try {
-    const { username, email, phone } = req.body;
+    const { dateOfBirth } = req.body;
     const { id } = req.params;
-    const user = await User.findOne({
-      _id: id,
+    const user = await prisma.user.findUnique({
+      where: { id },
     });
     if (user) {
       if (req.file) {
         const image = await uploadImage(req.file);
         req.body.avatar = image;
+      } else {
+        req.body.avatar = req.body.image;
       }
-      await User.updateOne(
-        { _id: id },
-        {
-          ...req.body,
-        }
-      );
+      delete req.body.image;
+      if (dateOfBirth) {
+        req.body.dateOfBirth = new Date(dateOfBirth);
+      }
+      await prisma.user.update({
+        where: { id },
+        data: req.body,
+      });
       return res.status(201).json({
         message: "تم تعديل مريض بنجاح",
       });
@@ -96,17 +98,10 @@ const activatePatient = async (
 ) => {
   try {
     const { id } = req.params;
-    await User.updateOne({ _id: id }, { status: "active" });
-    const counters = await Counters.findOne({ status: "original" });
-    if (counters) {
-      let updates: any = { activePatients: +counters.activePatients + 1 };
-      if (req.patientStatus === "pending") {
-        updates.pendingPatients = +counters.pendingPatients - 1;
-      } else if (req.patientStatus === "blocked") {
-        updates.blockedPatients = +counters.blockedPatients - 1;
-      }
-      Counters.updateOne({ status: "original" }, updates);
-    }
+    await prisma.user.update({
+      where: { id },
+      data: { status: "active" },
+    });
     res.status(206).json({
       message: "تم تفعيل المريض بنجاح",
     });
@@ -123,17 +118,10 @@ const blockPatient = async (
 ) => {
   try {
     const { id } = req.params;
-    await User.updateOne({ _id: id }, { status: "blocked" });
-    const counters = await Counters.findOne({ status: "original" });
-    if (counters) {
-      let updates: any = { blockedPatients: +counters.blockedPatients + 1 };
-      if (req.patientStatus === "pending") {
-        updates.pendingPatients = +counters.pendingPatients - 1;
-      } else if (req.patientStatus === "active") {
-        updates.activePatients = +counters.activePatients - 1;
-      }
-      Counters.updateOne({ status: "original" }, updates);
-    }
+    await prisma.user.update({
+      where: { id },
+      data: { status: "blocked" },
+    });
     res.status(206).json({
       message: "تم اغلاق حساب المريض بنجاح",
     });
@@ -149,29 +137,20 @@ const getAllPatients = async (
   next: NextFunction
 ) => {
   try {
-    const { status, search, page }: GetAllPatientsQueryParams = req.query;
+    const { status, search }: GetAllPatientsQueryParams = req.query;
     let queries: any = { type: "patient" };
 
     if (search && search !== "") {
-      queries.username = { $regex: new RegExp(search, "i") };
+      queries.username = { contains: search, mode: "insensitive" };
     }
 
     if (status && status !== "") {
       queries.status = status;
     }
 
-    let skipped = 0;
-
-    // if (page) {
-    //   skipped =
-    //     parseInt(`${process.env.PAGINATION_NUMBER}`) *
-    //     (parseInt(`${page}`) - 1);
-    // }
-
-    // allPatients = await User.find(queries)
-    //   .skip(skipped)
-    //   .limit(parseInt(`${process.env.PAGINATION_NUMBER}`));
-    const allPatients = await User.find(queries);
+    const allPatients = await prisma.user.findMany({
+      where: queries,
+    });
 
     res.status(200).json({
       data: allPatients,
@@ -188,35 +167,43 @@ const getPatient = async (
   next: NextFunction
 ) => {
   try {
-    const data: any = {};
-    const patient = await User.findOne({ _id: req.params.id }).populate({
-      path: "createdBy",
+    const { id } = req.params;
+    const patient = await prisma.user.findUnique({
+      where: { id },
     });
-    data.data = patient;
+    const data: any = { data: patient };
+
     if (req.userType === "systemManager" || req.userType === "doctor") {
-      const appointments = await Appointment.find({
-        patient: req.params.id,
-      }).populate("patient");
+      const appointments = await prisma.appointment.findMany({
+        where: { patientId: id },
+        include: { patient: true },
+      });
       data.appointments = appointments;
     }
+
     if (req.userType === "doctor") {
-      const procedures = await Procedure.find({
-        patient: req.params.id,
-      }).populate("patient");
-      const prescriptions = await Prescription.find({
-        patient: req.params.id,
-      }).populate("patient");
-      const testResults = await TestResult.find({
-        patient: req.params.id,
-      }).populate("patient");
-      const medicalRecord = await MedicalRecord.findOne({
-        patient: req.params.id,
-      }).populate("patient");
+      const procedures = await prisma.procedure.findMany({
+        where: { patientId: id },
+        include: { patient: true },
+      });
+      const prescriptions = await prisma.prescription.findMany({
+        where: { patientId: id },
+        include: { patient: true },
+      });
+      const testResults = await prisma.testResult.findMany({
+        where: { patientId: id },
+        include: { patient: true },
+      });
+      const medicalRecord = await prisma.medicalRecord.findFirst({
+        where: { patientId: id },
+        include: { patient: true },
+      });
       data.procedures = procedures;
       data.prescriptions = prescriptions;
       data.testResults = testResults;
       data.medicalRecord = medicalRecord;
     }
+
     res.status(200).json(data);
   } catch (error: any) {
     const err = new CustomError(error.message, 500);

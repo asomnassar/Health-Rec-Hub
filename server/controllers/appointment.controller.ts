@@ -1,7 +1,9 @@
+import { PrismaClient } from "@prisma/client";
 import { NextFunction, Response } from "express";
-import Appointment from "../models/appointment.model";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
+
+const prisma = new PrismaClient();
 
 const addAppointment = async (
   req: AuthorizationRequestTypes,
@@ -9,9 +11,19 @@ const addAppointment = async (
   next: NextFunction
 ) => {
   try {
-    req.body.patient = req.params.id;
-    req.body.createdBy = req.userData;
-    await Appointment.create(req.body);
+    const { id: patientId } = req.params;
+    const { notes, date, time } = req.body;
+
+    await prisma.appointment.create({
+      data: {
+        notes,
+        date,
+        time,
+        patient: { connect: { id: patientId } },
+        creator: { connect: { id: req.userData } },
+      },
+    });
+
     res.status(202).json({
       message: "تم انشاء الموعد بنجاح",
     });
@@ -27,15 +39,18 @@ const updateAppointment = async (
   next: NextFunction
 ) => {
   try {
+    const { id } = req.params;
     const { notes, time, date } = req.body;
-    await Appointment.updateOne(
-      { _id: req.params.id },
-      {
+
+    await prisma.appointment.update({
+      where: { id },
+      data: {
         notes,
         date,
         time,
-      }
-    );
+      },
+    });
+
     res.status(202).json({
       message: "تم تعديل الموعد بنجاح",
     });
@@ -51,7 +66,12 @@ const deleteAppointment = async (
   next: NextFunction
 ) => {
   try {
-    await Appointment.deleteOne({ _id: req.params.id });
+    const { id } = req.params;
+
+    await prisma.appointment.delete({
+      where: { id },
+    });
+
     res.status(202).json({
       message: "تم حذف الموعد بنجاح",
     });
@@ -67,27 +87,37 @@ const getAllAppointments = async (
   next: NextFunction
 ) => {
   try {
-    let queries: any;
     const { search }: { search?: string } = req.query;
-    if (search && search !== "") {
-      queries.notes = { $regex: new RegExp(search, "i") };
-    }
+    let appointments;
+
     if (req.userType === "doctor" || req.userType === "systemManager") {
-      const appointments = await Appointment.find(queries).populate("patient");
-      res.status(202).json({
-        data: appointments,
+      appointments = await prisma.appointment.findMany({
+        where: {
+          notes: {
+            contains: search || "",
+          },
+        },
+        include: { patient: true },
       });
     } else if (req.userType === "patient") {
-      const appointments = await Appointment.find({
-        ...queries,
-        patient: req.userData,
-      }).populate("patient");
-      res.status(202).json({
-        data: appointments,
+      appointments = await prisma.appointment.findMany({
+        where: {
+          AND: [
+            { notes: { contains: search || "" } },
+            { patientId: req.userData },
+          ],
+        },
+        include: { patient: true },
       });
+    } else {
+      res.status(400).json({
+        message: "Not Authorized",
+      });
+      return;
     }
-    res.status(400).json({
-      message: "Not Authorized",
+
+    res.status(202).json({
+      data: appointments,
     });
   } catch (error: any) {
     const err = new CustomError(error.message, 500);
@@ -101,9 +131,11 @@ const getPatientAppointments = async (
   next: NextFunction
 ) => {
   try {
-    const appointments = await Appointment.find({
-      patient: req.userData,
-    }).populate("patient");
+    const appointments = await prisma.appointment.findMany({
+      where: { patientId: req.userData },
+      include: { patient: true },
+    });
+
     res.status(202).json({
       data: appointments,
     });

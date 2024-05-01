@@ -4,7 +4,6 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import appointmentRouter from "./routes/appointment.route";
 import authRouter from "./routes/authentication.route";
 import medicalRecordRouter from "./routes/medicalRecord.route";
-// import medicationRouter from "./routes/medication.route";
 import patientRouter from "./routes/patient.route";
 import prescriptionRouter from "./routes/prescription.route";
 import procedureRouter from "./routes/procedure.route";
@@ -37,7 +36,6 @@ app.use("/api/medicalRecord", medicalRecordRouter);
 app.use("/api/procedure", procedureRouter);
 app.use("/api/prescription", prescriptionRouter);
 app.use("/api/testResult", testResultRouter);
-// app.use("/api/medication", medicationRouter);
 
 //Root Route
 app.get("/", (_, res: Response) => {

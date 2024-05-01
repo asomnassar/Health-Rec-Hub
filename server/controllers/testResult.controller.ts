@@ -1,8 +1,10 @@
+import { PrismaClient } from "@prisma/client";
 import { NextFunction, Response } from "express";
-import TestResult from "../models/testResult.model";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
 import { uploadPDF } from "../utils/upload.util";
+
+const prisma = new PrismaClient();
 
 const addTestResult = async (
   req: AuthorizationRequestTypes,
@@ -10,13 +12,17 @@ const addTestResult = async (
   next: NextFunction
 ) => {
   try {
-    req.body.doctor = req.userData;
-    req.body.patient = req.params.id;
-    if (req.file && typeof req.file === "object") {
-      const result = await uploadPDF(req.file);
-      req.body.pdf = result;
-    }
-    await TestResult.create(req.body);
+    const { id } = req.params;
+    const { userData, file, body } = req;
+    const result = file ? await uploadPDF(file) : null;
+    await prisma.testResult.create({
+      data: {
+        doctor: { connect: { id: userData } },
+        patient: { connect: { id } },
+        pdf: result,
+        ...body,
+      },
+    });
     res.status(200).json({
       message: "تم انشاء الاختبار بنجاح",
     });
@@ -33,11 +39,18 @@ const updateTestResult = async (
 ) => {
   try {
     const { id } = req.params;
-    if (req.file && typeof req.file === "object") {
-      const result = await uploadPDF(req.file);
-      req.body.pdf = result;
+    const { file, body } = req;
+    if (file && typeof file === "object") {
+      const result = await uploadPDF(file);
+      body.pdf = result;
+    } else {
+      body.pdf = body.file;
+      delete body.file;
     }
-    await TestResult.updateOne({ _id: id }, req.body);
+    await prisma.testResult.update({
+      where: { id },
+      data: body,
+    });
     res.status(200).json({
       message: "تم تعديل الاختبار بنجاح",
     });
@@ -54,7 +67,7 @@ const deleteTestResult = async (
 ) => {
   try {
     const { id } = req.params;
-    await TestResult.deleteOne({ _id: id });
+    await prisma.testResult.delete({ where: { id } });
     res.status(200).json({
       message: "تم حذف الاختبار بنجاح",
     });
@@ -70,31 +83,21 @@ const getAllTestResults = async (
   next: NextFunction
 ) => {
   try {
-    let queries: any;
-    const { search }: { search?: string } = req.query;
-    if (search && search !== "") {
-      queries.details = { $regex: new RegExp(search, "i") };
-    }
+    let testResults;
     if (req.userType === "patient") {
-      const testResults = await TestResult.find({
-        patient: req.userData,
-        ...queries,
-      }).populate("patient");
-      return res.status(202).json({
-        data: testResults,
+      testResults = await prisma.testResult.findMany({
+        where: { patientId: req.userData },
+        include: { patient: true },
       });
     } else if (req.userType === "doctor") {
-      const testResults = await TestResult.find({
-        doctor: req.userData,
-        ...queries,
-      }).populate("patient");
-      return res.status(202).json({
-        data: testResults,
+      testResults = await prisma.testResult.findMany({
+        where: { doctorId: req.userData },
+        include: { patient: true },
       });
+    } else {
+      return res.status(400).json({ message: "Not Authorized" });
     }
-    return res.status(400).json({
-      message: "Not Authorized",
-    });
+    return res.status(202).json({ data: testResults });
   } catch (error: any) {
     const err = new CustomError(error.message, 500);
     return next(err);
