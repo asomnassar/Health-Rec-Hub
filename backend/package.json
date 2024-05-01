@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Medical Website",
   "scripts": {
-    "dev": "nodemon index.ts",
-    "postinstall": "prisma generate"
+    "dev": "nodemon index.ts"
   },
   "keywords": [],
   "author": "webGhoul",
