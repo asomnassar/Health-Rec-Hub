@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { NextFunction, Response } from "express";
+import MedicalRecord from "../models/medicalRecord.model";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
-
-const prisma = new PrismaClient();
 
 const isMedicalRecordExist = async (
   req: AuthorizationRequestTypes,
@@ -11,15 +9,10 @@ const isMedicalRecordExist = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
-    const medicalRecord = await prisma.medicalRecord.findUnique({
-      where: { id },
-    });
-
+    const medicalRecord = await MedicalRecord.findOne({ _id: req.params.id });
     if (medicalRecord) {
       return next();
     }
-
     return res.status(404).json({
       message: "السجل الطبى غير موجود",
     });

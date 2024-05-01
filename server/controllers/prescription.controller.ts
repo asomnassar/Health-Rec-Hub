@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { NextFunction, Response } from "express";
+import Prescription from "../models/prescription.model";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
-
-const prisma = new PrismaClient();
 
 const addPrescription = async (
   req: AuthorizationRequestTypes,
@@ -11,19 +9,9 @@ const addPrescription = async (
   next: NextFunction
 ) => {
   try {
-    const { medications } = req.body;
-    if (req.userData) {
-      await prisma.prescription.create({
-        data: {
-          patientId: req.params.id,
-          doctorId: req.userData,
-          medications: medications.map((medication: any) => ({
-            name: medication.name,
-            dosage: medication.dosage,
-          })),
-        },
-      });
-    }
+    req.body.patient = req.params.id;
+    req.body.doctor = req.userData;
+    await Prescription.create(req.body);
     res.status(202).json({
       message: "تم انشاء الروشتة بنجاح",
     });
@@ -40,10 +28,7 @@ const updatePrescription = async (
 ) => {
   try {
     const { medications } = req.body;
-    await prisma.prescription.update({
-      where: { id: req.params.id },
-      data: { medications },
-    });
+    await Prescription.updateOne({ _id: req.params.id }, { medications });
     res.status(202).json({
       message: "تم تعديل الروشتة بنجاح",
     });
@@ -59,9 +44,7 @@ const deletePrescription = async (
   next: NextFunction
 ) => {
   try {
-    await prisma.prescription.delete({
-      where: { id: req.params.id },
-    });
+    await Prescription.deleteOne({ _id: req.params.id });
     res.status(202).json({
       message: "تم حذف الروشتة بنجاح",
     });
@@ -72,16 +55,35 @@ const deletePrescription = async (
 };
 
 const getAllPrescriptions = async (
-  _: AuthorizationRequestTypes,
+  req: AuthorizationRequestTypes,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const prescriptions = await prisma.prescription.findMany({
-      include: { patient: true },
-    });
-    res.status(202).json({
-      data: prescriptions,
+    let queries: any;
+    const { search }: { search?: string } = req.query;
+    if (search && search !== "") {
+      queries.medications.name = { $regex: new RegExp(search, "i") };
+    }
+    if (req.userType === "patient") {
+      const prescriptions = await Prescription.find({
+        patient: req.userData,
+        ...queries,
+      }).populate("patient");
+      return res.status(202).json({
+        data: prescriptions,
+      });
+    } else if (req.userType === "doctor") {
+      const prescriptions = await Prescription.find({
+        doctor: req.userData,
+        ...queries,
+      }).populate("patient");
+      return res.status(202).json({
+        data: prescriptions,
+      });
+    }
+    return res.status(400).json({
+      message: "Not Authorized",
     });
   } catch (error: any) {
     const err = new CustomError(error.message, 500);

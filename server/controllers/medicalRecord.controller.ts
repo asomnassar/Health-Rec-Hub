@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { NextFunction, Response } from "express";
+import MedicalRecord from "../models/medicalRecord.model";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
-
-const prisma = new PrismaClient();
 
 const addMedicalRecord = async (
   req: AuthorizationRequestTypes,
@@ -12,26 +10,18 @@ const addMedicalRecord = async (
 ) => {
   try {
     const { id } = req.params;
-    const existingMedicalRecord = await prisma.medicalRecord.findFirst({
-      where: { patientId: id },
-    });
-    if (existingMedicalRecord) {
+    const medicalRecord = await MedicalRecord.findOne({ patient: id });
+    if (medicalRecord) {
       return res.status(401).json({
         message: "المريض لديه بالفعل سجل طبى",
       });
     } else {
-      if (req.userData) {
-        await prisma.medicalRecord.create({
-          data: {
-            patientId: id,
-            doctorId: req.userData,
-            ...req.body,
-          },
-        });
-        return res.status(200).json({
-          message: "تم انشاء السجل طبى بنجاح",
-        });
-      }
+      req.body.patient = id;
+      req.body.doctor = req.userData;
+      await MedicalRecord.create(req.body);
+      return res.status(200).json({
+        message: "تم انشاء السجل طبى بنجاح",
+      });
     }
   } catch (error: any) {
     const err = new CustomError(error.message, 500);
@@ -46,10 +36,7 @@ const updateMedicalRecord = async (
 ) => {
   try {
     const { id } = req.params;
-    await prisma.medicalRecord.update({
-      where: { id },
-      data: { ...req.body },
-    });
+    await MedicalRecord.updateOne({ _id: id }, req.body);
     return res.status(200).json({
       message: "تم تعديل السجل طبى بنجاح",
     });
@@ -66,7 +53,7 @@ const deleteMedicalRecord = async (
 ) => {
   try {
     const { id } = req.params;
-    await prisma.medicalRecord.delete({ where: { id } });
+    await MedicalRecord.deleteOne({ _id: id });
     return res.status(200).json({
       message: "تم حذف السجل طبى بنجاح",
     });
@@ -84,9 +71,7 @@ const getMedicalRecord = async (
   try {
     const { id } = req.params;
     if (req.userType === "patient" || req.userType === "doctor") {
-      const medicalRecord = await prisma.medicalRecord.findFirst({
-        where: { patientId: id },
-      });
+      const medicalRecord = await MedicalRecord.findOne({ patient: id });
       return res.status(200).json({
         data: medicalRecord,
       });

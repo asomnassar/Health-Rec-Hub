@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { NextFunction, Response } from "express";
+import User from "../models/user.model";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
-
-const prisma = new PrismaClient();
 
 const isPatientExist = async (
   req: AuthorizationRequestTypes,
@@ -11,17 +9,11 @@ const isPatientExist = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
-    const user = await prisma.user.findUnique({
-      where: { id },
-      select: { type: true, status: true },
-    });
-
+    const user = await User.findOne({ _id: req.params.id });
     if (user && user.type === "patient") {
       req.patientStatus = user.status;
       return next();
     }
-
     return res.status(404).json({
       message: "المريض غير موجود",
     });

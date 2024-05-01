@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { NextFunction, Response } from "express";
+import TestResult from "../models/testResult.model";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
-
-const prisma = new PrismaClient();
 
 const isTestResultExist = async (
   req: AuthorizationRequestTypes,
@@ -11,15 +9,10 @@ const isTestResultExist = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
-    const testResult = await prisma.testResult.findUnique({
-      where: { id },
-    });
-
+    const testResult = await TestResult.findOne({ _id: req.params.id });
     if (testResult) {
       return next();
     }
-
     return res.status(404).json({
       message: "الاختبار غير موجود",
     });

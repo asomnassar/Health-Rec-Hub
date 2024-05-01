@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { NextFunction, Response } from "express";
+import Procedure from "../models/procedure.model";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
-const prisma = new PrismaClient();
 
 const addProcedure = async (
   req: AuthorizationRequestTypes,
@@ -10,16 +9,9 @@ const addProcedure = async (
   next: NextFunction
 ) => {
   try {
-    const { details } = req.body;
-    if (req.userData) {
-      await prisma.procedure.create({
-        data: {
-          patientId: req.params.id,
-          details,
-          doctorId: req.userData,
-        },
-      });
-    }
+    req.body.patient = req.params.id;
+    req.body.doctor = req.userData;
+    await Procedure.create(req.body);
     res.status(202).json({
       message: "تم انشاء الاجراء بنجاح",
     });
@@ -36,10 +28,7 @@ const updateProcedure = async (
 ) => {
   try {
     const { details } = req.body;
-    await prisma.procedure.update({
-      where: { id: req.params.id },
-      data: { details },
-    });
+    await Procedure.updateOne({ _id: req.params.id }, { details });
     res.status(202).json({
       message: "تم تعديل الاجراء بنجاح",
     });
@@ -55,7 +44,7 @@ const deleteProcedure = async (
   next: NextFunction
 ) => {
   try {
-    await prisma.procedure.delete({ where: { id: req.params.id } });
+    await Procedure.deleteOne({ _id: req.params.id });
     res.status(202).json({
       message: "تم حذف الاجراء بنجاح",
     });
@@ -71,21 +60,31 @@ const getAllProcedures = async (
   next: NextFunction
 ) => {
   try {
-    let procedures;
+    let queries: any;
+    const { search }: { search?: string } = req.query;
+    if (search && search !== "") {
+      queries.details = { $regex: new RegExp(search, "i") };
+    }
     if (req.userType === "patient") {
-      procedures = await prisma.procedure.findMany({
-        where: { patientId: req.userData },
-        include: { patient: true },
+      const procedures = await Procedure.find({
+        patient: req.userData,
+        ...queries,
+      }).populate("patient");
+      return res.status(202).json({
+        data: procedures,
       });
     } else if (req.userType === "doctor") {
-      procedures = await prisma.procedure.findMany({
-        where: { doctorId: req.userData },
-        include: { patient: true },
+      const procedures = await Procedure.find({
+        doctor: req.userData,
+        ...queries,
+      }).populate("patient");
+      return res.status(202).json({
+        data: procedures,
       });
-    } else {
-      return res.status(400).json({ message: "Not Authorized" });
     }
-    return res.status(202).json({ data: procedures });
+    return res.status(400).json({
+      message: "Not Authorized",
+    });
   } catch (error: any) {
     const err = new CustomError(error.message, 500);
     return next(err);

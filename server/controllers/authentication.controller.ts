@@ -1,8 +1,7 @@
 import bcrypt from "bcryptjs";
-import { isValid, parseISO } from "date-fns";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import prisma from "../db/db";
+import User from "../models/user.model";
 import { forgotPasswordTemp } from "../templates/forgotPassword.template";
 import AuthorizationRequestTypes from "../types/middlewares.types";
 import CustomError from "../utils/customError.util";
@@ -11,20 +10,20 @@ import { transporter } from "../utils/sendMail.util";
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body;
-    const user = await prisma.user.findUnique({ where: { username } });
+    const user = await User.findOne({ username });
     if (user) {
       const isCorrect = await bcrypt.compare(password, user.password);
       if (isCorrect) {
         //Expired in 30 days
         const token = jwt.sign(
-          { userData: user.id, userType: user.type },
+          { userData: user._id, userType: user.type },
           `${process.env.SECRET_KEY}`,
           { expiresIn: `${process.env.TOKEN_EXPIRED}` }
         );
 
         return res.status(200).json({
           token,
-          userId: user.id,
+          userId: user._id,
           type: user.type,
           message: "تم تسجيل الدخول بنجاح",
         });
@@ -40,21 +39,13 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { username, email, password, dateOfBirth } = req.body;
-    const sameUsername = await prisma.user.findUnique({ where: { username } });
-    const sameEmail = await prisma.user.findUnique({ where: { email } });
-    if (!(sameUsername || sameEmail)) {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
       const hashedPassword = await bcrypt.hash(password, 10);
-      const parsedDateOfBirth = parseISO(dateOfBirth);
-      if (!isValid(parsedDateOfBirth)) {
-        throw new Error("Invalid dateOfBirth");
-      }
-      const newUser = await prisma.user.create({
-        data: {
-          ...req.body,
-          password: hashedPassword,
-          dateOfBirth: parsedDateOfBirth,
-        },
+      const newUser = await User.create({
+        ...req.body,
+        password: hashedPassword,
       });
       if (newUser) {
         return res.status(201).json({
@@ -77,7 +68,8 @@ const forgotPassword = async (
 ) => {
   try {
     const { email } = req.body;
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await User.findOne({ email });
+
     if (
       user &&
       (user.type !== "patient" ||
@@ -118,17 +110,14 @@ const resetPassword = async (
   try {
     const { password } = req.body;
     const { userData } = req;
-    const user = await prisma.user.findUnique({ where: { email: userData } });
+    const user = await User.findOne({ email: userData });
     if (
       user &&
       (user.type !== "patient" ||
         (user.type === "patient" && user.status === "active"))
     ) {
       const hashedPassword = await bcrypt.hash(password, 10);
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { password: hashedPassword },
-      });
+      await User.updateOne({ _id: user._id }, { password: hashedPassword });
       return res.status(206).json({
         message: "تم تغيير الرقم السرى بنجاح",
       });
