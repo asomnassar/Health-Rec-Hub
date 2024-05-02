@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Medical Website",
   "scripts": {
-    "dev": "nodemon index.ts",
-    "vercel-build": "npx prisma generate && npx prisma dev --name create-db-schema && npx prisma migrate deploy"
+    "dev": "nodemon index.ts"
   },
   "keywords": [],
   "author": "webGhoul",
