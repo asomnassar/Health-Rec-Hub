@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Forms from "../forms/Forms";
 import { PrimaryBox } from "../mui/PrimaryBox";
 import { PrimaryContainer } from "../mui/PrimaryContiner";
 import { getActivePatients } from "../store/activePatientsSlice";
@@ -19,7 +20,7 @@ const ActivePatients = () => {
   return (
     <PrimaryBox>
       <PrimaryContainer className="!grid justify-stretch items-center gap-4">
-        {/* <Forms type={"searchForActivePatients"} /> */}
+        <Forms type={"searchForActivePatients"} />
         <PatientsTable data={activePatients} isLoading={isLoading} />
       </PrimaryContainer>
     </PrimaryBox>

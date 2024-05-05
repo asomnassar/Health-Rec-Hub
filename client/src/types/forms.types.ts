@@ -200,6 +200,7 @@ interface FormInputTypes {
   errors?: {
     [key: string]: { message?: string } | undefined;
   };
+  handling?: (val: string) => void;
   name:
     | "username"
     | "newPassword"

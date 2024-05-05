@@ -11,8 +11,14 @@ import { transporter } from "../utils/sendMail.util";
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body;
-    const user = await prisma.user.findUnique({ where: { username } });
+    const user = await prisma.user.findUnique({
+      where: { username },
+    });
     if (user) {
+      if (user.type === "patient" && user.status !== "active") {
+        const err = new CustomError("اسم المستخدم او كلمة السر غير صحيحة", 402);
+        return next(err);
+      }
       const isCorrect = await bcrypt.compare(password, user.password);
       if (isCorrect) {
         //Expired in 30 days

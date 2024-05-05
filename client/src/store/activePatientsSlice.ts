@@ -11,12 +11,10 @@ export const getActivePatients = createAsyncThunk(
   async (args: PatientsArgsTypes) => {
     const token = Cookies.get(`${import.meta.env.VITE_TOKEN_NAME}`);
 
-    const { page, search } = args;
+    const { search } = args;
 
     const res = await axios.get(
-      `${
-        import.meta.env.VITE_SERVER_URL
-      }/patient/getAllPatients?status=active&page=${page || 1}&search=${
+      `${import.meta.env.VITE_SERVER_URL}/patient/getAllPatients?search=${
         search || ""
       }`,
       {

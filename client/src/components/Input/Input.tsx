@@ -1,4 +1,5 @@
 import { Box, InputLabel, Typography } from "@mui/material";
+import { ChangeEvent } from "react";
 import { PrimaryTextField } from "../../mui/PrimaryTextField";
 import { FormInputTypes } from "../../types/forms.types";
 
@@ -13,6 +14,7 @@ const Input = ({
   ac,
   rows,
   multiline,
+  handling,
 }: FormInputTypes) => {
   return name && select ? (
     <Box className={`grid justify-stretch items-center gap-2`}>
@@ -48,6 +50,11 @@ const Input = ({
         error={errors && !!errors[name]}
         helperText={errors && errors[name]?.message}
         autoComplete={ac}
+        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+          if (handling) {
+            handling(event.target.value);
+          }
+        }}
         inputProps={{
           id: name,
         }}

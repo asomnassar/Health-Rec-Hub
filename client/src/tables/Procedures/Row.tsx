@@ -33,7 +33,7 @@ const Row = ({ row }: { row: ProcedureTypes }) => {
   const [loadingDeleted, setLoadingDeleted] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams();
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { token, type } = useSelector((state: RootState) => state.auth);
 
   const loadingIcon = (
     <CircularProgress sx={{ color: (theme) => theme.palette.common.white }} />
@@ -81,27 +81,29 @@ const Row = ({ row }: { row: ProcedureTypes }) => {
           </Typography>
         </StyledTableCell>
       )}
-      <StyledTableCell align="right">
-        <Box
-          className={`flex justify-end items-center gap-4 md:gap-3 sm:!gap-2`}
-        >
-          <Tooltip title={"تعديل"}>
-            <ActiveIconButton onClick={handleEdit}>
-              <EditRounded />
-            </ActiveIconButton>
-          </Tooltip>
-          <Tooltip title={"حذف"}>
-            <BlockedIconButton
-              loadingPosition={"center"}
-              loading={loadingDeleted}
-              loadingIndicator={loadingIcon}
-              onClick={handleDelete}
-            >
-              <DeleteRounded />
-            </BlockedIconButton>
-          </Tooltip>
-        </Box>
-      </StyledTableCell>
+      {type === "doctor" && (
+        <StyledTableCell align="right">
+          <Box
+            className={`flex justify-end items-center gap-4 md:gap-3 sm:!gap-2`}
+          >
+            <Tooltip title={"تعديل"}>
+              <ActiveIconButton onClick={handleEdit}>
+                <EditRounded />
+              </ActiveIconButton>
+            </Tooltip>
+            <Tooltip title={"حذف"}>
+              <BlockedIconButton
+                loadingPosition={"center"}
+                loading={loadingDeleted}
+                loadingIndicator={loadingIcon}
+                onClick={handleDelete}
+              >
+                <DeleteRounded />
+              </BlockedIconButton>
+            </Tooltip>
+          </Box>
+        </StyledTableCell>
+      )}
     </StyledTableRow>
   );
 };

@@ -35,7 +35,7 @@ const Row = ({ row }: { row: TestResultTypes }) => {
   const [loadingDeleted, setLoadingDeleted] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams();
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { token, type } = useSelector((state: RootState) => state.auth);
   const {
     handleOpenEditTestResultModal,
     setEditableTestResultData,
@@ -100,21 +100,25 @@ const Row = ({ row }: { row: TestResultTypes }) => {
               <FileOpenRounded />
             </ActiveIconButton>
           </Tooltip>
-          <Tooltip title={"المزيد"}>
-            <ActiveIconButton onClick={handleEdit}>
-              <EditRounded />
-            </ActiveIconButton>
-          </Tooltip>
-          <Tooltip title={"حذف"}>
-            <BlockedIconButton
-              loadingPosition={"center"}
-              loading={loadingDeleted}
-              loadingIndicator={loadingIcon}
-              onClick={handleDelete}
-            >
-              <DeleteRounded />
-            </BlockedIconButton>
-          </Tooltip>
+          {type === "doctor" && (
+            <>
+              <Tooltip title={"تعديل"}>
+                <ActiveIconButton onClick={handleEdit}>
+                  <EditRounded />
+                </ActiveIconButton>
+              </Tooltip>
+              <Tooltip title={"حذف"}>
+                <BlockedIconButton
+                  loadingPosition={"center"}
+                  loading={loadingDeleted}
+                  loadingIndicator={loadingIcon}
+                  onClick={handleDelete}
+                >
+                  <DeleteRounded />
+                </BlockedIconButton>
+              </Tooltip>
+            </>
+          )}
         </Box>
       </StyledTableCell>
     </StyledTableRow>

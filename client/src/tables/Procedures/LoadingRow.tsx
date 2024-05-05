@@ -1,10 +1,13 @@
 import { Box, Skeleton, Typography, useMediaQuery } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 import { PatientTableRowTypes } from "../../types/tables.types";
 import { StyledTableRow } from "../StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
 
 const LoadingRow = ({ row }: { row: PatientTableRowTypes }) => {
   const xsScreen = useMediaQuery("(max-width:540px)");
+  const { type } = useSelector((state: RootState) => state.auth);
   return (
     <StyledTableRow key={row._id}>
       <StyledTableCell scope="row" align="right">
@@ -22,11 +25,13 @@ const LoadingRow = ({ row }: { row: PatientTableRowTypes }) => {
       <StyledTableCell align="right">
         <Skeleton variant="text" />
       </StyledTableCell>
-      <StyledTableCell align="right">
-        <Box className={`flex justify-end items-center flex-wrap gap-6`}>
-          <Skeleton variant="circular" width={50} height={50} />
-        </Box>
-      </StyledTableCell>
+      {type === "doctor" && (
+        <StyledTableCell align="right">
+          <Box className={`flex justify-end items-center flex-wrap gap-6`}>
+            <Skeleton variant="circular" width={50} height={50} />
+          </Box>
+        </StyledTableCell>
+      )}
     </StyledTableRow>
   );
 };

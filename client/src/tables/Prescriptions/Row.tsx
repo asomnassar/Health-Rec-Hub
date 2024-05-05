@@ -34,7 +34,7 @@ const server = axios.create({
 
 const Row = ({ row }: { row: PrescriptionTypes }) => {
   const { handleOpenViewPrescriptionModal } = useContext(AppContext);
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { token, type } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
   const {
     setMedications,
@@ -89,6 +89,7 @@ const Row = ({ row }: { row: PrescriptionTypes }) => {
       <StyledTableCell align="right">
         <Typography variant="subtitle1">{handleDate(row.updatedAt)}</Typography>
       </StyledTableCell>
+
       <StyledTableCell align="right">
         <Box className={`flex justify-end items-center flex-wrap gap-6`}>
           <Tooltip title={"المزيد"}>
@@ -96,22 +97,26 @@ const Row = ({ row }: { row: PrescriptionTypes }) => {
               <VisibilityRounded />
             </PrimaryIconButton>
           </Tooltip>
-          <Tooltip title={"تعديل"}>
-            <ActiveIconButton onClick={handleEditPrescription}>
-              <EditRounded />
-            </ActiveIconButton>
-          </Tooltip>
-          {!mdScreen && (
-            <Tooltip title={"حذف"}>
-              <BlockedIconButton
-                loadingPosition={"center"}
-                loading={loadingDeleted}
-                loadingIndicator={loadingIcon}
-                onClick={handleDeletePrescription}
-              >
-                <DeleteRounded />
-              </BlockedIconButton>
-            </Tooltip>
+          {type === "doctor" && (
+            <>
+              <Tooltip title={"تعديل"}>
+                <ActiveIconButton onClick={handleEditPrescription}>
+                  <EditRounded />
+                </ActiveIconButton>
+              </Tooltip>
+              {!mdScreen && (
+                <Tooltip title={"حذف"}>
+                  <BlockedIconButton
+                    loadingPosition={"center"}
+                    loading={loadingDeleted}
+                    loadingIndicator={loadingIcon}
+                    onClick={handleDeletePrescription}
+                  >
+                    <DeleteRounded />
+                  </BlockedIconButton>
+                </Tooltip>
+              )}
+            </>
           )}
         </Box>
       </StyledTableCell>
