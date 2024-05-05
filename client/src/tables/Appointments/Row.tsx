@@ -119,7 +119,7 @@ const Row = ({ row }: { row: AppointmentTypes }) => {
             row.status !== "waiting" ? "text-red-500" : "text-green-500"
           } font-[700]`}
         >
-          {!isDateTimePassed(row.date.toString(), row.time) === "waiting"
+          {!isDateTimePassed(row.date.toString(), row.time)
             ? "في الانتظار"
             : "انتهى"}
         </Typography>
