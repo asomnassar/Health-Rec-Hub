@@ -80,6 +80,14 @@ const Row = ({ row }: { row: AppointmentTypes }) => {
     setEditableAppointmentData(row);
   };
 
+  function isDateTimePassed(targetDate: string, targetTime: string) {
+    const [year, month, day]: string[] = targetDate.split("-");
+    const [hour, minute]: string[] = targetTime.split(":");
+    const targetDateTime = new Date(+year, +month - 1, +day, +hour, +minute);
+    const currentDateTime = new Date();
+    return currentDateTime > targetDateTime;
+  }
+
   return (
     <StyledTableRow key={row._id}>
       <StyledTableCell scope="row" align="right">
@@ -109,7 +117,9 @@ const Row = ({ row }: { row: AppointmentTypes }) => {
             row.status !== "waiting" ? "text-red-500" : "text-green-500"
           } font-[700]`}
         >
-          {row.status === "waiting" ? "في الانتظار" : "انتهى"}
+          {!isDateTimePassed(row.date.toString(), row.time)
+            ? "في الانتظار"
+            : "انتهى"}
         </Typography>
       </StyledTableCell>
       {type === "systemManager" && (
