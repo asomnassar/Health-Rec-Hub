@@ -7,7 +7,7 @@ Notes :
 3- My Mind About The Project
   1- Types of users are 
     1- Patient 
-    2- Doctor 
+    2- Docto
     3- System Manager 
     4- Technical Administrator
 
