@@ -83,7 +83,7 @@ const EditProfileForm = ({ register, errors }: FormTypes) => {
           <Input
             register={register}
             errors={errors}
-            label="كلمة السر"
+            label="التخصص"
             name="specialization"
           />
         )}

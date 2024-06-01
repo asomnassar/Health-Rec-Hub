@@ -137,13 +137,15 @@ const getAllPatients = async (
   next: NextFunction
 ) => {
   try {
-    const { search }: GetAllPatientsQueryParams = req.query;
-    let queries: any = { type: "patient", status: "active" };
+    const { search, status }: GetAllPatientsQueryParams = req.query;
+    let queries: any = { type: "patient" };
 
     if (search && search !== "") {
       queries.username = { contains: search, mode: "insensitive" };
     }
-
+    if (status && status !== "") {
+      queries.status = status;
+    }
     const allPatients = await prisma.user.findMany({
       where: queries,
     });

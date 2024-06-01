@@ -11,9 +11,12 @@ const ProfileDataBox = ({ data }: { data: ProfileTypes }) => {
     >
       <DataBox title={"الاسم الاول : "} value={data.firstName} />
       <DataBox title={"الاسم الاخير : "} value={data.lastName} />
-      <DataBox title={"البريد الالكنرونى : "} value={data.email} />
+      <DataBox title={"البريد الإلكتروني : "} value={data.email} />
       <DataBox title={"رقم الهاتف : "} value={data.phone} />
-      <DataBox title={"الجنس : "} value={data.gender} />
+      <DataBox
+        title={"الجنس : "}
+        value={data.gender.toLowerCase() === "female" ? "انثى" : "ذكر"}
+      />
       <DataBox title={"العنوان : "} value={data.address} />
       <DataBox
         title={"تاريخ الميلاد : "}
@@ -21,6 +24,7 @@ const ProfileDataBox = ({ data }: { data: ProfileTypes }) => {
       />
       <DataBox title={"العمر : "} value={data.age} />
     </Paper>
+    
   );
 };
 
